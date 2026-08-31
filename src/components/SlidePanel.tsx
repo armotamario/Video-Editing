@@ -11,15 +11,12 @@ export const SlidePanel: React.FC<{ slide: Slide; durationInFrames: number; inde
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const kenBurns = interpolate(frame, [0, durationInFrames], [1, 1.14], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const drift = interpolate(frame, [0, durationInFrames], [0, index % 2 === 0 ? -18 : 18], {
+  const kenBurns = interpolate(frame, [0, durationInFrames], [1, 1.05], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
+  const imageIn = spring({ frame, fps, config: { damping: 200 } });
   const textIn = spring({ frame: frame - 6, fps, config: { damping: 200 } });
   const fadeOut = interpolate(frame, [durationInFrames - 12, durationInFrames], [1, 0], {
     extrapolateLeft: "clamp",
@@ -29,21 +26,29 @@ export const SlidePanel: React.FC<{ slide: Slide; durationInFrames: number; inde
   const src = staticFile(`images/${slide.src}`);
 
   return (
-    <AbsoluteFill className="bg-black" style={{ opacity: fadeOut }}>
-      <AbsoluteFill style={{ transform: `scale(${kenBurns}) translateY(${drift}px)` }}>
-        <Img
-          src={src}
-          className="h-full w-full object-cover"
-          style={{ objectPosition: slide.focus ?? "center" }}
-        />
-      </AbsoluteFill>
+    <AbsoluteFill className="flex flex-col bg-black" style={{ opacity: fadeOut }}>
+      <div className="flex items-center justify-center gap-3 pt-16">
+        {Array.from({ length: total }).map((_, i) => (
+          <div key={i} className={`h-2 rounded-full ${i === index ? "w-10 bg-amber-400" : "w-2 bg-white/30"}`} />
+        ))}
+      </div>
 
-      <AbsoluteFill className="bg-gradient-to-t from-black/85 via-black/5 to-black/40" />
-
-      <AbsoluteFill className="items-start justify-end px-14 pb-28">
+      <div className="flex min-h-0 flex-1 items-center justify-center px-12 py-8">
         <div
           style={{
-            transform: `translateY(${interpolate(textIn, [0, 1], [60, 0])}px)`,
+            transform: `scale(${interpolate(imageIn, [0, 1], [0.92, 1]) * kenBurns})`,
+            opacity: imageIn,
+          }}
+          className="flex h-full w-full items-center justify-center overflow-hidden rounded-2xl shadow-[0_30px_100px_rgba(0,0,0,0.55)]"
+        >
+          <Img src={src} className="max-h-full max-w-full object-contain" />
+        </div>
+      </div>
+
+      <div className="px-14 pb-20 pt-4">
+        <div
+          style={{
+            transform: `translateY(${interpolate(textIn, [0, 1], [40, 0])}px)`,
             opacity: textIn,
             fontFamily: bodyFont,
           }}
@@ -53,23 +58,15 @@ export const SlidePanel: React.FC<{ slide: Slide; durationInFrames: number; inde
         </div>
         <div
           style={{
-            transform: `translateY(${interpolate(textIn, [0, 1], [80, 0])}px)`,
+            transform: `translateY(${interpolate(textIn, [0, 1], [50, 0])}px)`,
             opacity: textIn,
             fontFamily: headlineFont,
           }}
-          className="text-6xl leading-[1.05] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
+          className="text-6xl leading-[1.05] text-white"
         >
           {slide.caption}
         </div>
-      </AbsoluteFill>
-
-      <AbsoluteFill className="items-center justify-start pt-16">
-        <div className="flex gap-3">
-          {Array.from({ length: total }).map((_, i) => (
-            <div key={i} className={`h-2 rounded-full ${i === index ? "w-10 bg-amber-400" : "w-2 bg-white/40"}`} />
-          ))}
-        </div>
-      </AbsoluteFill>
+      </div>
     </AbsoluteFill>
   );
 };
