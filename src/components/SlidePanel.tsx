@@ -1,5 +1,5 @@
 import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { headlineFont, bodyFont } from "../fonts";
+import { bodyFont, headlineFont } from "../fonts";
 import type { Slide } from "../slides";
 
 export const SlidePanel: React.FC<{ slide: Slide; durationInFrames: number; index: number; total: number }> = ({
@@ -11,11 +11,11 @@ export const SlidePanel: React.FC<{ slide: Slide; durationInFrames: number; inde
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const kenBurns = interpolate(frame, [0, durationInFrames], [1, 1.18], {
+  const kenBurns = interpolate(frame, [0, durationInFrames], [1, 1.14], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const drift = interpolate(frame, [0, durationInFrames], [0, index % 2 === 0 ? -24 : 24], {
+  const drift = interpolate(frame, [0, durationInFrames], [0, index % 2 === 0 ? -18 : 18], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -26,30 +26,31 @@ export const SlidePanel: React.FC<{ slide: Slide; durationInFrames: number; inde
     extrapolateRight: "clamp",
   });
 
+  const src = staticFile(`images/${slide.src}`);
+
   return (
     <AbsoluteFill className="bg-black" style={{ opacity: fadeOut }}>
-      <AbsoluteFill style={{ transform: `scale(${kenBurns}) translateY(${drift}px)` }}>
-        {slide.hasImage ? (
-          <Img src={staticFile(`images/${slide.src}`)} className="h-full w-full object-cover" />
-        ) : (
-          <AbsoluteFill className="items-center justify-center bg-gradient-to-br from-neutral-900 via-neutral-800 to-black">
-            <div className="mx-16 flex flex-col items-center gap-6 rounded-3xl border-2 border-dashed border-amber-400/40 px-10 py-16 text-center">
-              <div className="text-7xl">📸</div>
-              <div style={{ fontFamily: bodyFont }} className="text-2xl font-semibold uppercase tracking-wide text-amber-300">
-                Add screenshot
-              </div>
-              <div style={{ fontFamily: bodyFont }} className="text-xl text-neutral-300">
-                {slide.label}
-              </div>
-              <div style={{ fontFamily: bodyFont }} className="text-base text-neutral-500">
-                public/images/{slide.src}
-              </div>
+      {slide.fit === "cover" ? (
+        <AbsoluteFill style={{ transform: `scale(${kenBurns}) translateY(${drift}px)` }}>
+          <Img src={src} className="h-full w-full object-cover" />
+        </AbsoluteFill>
+      ) : (
+        <>
+          <AbsoluteFill style={{ transform: `scale(${kenBurns * 1.3})` }}>
+            <Img src={src} className="h-full w-full object-cover" style={{ filter: "blur(60px) brightness(0.45)" }} />
+          </AbsoluteFill>
+          <AbsoluteFill className="items-center justify-center px-10">
+            <div
+              style={{ transform: `scale(${kenBurns})` }}
+              className="w-full overflow-hidden rounded-2xl shadow-[0_20px_80px_rgba(0,0,0,0.7)]"
+            >
+              <Img src={src} className="w-full" />
             </div>
           </AbsoluteFill>
-        )}
-      </AbsoluteFill>
+        </>
+      )}
 
-      <AbsoluteFill className="bg-gradient-to-t from-black/85 via-black/10 to-black/40" />
+      <AbsoluteFill className="bg-gradient-to-t from-black/85 via-black/5 to-black/40" />
 
       <AbsoluteFill className="items-start justify-end px-14 pb-28">
         <div
@@ -77,10 +78,7 @@ export const SlidePanel: React.FC<{ slide: Slide; durationInFrames: number; inde
       <AbsoluteFill className="items-center justify-start pt-16">
         <div className="flex gap-3">
           {Array.from({ length: total }).map((_, i) => (
-            <div
-              key={i}
-              className={`h-2 rounded-full ${i === index ? "w-10 bg-amber-400" : "w-2 bg-white/40"}`}
-            />
+            <div key={i} className={`h-2 rounded-full ${i === index ? "w-10 bg-amber-400" : "w-2 bg-white/40"}`} />
           ))}
         </div>
       </AbsoluteFill>

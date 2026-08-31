@@ -1,8 +1,9 @@
 export type Slide = {
-  /** Filename inside public/images/ — drop the real screenshot in with this name. */
+  /** Filename inside public/images/. */
   src: string;
-  /** Flip to true once the matching file above actually exists in public/images/. */
-  hasImage: boolean;
+  /** "contain" letterboxes the (landscape) screenshot on a blurred backdrop so nothing is
+   * cropped off. "cover" fills the frame edge-to-edge — use for images already shot portrait. */
+  fit: "contain" | "cover";
   label: string;
   caption: string;
   kicker: string;
@@ -15,30 +16,23 @@ export const TAGLINE = "Wear Your Faith";
 export const slides: Slide[] = [
   {
     src: "homepage.jpg",
-    hasImage: false,
-    label: "Homepage hero shot",
+    fit: "contain",
+    label: "Homepage hero",
     kicker: "Introducing",
     caption: "Faith-Driven Streetwear",
   },
   {
     src: "collection.jpg",
-    hasImage: false,
-    label: "Collection / shop grid",
+    fit: "contain",
+    label: "Store — Godly Raiment Hat",
     kicker: "The Collection",
-    caption: "New Drop Just Landed",
+    caption: "The Godly Raiment Hat",
   },
   {
-    src: "product-detail.jpg",
-    hasImage: false,
-    label: "Product detail page",
+    src: "colorways.jpg",
+    fit: "cover",
+    label: "Colorways — Black & Camo",
     kicker: "Crafted With Purpose",
-    caption: "Premium Quality, Built to Last",
-  },
-  {
-    src: "lifestyle.jpg",
-    hasImage: false,
-    label: "Lifestyle / on-body photo",
-    kicker: "Join The Movement",
-    caption: "Wear Your Faith",
+    caption: "Timeless Fit. Built To Last.",
   },
 ];

@@ -1,10 +1,9 @@
-Drop screenshots/photos here with these exact filenames, then flip the matching
-`hasImage` flag to `true` in `src/slides.ts`:
+Images used by `src/slides.ts`, sourced from a screen recording of godlyraiment.com.au:
 
-- `homepage.jpg` — homepage hero shot
-- `collection.jpg` — collection / shop grid
-- `product-detail.jpg` — product detail page
-- `lifestyle.jpg` — lifestyle / on-body photo
+- `homepage.jpg` — homepage hero (marquee wordmark)
+- `collection.jpg` — store page, Godly Raiment Hat product card
+- `colorways.jpg` — black + camo product shots stacked (composited from two frames)
 
-Recommended: at least 1080px wide, portrait or square crops work best since the
-video is 9:16 (1080x1920) and each image is cropped to `object-cover`.
+To swap in fresh screenshots later, drop a same-named file here (any resolution;
+`contain`-fit slides in `slides.ts` letterbox landscape shots automatically, `cover`-fit
+slides fill the frame edge-to-edge — pick whichever fits the new image's aspect ratio).
