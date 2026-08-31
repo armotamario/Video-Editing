@@ -1,4 +1,5 @@
 import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { PAGE_BG } from "../theme";
 import { bodyFont } from "../fonts";
 import type { HatColor } from "../hatColors";
 
@@ -15,7 +16,7 @@ export const HatFlash: React.FC<{ color: HatColor; durationInFrames: number }> =
   });
 
   return (
-    <AbsoluteFill className="items-center justify-center bg-black px-20 py-52" style={{ opacity: fadeOut }}>
+    <AbsoluteFill className="items-center justify-center px-20 py-52" style={{ opacity: fadeOut, background: PAGE_BG }}>
       <div style={{ transform: `scale(${scale})`, opacity: pop }} className="flex h-full w-full items-center justify-center">
         <Img src={staticFile(`images/${color.src}`)} className="h-full w-full object-contain" />
       </div>

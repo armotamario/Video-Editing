@@ -1,4 +1,5 @@
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { PAGE_BG } from "../theme";
 import { headlineFont, bodyFont } from "../fonts";
 import { LogoMark } from "./LogoMark";
 import { BRAND_NAME, BRAND_URL } from "../brand";
@@ -13,7 +14,7 @@ export const Outro: React.FC = () => {
   const fadeIn = interpolate(frame, [0, 10], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   return (
-    <AbsoluteFill className="items-center justify-center bg-black" style={{ opacity: fadeIn }}>
+    <AbsoluteFill className="items-center justify-center" style={{ opacity: fadeIn, background: PAGE_BG }}>
       <div
         style={{
           transform: `translateY(${interpolate(ctaIn, [0, 1], [-30, 0])}px)`,

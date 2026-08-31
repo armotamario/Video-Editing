@@ -1,4 +1,5 @@
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { PAGE_BG } from "../theme";
 import { headlineFont, bodyFont } from "../fonts";
 import { LogoMark } from "./LogoMark";
 import { BRAND_NAME, TAGLINE } from "../brand";
@@ -15,7 +16,7 @@ export const Intro: React.FC<{ durationInFrames: number }> = ({ durationInFrames
   });
 
   return (
-    <AbsoluteFill className="items-center justify-center bg-black" style={{ opacity: fadeOut }}>
+    <AbsoluteFill className="items-center justify-center" style={{ opacity: fadeOut, background: PAGE_BG }}>
       <div
         style={{
           transform: `scale(${interpolate(logoIn, [0, 1], [0.7, 1])})`,

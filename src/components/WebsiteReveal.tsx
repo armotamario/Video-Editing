@@ -1,4 +1,5 @@
 import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { PAGE_BG } from "../theme";
 import { bodyFont } from "../fonts";
 import { Marquee } from "./Marquee";
 
@@ -23,7 +24,7 @@ export const WebsiteReveal: React.FC<{ durationInFrames: number }> = ({ duration
   });
 
   return (
-    <AbsoluteFill className="flex flex-col bg-black" style={{ opacity: fadeOut }}>
+    <AbsoluteFill className="flex flex-col" style={{ opacity: fadeOut, background: PAGE_BG }}>
       <div className="flex h-[280px] items-center">
         <Marquee />
       </div>

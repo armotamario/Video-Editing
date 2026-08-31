@@ -1,4 +1,5 @@
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
+import { PAGE_BG } from "./theme";
 import { HatShowcase, HAT_SHOWCASE_DURATION } from "./components/HatShowcase";
 import { Intro } from "./components/Intro";
 import { Outro } from "./components/Outro";
@@ -15,7 +16,7 @@ const OUTRO_START = HAT_SHOWCASE_START + HAT_SHOWCASE_DURATION;
 
 export const PromoVideo: React.FC = () => {
   return (
-    <AbsoluteFill className="bg-black">
+    <AbsoluteFill style={{ background: PAGE_BG }}>
       <Audio src={staticFile("audio/promo-theme.wav")} />
 
       <Sequence durationInFrames={INTRO_DURATION}>
