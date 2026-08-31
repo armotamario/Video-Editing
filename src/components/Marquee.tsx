@@ -1,5 +1,6 @@
 import { useCurrentFrame } from "remotion";
 import { headlineFont } from "../fonts";
+import { MARQUEE_INK } from "../theme";
 import { BRAND_NAME } from "../brand";
 
 const SPEED_PX_PER_FRAME = 2.6;
@@ -12,8 +13,8 @@ export const Marquee: React.FC = () => {
   return (
     <div className="overflow-hidden whitespace-nowrap">
       <div
-        style={{ transform: `translateX(-${offset}px)`, fontFamily: headlineFont }}
-        className="inline-flex text-9xl text-neutral-300"
+        style={{ transform: `translateX(-${offset}px)`, fontFamily: headlineFont, color: MARQUEE_INK }}
+        className="inline-flex text-9xl"
       >
         {Array.from({ length: REPEATS }).map((_, i) => (
           <span key={i} className="pr-16">

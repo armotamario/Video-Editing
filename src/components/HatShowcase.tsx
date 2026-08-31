@@ -1,5 +1,6 @@
 import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { bodyFont, headlineFont } from "../fonts";
+import { GOLD, INK } from "../theme";
 import { hatColors } from "../hatColors";
 import { HatFlash } from "./HatFlash";
 
@@ -27,17 +28,18 @@ export const HatShowcase: React.FC = () => {
       ))}
 
       <AbsoluteFill className="items-center justify-start pt-16" style={{ opacity: headerIn }}>
-        <div style={{ fontFamily: bodyFont }} className="mb-2 text-xl font-bold uppercase tracking-[0.3em] text-amber-400">
+        <div style={{ fontFamily: bodyFont, color: GOLD }} className="mb-2 text-xl font-bold uppercase tracking-[0.3em]">
           Every Colorway
         </div>
-        <div style={{ fontFamily: headlineFont }} className="text-4xl text-white">
+        <div style={{ fontFamily: headlineFont, color: INK }} className="text-4xl">
           Crafted With Purpose
         </div>
         <div className="mt-6 flex gap-2">
           {hatColors.map((color, i) => (
             <div
               key={color.src}
-              className={`h-1.5 rounded-full ${i === activeIndex ? "w-8 bg-amber-400" : "w-1.5 bg-white/30"}`}
+              style={{ background: i === activeIndex ? GOLD : `${INK}33` }}
+              className={`h-1.5 rounded-full ${i === activeIndex ? "w-8" : "w-1.5"}`}
             />
           ))}
         </div>

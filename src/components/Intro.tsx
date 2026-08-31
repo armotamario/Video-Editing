@@ -1,6 +1,6 @@
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { PAGE_BG } from "../theme";
 import { headlineFont, bodyFont } from "../fonts";
+import { GOLD, INK, PAGE_BG } from "../theme";
 import { LogoMark } from "./LogoMark";
 import { BRAND_NAME, TAGLINE } from "../brand";
 
@@ -24,7 +24,7 @@ export const Intro: React.FC<{ durationInFrames: number }> = ({ durationInFrames
         }}
         className="mb-8"
       >
-        <LogoMark size={140} />
+        <LogoMark size={140} color={GOLD} />
       </div>
 
       <div
@@ -32,8 +32,9 @@ export const Intro: React.FC<{ durationInFrames: number }> = ({ durationInFrames
           transform: `scale(${interpolate(logoIn, [0, 1], [0.7, 1])})`,
           opacity: logoIn,
           fontFamily: headlineFont,
+          color: INK,
         }}
-        className="px-8 text-center text-9xl leading-none tracking-wide text-white"
+        className="px-8 text-center text-9xl leading-none tracking-wide"
       >
         {BRAND_NAME}
       </div>
@@ -43,8 +44,9 @@ export const Intro: React.FC<{ durationInFrames: number }> = ({ durationInFrames
           transform: `translateY(${interpolate(taglineIn, [0, 1], [30, 0])}px)`,
           opacity: taglineIn,
           fontFamily: bodyFont,
+          color: GOLD,
         }}
-        className="mt-8 text-4xl font-medium uppercase tracking-[0.4em] text-amber-400"
+        className="mt-8 text-4xl font-medium uppercase tracking-[0.4em]"
       >
         {TAGLINE}
       </div>

@@ -1,6 +1,6 @@
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { PAGE_BG } from "../theme";
 import { headlineFont, bodyFont } from "../fonts";
+import { CREAM, GOLD, INK, INK_SOFT, PAGE_BG } from "../theme";
 import { LogoMark } from "./LogoMark";
 import { BRAND_NAME, BRAND_URL } from "../brand";
 
@@ -22,7 +22,7 @@ export const Outro: React.FC = () => {
         }}
         className="mb-4"
       >
-        <LogoMark size={50} />
+        <LogoMark size={50} color={GOLD} />
       </div>
 
       <div
@@ -30,13 +30,14 @@ export const Outro: React.FC = () => {
           transform: `translateY(${interpolate(ctaIn, [0, 1], [-30, 0])}px)`,
           opacity: ctaIn,
           fontFamily: bodyFont,
+          color: INK_SOFT,
         }}
-        className="mb-8 text-2xl font-bold uppercase tracking-[0.35em] text-neutral-400"
+        className="mb-8 text-2xl font-bold uppercase tracking-[0.35em]"
       >
         {BRAND_NAME}
       </div>
 
-      <div style={{ fontFamily: headlineFont }} className="px-10 text-center text-6xl leading-tight text-white">
+      <div style={{ fontFamily: headlineFont, color: INK }} className="px-10 text-center text-6xl leading-tight">
         Tap the link
         <br />
         in bio
@@ -47,8 +48,10 @@ export const Outro: React.FC = () => {
           transform: `scale(${pulse})`,
           opacity: urlIn,
           fontFamily: bodyFont,
+          background: INK,
+          color: CREAM,
         }}
-        className="mt-10 rounded-full border-2 border-amber-400 px-8 py-4 text-2xl font-bold tracking-wide text-amber-400"
+        className="mt-10 rounded-full px-8 py-4 text-2xl font-bold tracking-wide"
       >
         {BRAND_URL}
       </div>

@@ -1,11 +1,11 @@
 import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { PAGE_BG } from "../theme";
 import { bodyFont } from "../fonts";
+import { GOLD, INK, PAGE_BG } from "../theme";
 import { Marquee } from "./Marquee";
 
-// The store page itself is white, and dropping a white screenshot onto the black
+// The store page itself is white, and dropping a screenshot of it onto the
 // canvas reads as a floating box — so the store row is rebuilt natively in the
-// video's dark theme instead: the real scrolling hero, the STORE heading, and the
+// video's own theme: the real scrolling hero, the STORE heading, and the
 // product with its real name and price, on the cut-out product shot.
 export const WebsiteReveal: React.FC<{ durationInFrames: number }> = ({ durationInFrames }) => {
   const frame = useCurrentFrame();
@@ -34,8 +34,9 @@ export const WebsiteReveal: React.FC<{ durationInFrames: number }> = ({ duration
           transform: `translateY(${interpolate(headingIn, [0, 1], [30, 0])}px)`,
           opacity: headingIn,
           fontFamily: bodyFont,
+          color: INK,
         }}
-        className="px-14 text-6xl font-black tracking-tight text-white"
+        className="px-14 text-6xl font-black tracking-tight"
       >
         STORE
       </div>
@@ -49,10 +50,10 @@ export const WebsiteReveal: React.FC<{ durationInFrames: number }> = ({ duration
       </div>
 
       <div className="px-14 pb-24 text-center" style={{ opacity: priceIn }}>
-        <div style={{ fontFamily: bodyFont }} className="text-4xl font-bold tracking-tight text-white">
+        <div style={{ fontFamily: bodyFont, color: INK }} className="text-4xl font-bold tracking-tight">
           GODLY RAIMENT HAT
         </div>
-        <div style={{ fontFamily: bodyFont }} className="mt-4 text-3xl font-bold text-amber-400">
+        <div style={{ fontFamily: bodyFont, color: GOLD }} className="mt-4 text-3xl font-bold">
           $28.95
         </div>
       </div>

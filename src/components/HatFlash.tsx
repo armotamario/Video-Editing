@@ -1,6 +1,6 @@
 import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { PAGE_BG } from "../theme";
 import { bodyFont } from "../fonts";
+import { GOLD, PAGE_BG } from "../theme";
 import type { HatColor } from "../hatColors";
 
 export const HatFlash: React.FC<{ color: HatColor; durationInFrames: number }> = ({ color, durationInFrames }) => {
@@ -23,8 +23,8 @@ export const HatFlash: React.FC<{ color: HatColor; durationInFrames: number }> =
 
       <AbsoluteFill className="items-center justify-end pb-16">
         <div
-          style={{ opacity: labelIn, fontFamily: bodyFont }}
-          className="rounded-full border border-amber-400/60 px-6 py-2 text-xl font-bold uppercase tracking-[0.2em] text-amber-400"
+          style={{ opacity: labelIn, fontFamily: bodyFont, color: GOLD, border: `1px solid ${GOLD}66` }}
+          className="rounded-full px-6 py-2 text-xl font-bold uppercase tracking-[0.2em]"
         >
           {color.label}
         </div>
