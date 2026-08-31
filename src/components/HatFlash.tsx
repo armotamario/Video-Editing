@@ -7,7 +7,7 @@ export const HatFlash: React.FC<{ color: HatColor; durationInFrames: number }> =
   const { fps } = useVideoConfig();
 
   const pop = spring({ frame, fps, config: { damping: 14, mass: 0.5 } });
-  const scale = interpolate(pop, [0, 1], [1.08, 1]);
+  const scale = interpolate(pop, [0, 1], [0.94, 1]);
   const labelIn = spring({ frame: frame - 2, fps, config: { damping: 200 } });
   const fadeOut = interpolate(frame, [durationInFrames - 6, durationInFrames], [1, 0], {
     extrapolateLeft: "clamp",
@@ -15,14 +15,12 @@ export const HatFlash: React.FC<{ color: HatColor; durationInFrames: number }> =
   });
 
   return (
-    <AbsoluteFill className="bg-black" style={{ opacity: fadeOut }}>
-      <AbsoluteFill style={{ transform: `scale(${scale})`, opacity: pop }}>
-        <Img src={staticFile(`images/${color.src}`)} className="h-full w-full object-cover" />
-      </AbsoluteFill>
+    <AbsoluteFill className="items-center justify-center bg-black px-16 py-40" style={{ opacity: fadeOut }}>
+      <div style={{ transform: `scale(${scale})`, opacity: pop }} className="flex h-full w-full items-center justify-center">
+        <Img src={staticFile(`images/${color.src}`)} className="max-h-full max-w-full object-contain" />
+      </div>
 
-      <AbsoluteFill className="bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-
-      <AbsoluteFill className="items-start justify-end px-14 pb-16">
+      <AbsoluteFill className="items-center justify-end pb-16">
         <div
           style={{ opacity: labelIn, fontFamily: bodyFont }}
           className="rounded-full border border-amber-400/60 px-6 py-2 text-xl font-bold uppercase tracking-[0.2em] text-amber-400"
