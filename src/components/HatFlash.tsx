@@ -15,9 +15,9 @@ export const HatFlash: React.FC<{ color: HatColor; durationInFrames: number }> =
   });
 
   return (
-    <AbsoluteFill className="items-center justify-center bg-black px-16 py-40" style={{ opacity: fadeOut }}>
+    <AbsoluteFill className="items-center justify-center bg-black px-20 py-52" style={{ opacity: fadeOut }}>
       <div style={{ transform: `scale(${scale})`, opacity: pop }} className="flex h-full w-full items-center justify-center">
-        <Img src={staticFile(`images/${color.src}`)} className="max-h-full max-w-full object-contain" />
+        <Img src={staticFile(`images/${color.src}`)} className="h-full w-full object-contain" />
       </div>
 
       <AbsoluteFill className="items-center justify-end pb-16">
