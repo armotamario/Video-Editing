@@ -1,6 +1,6 @@
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { headlineFont, bodyFont } from "../fonts";
-import { CREAM, GOLD, INK, INK_SOFT, PAGE_BG } from "../theme";
+import { CREAM, CTA_FILLED, GOLD, INK, INK_SOFT, PAGE_BG } from "../theme";
 import { LogoMark } from "./LogoMark";
 import { BRAND_NAME, BRAND_URL } from "../brand";
 
@@ -48,8 +48,9 @@ export const Outro: React.FC = () => {
           transform: `scale(${pulse})`,
           opacity: urlIn,
           fontFamily: bodyFont,
-          background: INK,
-          color: CREAM,
+          background: CTA_FILLED ? INK : "transparent",
+          color: CTA_FILLED ? CREAM : GOLD,
+          border: CTA_FILLED ? "none" : `2px solid ${GOLD}`,
         }}
         className="mt-10 rounded-full px-8 py-4 text-2xl font-bold tracking-wide"
       >
