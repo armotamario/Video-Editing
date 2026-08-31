@@ -1,6 +1,7 @@
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { headlineFont, bodyFont } from "../fonts";
-import { BRAND_NAME, TAGLINE } from "../slides";
+import { LogoMark } from "./LogoMark";
+import { BRAND_NAME, TAGLINE } from "../brand";
 
 export const Intro: React.FC<{ durationInFrames: number }> = ({ durationInFrames }) => {
   const frame = useCurrentFrame();
@@ -21,6 +22,16 @@ export const Intro: React.FC<{ durationInFrames: number }> = ({ durationInFrames
           background: `radial-gradient(circle at 50% 45%, rgba(251,191,36,${glow}) 0%, rgba(0,0,0,0) 60%)`,
         }}
       />
+
+      <div
+        style={{
+          transform: `scale(${interpolate(logoIn, [0, 1], [0.7, 1])})`,
+          opacity: logoIn,
+        }}
+        className="mb-6"
+      >
+        <LogoMark size={90} />
+      </div>
 
       <div
         style={{

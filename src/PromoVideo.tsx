@@ -1,14 +1,17 @@
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
+import { HatShowcase, HAT_SHOWCASE_DURATION } from "./components/HatShowcase";
 import { Intro } from "./components/Intro";
 import { Outro } from "./components/Outro";
-import { SlidePanel } from "./components/SlidePanel";
-import { slides } from "./slides";
+import { WebsiteReveal } from "./components/WebsiteReveal";
 
 export const INTRO_DURATION = 75;
-export const SLIDE_DURATION = 90;
+export const WEBSITE_DURATION = 120;
 export const OUTRO_DURATION = 105;
 
-export const TOTAL_DURATION = INTRO_DURATION + slides.length * SLIDE_DURATION + OUTRO_DURATION;
+export const TOTAL_DURATION = INTRO_DURATION + WEBSITE_DURATION + HAT_SHOWCASE_DURATION + OUTRO_DURATION;
+
+const HAT_SHOWCASE_START = INTRO_DURATION + WEBSITE_DURATION;
+const OUTRO_START = HAT_SHOWCASE_START + HAT_SHOWCASE_DURATION;
 
 export const PromoVideo: React.FC = () => {
   return (
@@ -19,13 +22,15 @@ export const PromoVideo: React.FC = () => {
         <Intro durationInFrames={INTRO_DURATION} />
       </Sequence>
 
-      {slides.map((slide, index) => (
-        <Sequence key={slide.src} from={INTRO_DURATION + index * SLIDE_DURATION} durationInFrames={SLIDE_DURATION}>
-          <SlidePanel slide={slide} durationInFrames={SLIDE_DURATION} index={index} total={slides.length} />
-        </Sequence>
-      ))}
+      <Sequence from={INTRO_DURATION} durationInFrames={WEBSITE_DURATION}>
+        <WebsiteReveal durationInFrames={WEBSITE_DURATION} />
+      </Sequence>
 
-      <Sequence from={INTRO_DURATION + slides.length * SLIDE_DURATION} durationInFrames={OUTRO_DURATION}>
+      <Sequence from={HAT_SHOWCASE_START} durationInFrames={HAT_SHOWCASE_DURATION}>
+        <HatShowcase />
+      </Sequence>
+
+      <Sequence from={OUTRO_START} durationInFrames={OUTRO_DURATION}>
         <Outro />
       </Sequence>
     </AbsoluteFill>

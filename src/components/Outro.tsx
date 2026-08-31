@@ -1,6 +1,7 @@
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { headlineFont, bodyFont } from "../fonts";
-import { BRAND_NAME, BRAND_URL } from "../slides";
+import { LogoMark } from "./LogoMark";
+import { BRAND_NAME, BRAND_URL } from "../brand";
 
 export const Outro: React.FC = () => {
   const frame = useCurrentFrame();
@@ -13,6 +14,16 @@ export const Outro: React.FC = () => {
 
   return (
     <AbsoluteFill className="items-center justify-center bg-black" style={{ opacity: fadeIn }}>
+      <div
+        style={{
+          transform: `translateY(${interpolate(ctaIn, [0, 1], [-30, 0])}px)`,
+          opacity: ctaIn,
+        }}
+        className="mb-4"
+      >
+        <LogoMark size={50} />
+      </div>
+
       <div
         style={{
           transform: `translateY(${interpolate(ctaIn, [0, 1], [-30, 0])}px)`,
