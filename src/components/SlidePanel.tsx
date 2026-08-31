@@ -30,25 +30,13 @@ export const SlidePanel: React.FC<{ slide: Slide; durationInFrames: number; inde
 
   return (
     <AbsoluteFill className="bg-black" style={{ opacity: fadeOut }}>
-      {slide.fit === "cover" ? (
-        <AbsoluteFill style={{ transform: `scale(${kenBurns}) translateY(${drift}px)` }}>
-          <Img src={src} className="h-full w-full object-cover" />
-        </AbsoluteFill>
-      ) : (
-        <>
-          <AbsoluteFill style={{ transform: `scale(${kenBurns * 1.3})` }}>
-            <Img src={src} className="h-full w-full object-cover" style={{ filter: "blur(60px) brightness(0.45)" }} />
-          </AbsoluteFill>
-          <AbsoluteFill className="items-center justify-center px-10">
-            <div
-              style={{ transform: `scale(${kenBurns})` }}
-              className="w-full overflow-hidden rounded-2xl shadow-[0_20px_80px_rgba(0,0,0,0.7)]"
-            >
-              <Img src={src} className="w-full" />
-            </div>
-          </AbsoluteFill>
-        </>
-      )}
+      <AbsoluteFill style={{ transform: `scale(${kenBurns}) translateY(${drift}px)` }}>
+        <Img
+          src={src}
+          className="h-full w-full object-cover"
+          style={{ objectPosition: slide.focus ?? "center" }}
+        />
+      </AbsoluteFill>
 
       <AbsoluteFill className="bg-gradient-to-t from-black/85 via-black/5 to-black/40" />
 

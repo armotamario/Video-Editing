@@ -1,9 +1,8 @@
 export type Slide = {
   /** Filename inside public/images/. */
   src: string;
-  /** "contain" letterboxes the (landscape) screenshot on a blurred backdrop so nothing is
-   * cropped off. "cover" fills the frame edge-to-edge — use for images already shot portrait. */
-  fit: "contain" | "cover";
+  /** CSS object-position — biases the full-bleed crop toward the important content. */
+  focus?: string;
   label: string;
   caption: string;
   kicker: string;
@@ -16,21 +15,20 @@ export const TAGLINE = "Wear Your Faith";
 export const slides: Slide[] = [
   {
     src: "homepage.jpg",
-    fit: "contain",
+    focus: "center 55%",
     label: "Homepage hero",
     kicker: "Introducing",
     caption: "Faith-Driven Streetwear",
   },
   {
     src: "collection.jpg",
-    fit: "contain",
+    focus: "40% center",
     label: "Store — Godly Raiment Hat",
     kicker: "The Collection",
     caption: "The Godly Raiment Hat",
   },
   {
     src: "colorways.jpg",
-    fit: "cover",
     label: "Colorways — Black & Camo",
     kicker: "Crafted With Purpose",
     caption: "Timeless Fit. Built To Last.",
