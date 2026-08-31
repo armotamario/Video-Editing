@@ -9,7 +9,6 @@ export const Intro: React.FC<{ durationInFrames: number }> = ({ durationInFrames
 
   const logoIn = spring({ frame, fps, config: { damping: 12, mass: 0.6 } });
   const taglineIn = spring({ frame: frame - 14, fps, config: { damping: 200 } });
-  const glow = interpolate(frame % 60, [0, 30, 60], [0.35, 0.65, 0.35]);
   const fadeOut = interpolate(frame, [durationInFrames - 15, durationInFrames], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -17,20 +16,14 @@ export const Intro: React.FC<{ durationInFrames: number }> = ({ durationInFrames
 
   return (
     <AbsoluteFill className="items-center justify-center bg-black" style={{ opacity: fadeOut }}>
-      <AbsoluteFill
-        style={{
-          background: `radial-gradient(circle at 50% 45%, rgba(251,191,36,${glow}) 0%, rgba(0,0,0,0) 60%)`,
-        }}
-      />
-
       <div
         style={{
           transform: `scale(${interpolate(logoIn, [0, 1], [0.7, 1])})`,
           opacity: logoIn,
         }}
-        className="mb-6"
+        className="mb-8"
       >
-        <LogoMark size={90} />
+        <LogoMark size={140} />
       </div>
 
       <div
@@ -39,7 +32,7 @@ export const Intro: React.FC<{ durationInFrames: number }> = ({ durationInFrames
           opacity: logoIn,
           fontFamily: headlineFont,
         }}
-        className="px-10 text-center text-7xl tracking-wide text-white"
+        className="px-8 text-center text-9xl leading-none tracking-wide text-white"
       >
         {BRAND_NAME}
       </div>
@@ -50,7 +43,7 @@ export const Intro: React.FC<{ durationInFrames: number }> = ({ durationInFrames
           opacity: taglineIn,
           fontFamily: bodyFont,
         }}
-        className="mt-6 text-3xl font-medium uppercase tracking-[0.4em] text-amber-400"
+        className="mt-8 text-4xl font-medium uppercase tracking-[0.4em] text-amber-400"
       >
         {TAGLINE}
       </div>
