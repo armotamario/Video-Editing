@@ -1,7 +1,13 @@
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import {
+  AbsoluteFill,
+  interpolate,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 import { bodyFont, headlineFont } from "../fonts";
 import { ACCENT, INK, INK_SOFT, PAGE_BG } from "../mfba/theme";
-import { DAY, DAY_GOAL_KCAL, DAY_KCAL, TOTALS_KICKER } from "./copy";
+import { DAY, DAY_KCAL, TOTALS_KICKER } from "./copy";
 
 const Chip: React.FC<{ value: string; label: string; delay: number }> = ({
   value,
@@ -10,7 +16,11 @@ const Chip: React.FC<{ value: string; label: string; delay: number }> = ({
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const chipIn = spring({ frame: frame - delay, fps, config: { damping: 16, mass: 0.5 } });
+  const chipIn = spring({
+    frame: frame - delay,
+    fps,
+    config: { damping: 16, mass: 0.5 },
+  });
 
   return (
     <div
@@ -21,7 +31,10 @@ const Chip: React.FC<{ value: string; label: string; delay: number }> = ({
       }}
       className="flex-1 rounded-[28px] px-2 py-9 text-center"
     >
-      <div style={{ fontFamily: headlineFont, color: ACCENT }} className="text-[76px] leading-none">
+      <div
+        style={{ fontFamily: headlineFont, color: ACCENT }}
+        className="text-[76px] leading-none"
+      >
         {value}
       </div>
       <div
@@ -34,7 +47,9 @@ const Chip: React.FC<{ value: string; label: string; delay: number }> = ({
   );
 };
 
-export const Totals: React.FC<{ durationInFrames: number }> = ({ durationInFrames }) => {
+export const Totals: React.FC<{ durationInFrames: number }> = ({
+  durationInFrames,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -45,15 +60,15 @@ export const Totals: React.FC<{ durationInFrames: number }> = ({ durationInFrame
       extrapolateRight: "clamp",
     }),
   );
-  const barIn = interpolate(frame, [6, 42], [0, DAY_KCAL / DAY_GOAL_KCAL], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const goalIn = spring({ frame: frame - 40, fps, config: { damping: 200 } });
-  const fadeOut = interpolate(frame, [durationInFrames - 12, durationInFrames], [1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const fadeOut = interpolate(
+    frame,
+    [durationInFrames - 12, durationInFrames],
+    [1, 0],
+    {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    },
+  );
 
   return (
     <AbsoluteFill
@@ -78,22 +93,6 @@ export const Totals: React.FC<{ durationInFrames: number }> = ({ durationInFrame
         className="mt-6 text-[34px] font-bold uppercase tracking-[0.3em]"
       >
         Calories
-      </div>
-
-      <div
-        style={{ background: "#221f1c" }}
-        className="mt-14 h-4 w-full overflow-hidden rounded-full"
-      >
-        <div
-          style={{ width: `${barIn * 100}%`, background: ACCENT }}
-          className="h-full rounded-full"
-        />
-      </div>
-      <div
-        style={{ opacity: goalIn, fontFamily: bodyFont, color: INK_SOFT }}
-        className="mt-6 self-end text-[28px] font-bold"
-      >
-        {DAY.goal} goal
       </div>
 
       <div className="mt-16 flex w-full gap-5">
