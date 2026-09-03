@@ -177,29 +177,62 @@ def compress(x: np.ndarray, thresh=0.22, ratio=4.0, attack=0.006, release=0.16) 
     return x * gain
 
 
-def phone_tilt(x: np.ndarray) -> np.ndarray:
-    """Trade sub-bass a phone speaker can't reproduce for presence it can."""
-    x = x - lowpass(x, 48)
-    return x + 0.62 * highpass(x, 1600)
+def limiter(x: np.ndarray, ceiling=0.90, lookahead=0.003, release=0.06) -> np.ndarray:
+    """Look-ahead brickwall — keeps transients that a tanh curve would round off."""
+    la = int(lookahead * SR)
+    pad = np.concatenate([x, np.zeros(la)])
+    need = np.minimum(1.0, ceiling / np.maximum(np.abs(pad), 1e-9))
+
+    # sliding minimum over the look-ahead window, so a peak only ducks its own
+    # neighbourhood rather than everything that came before it
+    win = need.copy()
+    for k in range(1, la + 1):
+        win[:-k] = np.minimum(win[:-k], need[k:])
+
+    a = np.exp(-1.0 / (release * SR))
+    g = np.empty_like(win)
+    acc = 1.0
+    for i in range(len(win)):
+        acc = win[i] if win[i] < acc else a * acc + (1 - a) * win[i]
+        g[i] = acc
+    return (pad * g)[:len(x)]
 
 
-def finish(left: np.ndarray, right: np.ndarray, target_rms=0.34, peak=0.90) -> np.ndarray:
-    """Tilt for phone speakers, compress hard, then limit to a feed-level master.
+def phone_master(x: np.ndarray) -> np.ndarray:
+    """Rebuild the balance for a phone speaker.
 
-    The 0.90 ceiling is deliberate: AAC decoding overshoots by up to a dB, and
-    at a 0.97 ceiling that overshoot clipped on transients.
+    Nearly all of the energy in these tracks sat under 120 Hz, which a phone
+    simply does not reproduce — so the kick and bass are re-voiced as harmonics
+    an inch-wide driver can actually move, and the 1-5 kHz band where hearing is
+    most sensitive is lifted hard.
     """
-    mid = phone_tilt((left + right) * 0.5)
+    low = lowpass(lowpass(x, 190), 190)
+    rest = x - low
+    growl = highpass(np.tanh(low * 9.0), 260)
+    x = rest + growl * 1.5 + low * 0.09
+    presence = highpass(x, 1500)
+    upper_mid = lowpass(highpass(x, 700), 4500)
+    x = x + 1.7 * presence + 0.95 * upper_mid
+    for _ in range(3):
+        x = x - lowpass(x, 135)
+    return x
+
+
+def finish(left: np.ndarray, right: np.ndarray, target_rms=0.42, peak=0.90) -> np.ndarray:
+    """Phone-voice the mix, compress it flat, then brickwall it to feed level."""
+    mid = phone_master((left + right) * 0.5)
     side = (left - right) * 0.5
-    mid = compress(mid, thresh=0.14, ratio=6.0, attack=0.004, release=0.12)
-    left, right = mid + side * 0.6, mid - side * 0.6
+    mid = compress(mid, thresh=0.10, ratio=8.0, attack=0.003, release=0.09)
+    left, right = mid + side * 0.45, mid - side * 0.45
 
     stereo = np.stack([left, right], axis=1)
-    stereo *= target_rms / max(np.sqrt(np.mean(stereo ** 2)), 1e-9)
-    stereo = np.tanh(stereo * 1.7) / np.tanh(1.7)
-    stereo *= peak / max(1e-9, np.max(np.abs(stereo)))
+    # push into the limiter repeatedly: each pass recovers the level the last
+    # one gave away, so the master lands on the target instead of under it
+    for _ in range(4):
+        stereo *= target_rms / max(np.sqrt(np.mean(stereo ** 2)), 1e-9)
+        stereo = np.stack([limiter(stereo[:, 0], peak), limiter(stereo[:, 1], peak)], axis=1)
 
-    fade = int(0.04 * SR)
+    fade = int(0.03 * SR)
     stereo[:fade] *= np.linspace(0, 1, fade)[:, None]
     stereo[-fade:] *= np.linspace(1, 0, fade)[:, None]
     return stereo
@@ -231,10 +264,12 @@ def cinematic() -> None:
     for bar in range(1, 8):
         place(m, bar * 2.0, kick(0.5, 110, 42), 0.55)
         place(m, bar * 2.0 + 1.0, kick(0.42, 100, 40), 0.32)
-    for i in range(6, 24):
-        place(m, 3.0 + i * 0.5, hat(0.05, 8000, 120), 0.10 if i % 2 else 0.16)
+    for i in range(6, 32):
+        place(m, 3.0 + i * 0.25, hat(0.05, 8000, 120), 0.20 if i % 2 else 0.30)
     for i, f in enumerate((587.33, 440.00, 493.88, 659.25)):
-        place(m, 3.0 + i * 2.0, bell(f, 2.2), 0.16)
+        place(m, 3.0 + i * 2.0, bell(f, 2.2), 0.20)
+        place(m, 3.0 + i * 2.0, bell(f * 2, 1.6), 0.30)
+        place(m, 4.0 + i * 2.0, pluck(f * 3, 0.5, (1.0, 0.5, 0.3)), 0.24)
     place(m, 12.0, impact(2.6), 0.5)
     place(m, 12.0, pad((146.83, 220.00, 293.66, 440.0), 4.0), 0.34)
     place(m, 12.0, bell(880.0, 3.0), 0.14)
@@ -260,11 +295,14 @@ def trap() -> None:
     for i in range(int(3.0 / step), int(DUR / step)):
         at = i * step
         roll = (i % 16) in (13, 14, 15)
-        place(m, at, hat(0.05, 7600, 130), 0.2 if not roll else 0.16)
+        place(m, at, hat(0.05, 7600, 130), 0.34 if not roll else 0.28)
         if roll:
-            place(m, at + 0.125, hat(0.04, 8200, 150), 0.14)
+            place(m, at + 0.125, hat(0.04, 8200, 150), 0.24)
     for i, f in enumerate((329.63, 392.00, 349.23, 293.66) * 2):
-        place(m, 3.0 + i * 1.5, pluck(f, 0.5, (1.0, 0.35, 0.12)), 0.13)
+        place(m, 3.0 + i * 1.5, pluck(f * 2, 0.6, (1.0, 0.55, 0.28)), 0.26)
+        place(m, 3.75 + i * 1.5, pluck(f, 0.4, (1.0, 0.6, 0.3)), 0.20)
+    for i in range(int(3.0 / 1.0), int(DUR / 1.0)):
+        place(m, i * 1.0, bell(1318.51 if i % 4 else 1567.98, 0.6), 0.05)
     place(m, 12.0, impact(2.4), 0.55)
     wet = reverb(m, 0.16)
     write("trap", wet, np.concatenate([[0, 0, 0], wet[:-3]]))
@@ -289,9 +327,10 @@ def lofi() -> None:
         at = i * 0.25
         if at >= DUR:
             break
-        place(m, at, hat(0.05, 6200, 150), 0.09 if i % 2 else 0.13)
+        place(m, at, hat(0.05, 6200, 150), 0.18 if i % 2 else 0.26)
     for i, f in enumerate((523.25, 466.16, 392.00, 440.00, 349.23, 392.00)):
-        place(m, 3.5 + i * 1.75, pluck(f, 0.8, (1.0, 0.28, 0.1)), 0.12)
+        place(m, 3.5 + i * 1.75, pluck(f * 2, 0.8, (1.0, 0.5, 0.28)), 0.26)
+        place(m, 4.4 + i * 1.75, bell(f * 3, 1.1), 0.14)
     place(m, 12.0, pad((174.61, 261.63, 329.63, 440.0), 4.0), 0.3)
     place(m, 12.0, bell(659.25, 2.4), 0.10)
     wet = reverb(m, 0.24)
@@ -305,12 +344,12 @@ def uplift() -> None:
     arp = [440.00, 554.37, 659.25, 880.00, 659.25, 554.37]
     for i in range(int((DUR - 2.6) / 0.25)):
         at = 2.6 + i * 0.25
-        place(m, at, pluck(arp[i % len(arp)], 0.45, (1.0, 0.4, 0.15)), 0.15)
+        place(m, at, pluck(arp[i % len(arp)], 0.45, (1.0, 0.55, 0.3)), 0.26)
     for bar in range(1, 8):
         b = bar * 2.0
         for beat in range(4):
             place(m, b + beat * 0.5, kick(0.36, 120, 45), 0.5)
-            place(m, b + beat * 0.5 + 0.25, hat(0.05, 9000, 160), 0.14)
+            place(m, b + beat * 0.5 + 0.25, hat(0.05, 9000, 160), 0.26)
         place(m, b + 1.0, snare(0.24, 210), 0.26)
     for i, ch in enumerate([(110.0, 164.81), (123.47, 185.00), (146.83, 220.00), (98.00, 146.83)]):
         place(m, 2.0 + i * 3.5, pad(ch, 3.6), 0.24)
@@ -333,10 +372,11 @@ def tense() -> None:
         place(m, b, kick(0.48, 128, 40), 0.55)
         place(m, b + 1.5, kick(0.4, 110, 38), 0.3)
         place(m, b + 1.0, rim(0.1), 0.3)
-    for i in range(int(3.0 / 0.5), int(DUR / 0.5)):
-        place(m, i * 0.5, hat(0.04, 8600, 200), 0.13)
+    for i in range(int(3.0 / 0.25), int(DUR / 0.25)):
+        place(m, i * 0.25, hat(0.04, 8600, 200), 0.16 if i % 2 else 0.26)
     for i in range(4):
-        place(m, 3.0 + i * 2.0, bell(220.0 if i % 2 else 246.94, 1.8), 0.10)
+        place(m, 3.0 + i * 2.0, bell(880.0 if i % 2 else 987.77, 1.8), 0.26)
+        place(m, 4.0 + i * 2.0, pluck(1318.51, 0.35, (1.0, 0.5, 0.3)), 0.20)
     place(m, 12.0, impact(2.6), 0.6)
     place(m, 12.0, pad((110.0, 164.81, 220.0), 3.8), 0.26)
     wet = reverb(m, 0.26)
@@ -352,11 +392,12 @@ def minimal() -> None:
         b = bar * 2.0
         place(m, b, kick(0.46, 105, 40, click=0.3), 0.45)
         place(m, b + 1.25, rim(0.1), 0.26)
-    for i in range(int(3.0 / 0.5), int(DUR / 0.5)):
-        place(m, i * 0.5, hat(0.045, 7400, 140), 0.1)
+    for i in range(int(3.0 / 0.25), int(DUR / 0.25)):
+        place(m, i * 0.25, hat(0.045, 7400, 140), 0.14 if i % 2 else 0.22)
     notes = [329.63, 392.00, 493.88, 392.00, 329.63, 293.66, 329.63, 440.00]
     for i, f in enumerate(notes):
-        place(m, 3.0 + i * 1.25, pluck(f, 0.7, (1.0, 0.3, 0.08)), 0.16)
+        place(m, 3.0 + i * 1.25, pluck(f * 2, 0.7, (1.0, 0.5, 0.25)), 0.30)
+        place(m, 3.6 + i * 1.25, bell(f * 4, 0.9), 0.14)
     for i, ch in enumerate([(82.41, 123.47), (98.00, 146.83), (110.0, 164.81)]):
         place(m, 2.0 + i * 4.0, pad(ch, 4.2), 0.2)
     place(m, 12.0, bell(987.77, 2.8), 0.13)
