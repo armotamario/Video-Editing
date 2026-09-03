@@ -161,10 +161,35 @@ def reverb(x: np.ndarray, mix=0.22, decay=0.4, delays=(0.031, 0.047, 0.071, 0.09
     return x * (1 - mix) + lowpass(wet, 5200) * mix
 
 
-def finish(left: np.ndarray, right: np.ndarray, peak=0.89) -> np.ndarray:
+def compress(x: np.ndarray, thresh=0.22, ratio=4.0, attack=0.006, release=0.16) -> np.ndarray:
+    """Feed-forward compressor on the summed signal, so the bed sits loud."""
+    a_att = np.exp(-1.0 / (attack * SR))
+    a_rel = np.exp(-1.0 / (release * SR))
+    mag = np.abs(x)
+    envv = np.empty_like(mag)
+    acc = 0.0
+    for i in range(len(mag)):
+        coeff = a_att if mag[i] > acc else a_rel
+        acc = coeff * acc + (1 - coeff) * mag[i]
+        envv[i] = acc
+    over = np.maximum(envv, 1e-9) / thresh
+    gain = np.where(over > 1.0, over ** (1.0 / ratio - 1.0), 1.0)
+    return x * gain
+
+
+def finish(left: np.ndarray, right: np.ndarray, target_rms=0.23, peak=0.95) -> np.ndarray:
+    """Compress, lift to a social-media loudness, then limit — no clipping."""
+    mid = (left + right) * 0.5
+    mid_c = compress(mid)
+    side = (left - right) * 0.5
+    left, right = mid_c + side, mid_c - side
+
     stereo = np.stack([left, right], axis=1)
-    stereo = np.tanh(stereo * 1.15)
+    rms = np.sqrt(np.mean(stereo ** 2))
+    stereo *= target_rms / max(rms, 1e-9)
+    stereo = np.tanh(stereo * 1.05) / np.tanh(1.05)
     stereo *= peak / max(1e-9, np.max(np.abs(stereo)))
+
     fade = int(0.05 * SR)
     stereo[:fade] *= np.linspace(0, 1, fade)[:, None]
     stereo[-fade:] *= np.linspace(1, 0, fade)[:, None]
