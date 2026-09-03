@@ -3,7 +3,11 @@ export const HOOK_SUB = "And that's exactly why it works.";
 
 export const MEAL_KICKER = "The meal";
 export const MEAL_ITEMS = [
-  { name: "Chicken breast", detail: "Coles breast fillets · 220g", kcal: "242" },
+  {
+    name: "Chicken breast",
+    detail: "Coles breast fillets · 220g",
+    kcal: "242",
+  },
   { name: "White rice", detail: "Jasmine, cooked · 1 cup", kcal: "204" },
   { name: "Steamed broccoli", detail: "50g", kcal: "17" },
 ];
@@ -13,12 +17,10 @@ export const REPEAT_KICKER = "Every single day";
 export const REPEAT_HEADLINE = "Same meal.\nThree times.";
 export const SITTINGS = ["Breakfast", "Lunch", "Dinner"];
 export const REPEAT_TOTAL = "1,389";
-export const SNACKS = [
-  { name: "Chia seeds", detail: "15g", kcal: "64" },
-  { name: "Full cream milk", detail: "4 fl oz", kcal: "79" },
-  { name: "Coke No Sugar", detail: "375ml", kcal: "2" },
-];
-export const SNACKS_TOTAL = "145";
+export const WEEK_KICKER = "Seven days a week";
+export const WEEK_STAT = "21";
+export const WEEK_LABEL = "identical meals";
+export const WEEK_NOTE = "No cheat meals. No decisions. No thinking.";
 
 export const TOTALS_KICKER = "The whole day";
 export const DAY = {

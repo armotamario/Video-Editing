@@ -12,8 +12,10 @@ import {
   REPEAT_KICKER,
   REPEAT_TOTAL,
   SITTINGS,
-  SNACKS,
-  SNACKS_TOTAL,
+  WEEK_KICKER,
+  WEEK_LABEL,
+  WEEK_NOTE,
+  WEEK_STAT,
 } from "./copy";
 
 export const TimesThree: React.FC<{ durationInFrames: number }> = ({
@@ -28,7 +30,11 @@ export const TimesThree: React.FC<{ durationInFrames: number }> = ({
     fps,
     config: { damping: 12, mass: 0.6 },
   });
-  const snacksIn = spring({ frame: frame - 58, fps, config: { damping: 200 } });
+  const weekIn = spring({
+    frame: frame - 58,
+    fps,
+    config: { damping: 14, mass: 0.5 },
+  });
   const fadeOut = interpolate(
     frame,
     [durationInFrames - 12, durationInFrames],
@@ -124,38 +130,38 @@ export const TimesThree: React.FC<{ durationInFrames: number }> = ({
         </div>
       </div>
 
-      <div style={{ opacity: snacksIn }} className="mt-14">
+      <div
+        style={{
+          transform: `translateY(${interpolate(weekIn, [0, 1], [40, 0])}px)`,
+          opacity: weekIn,
+        }}
+        className="mt-14"
+      >
         <div
           style={{ fontFamily: bodyFont, color: INK_SOFT }}
           className="text-[24px] font-bold uppercase tracking-[0.35em]"
         >
-          Plus snacks
+          {WEEK_KICKER}
         </div>
-        <div className="mt-6 flex items-center justify-between">
-          <div className="flex flex-wrap gap-4">
-            {SNACKS.map((snack) => (
-              <div
-                key={snack.name}
-                style={{
-                  background: "#1b1815",
-                  fontFamily: bodyFont,
-                  color: INK,
-                }}
-                className="rounded-full px-8 py-4 text-[28px] font-bold"
-              >
-                {snack.name}
-                <span style={{ color: INK_SOFT }} className="ml-3">
-                  {snack.kcal}
-                </span>
-              </div>
-            ))}
-          </div>
+        <div className="mt-4 flex items-baseline gap-6">
           <div
             style={{ fontFamily: headlineFont, color: ACCENT }}
-            className="text-[70px] leading-none"
+            className="text-[124px] leading-none"
           >
-            {SNACKS_TOTAL}
+            {WEEK_STAT}
           </div>
+          <div
+            style={{ fontFamily: headlineFont, color: INK }}
+            className="text-[76px] leading-none tracking-wide"
+          >
+            {WEEK_LABEL}
+          </div>
+        </div>
+        <div
+          style={{ fontFamily: bodyFont, color: INK_SOFT }}
+          className="mt-4 text-[30px] font-medium"
+        >
+          {WEEK_NOTE}
         </div>
       </div>
     </AbsoluteFill>
