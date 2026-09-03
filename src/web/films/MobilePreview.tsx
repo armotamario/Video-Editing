@@ -52,6 +52,7 @@ const PhoneScene: React.FC<{ duration: number }> = ({ duration }) => {
 
 export const MobilePreview: React.FC = () => (
   <Film
+    track="lofi"
     sections={[
       {
         key: "hook",

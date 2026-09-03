@@ -99,6 +99,7 @@ const SoChic: React.FC<{ duration: number }> = ({ duration }) => (
 
 export const Testimonial: React.FC = () => (
   <Film
+    track="cinematic"
     sections={[
       {
         key: "hook",

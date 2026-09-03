@@ -4,6 +4,7 @@ import { BeforeAfterScene } from "./beforeAfter";
 
 export const BeforeAfterFilm: React.FC = () => (
   <Film
+    track="trap"
     sections={[
       {
         key: "hook",

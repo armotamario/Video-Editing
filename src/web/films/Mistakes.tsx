@@ -108,6 +108,7 @@ const Cards: React.FC<{ duration: number }> = ({ duration }) => {
 
 export const Mistakes: React.FC = () => (
   <Film
+    track="tense"
     sections={[
       {
         key: "hook",

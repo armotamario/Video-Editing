@@ -116,6 +116,7 @@ const Anatomy: React.FC<{ duration: number }> = ({ duration }) => {
 
 export const Homepage: React.FC = () => (
   <Film
+    track="minimal"
     sections={[
       {
         key: "hook",

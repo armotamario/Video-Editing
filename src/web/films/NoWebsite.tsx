@@ -103,6 +103,7 @@ const SearchMock: React.FC<{ duration: number }> = ({ duration }) => {
 
 export const NoWebsite: React.FC = () => (
   <Film
+    track="tense"
     sections={[
       {
         key: "hook",

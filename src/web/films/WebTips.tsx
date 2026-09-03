@@ -94,6 +94,7 @@ const Tips: React.FC<{ duration: number }> = ({ duration }) => {
 
 export const WebTips: React.FC = () => (
   <Film
+    track="lofi"
     sections={[
       {
         key: "hook",

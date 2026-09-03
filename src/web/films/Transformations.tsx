@@ -5,6 +5,7 @@ import { BeforeAfterScene } from "./beforeAfter";
 /** Three rapid old-to-new flips back to back. */
 export const Transformations: React.FC = () => (
   <Film
+    track="trap"
     sections={[
       {
         key: "hook",

@@ -4,6 +4,7 @@ import { SiteShowcase } from "./showcase";
 
 export const ClientSites: React.FC = () => (
   <Film
+    track="cinematic"
     sections={[
       {
         key: "hook",

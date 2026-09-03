@@ -16,9 +16,15 @@ import { CTA, CTA_SUB, HANDLE, LABEL, NAME, SITE } from "./brand";
 /** Every film in this set is 16s, cut to the same 16s bed. */
 export const FILM_DURATION = 480;
 
-export const FilmShell: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+/** The six 16s beds, so no two neighbouring posts sound the same. */
+export type Track = "cinematic" | "trap" | "lofi" | "uplift" | "tense" | "minimal";
+
+export const FilmShell: React.FC<{ track: Track; children: React.ReactNode }> = ({
+  track,
+  children,
+}) => (
   <AbsoluteFill style={{ background: PAGE_BG }}>
-    <Audio src={staticFile("audio/mario-theme.wav")} />
+    <Audio src={staticFile(`audio/web-${track}.wav`)} />
     {children}
   </AbsoluteFill>
 );
@@ -39,12 +45,13 @@ export const useRise = (delay = 0, damping = 200) => {
   return spring({ frame: frame - delay, fps, config: { damping } });
 };
 
-export const Film: React.FC<{ sections: { key: string; duration: number; node: React.ReactNode }[] }> = ({
-  sections,
-}) => {
+export const Film: React.FC<{
+  track: Track;
+  sections: { key: string; duration: number; node: React.ReactNode }[];
+}> = ({ track, sections }) => {
   let at = 0;
   return (
-    <FilmShell>
+    <FilmShell track={track}>
       {sections.map((section) => {
         const from = at;
         at += section.duration;
