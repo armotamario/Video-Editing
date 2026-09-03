@@ -21,6 +21,12 @@ import { Products } from "./gr/Products";
 import { Prayer } from "./gr/Prayer";
 import { BibleFilm } from "./gr/BibleFilm";
 import { MassFilm } from "./gr/MassFilm";
+import { FILM_DURATION as SHRED_FILM_DURATION } from "./shred/kit";
+import { Stretch } from "./shred/Stretch";
+import { WorkoutA } from "./shred/WorkoutA";
+import { WorkoutB } from "./shred/WorkoutB";
+import { Cardio } from "./shred/Cardio";
+import { Diet } from "./shred/Diet";
 
 /** The web-development content set — one 16s film per posting category. */
 const WEB_FILMS: [string, React.FC][] = [
@@ -43,6 +49,15 @@ const GR_FILMS: [string, React.FC][] = [
   ["GrPrayer", Prayer],
   ["GrBible", BibleFilm],
   ["GrMass", MassFilm],
+];
+
+/** MFBA's Shredded Series — mobility, two lifting days, cardio, diet. */
+const SHRED_FILMS: [string, React.FC][] = [
+  ["ShredStretch", Stretch],
+  ["ShredWorkoutA", WorkoutA],
+  ["ShredWorkoutB", WorkoutB],
+  ["ShredCardio", Cardio],
+  ["ShredDiet", Diet],
 ];
 
 export const MyComposition = () => {
@@ -88,6 +103,18 @@ export const MyComposition = () => {
         width={1080}
         height={1920}
       />
+
+      {SHRED_FILMS.map(([id, component]) => (
+        <Composition
+          key={id}
+          id={id}
+          component={component}
+          durationInFrames={SHRED_FILM_DURATION}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+      ))}
 
       {GR_FILMS.map(([id, component]) => (
         <Composition
