@@ -1,4 +1,4 @@
-import { getInputProps, interpolate } from "remotion";
+import { AbsoluteFill, Sequence, interpolate } from "remotion";
 import {
   Body,
   Film,
@@ -13,93 +13,115 @@ import {
   monoFont,
   serifFont,
   useRise,
+  useSectionFade,
 } from "../kit";
 
-type QuoteProps = { quote?: string; client?: string; business?: string; result?: string };
-
 /**
- * Layout only — the words come from --props so a real client's quote can be
- * dropped in without touching the design:
- *   npx remotion render WebTestimonial out.mp4 --props='{"quote":"…","client":"…"}'
+ * Real client words, quoted verbatim and only trimmed — the first from an
+ * Instagram business chat, the second from LinkedIn.
  */
-const props = getInputProps() as QuoteProps;
-const QUOTE = props.quote ?? "Add your client's own words here — one or two sentences about what changed after launch.";
-const CLIENT = props.client ?? "Client name";
-const BUSINESS = props.business ?? "Business, suburb";
-const RESULT = props.result ?? "What the site changed for them";
+const SOCHIC = [
+  "Professional, responsive, and clearly passionate about helping businesses strengthen their online presence.",
+  "His attention to detail and willingness to go the extra mile were evident.",
+  "I would recommend him to businesses looking for website support and optimisation.",
+];
+const SOCHIC_BY = "@thesochiclite";
+const SOCHIC_NOTE = "Website review & improvements";
 
-const QuoteCard: React.FC<{ duration: number }> = ({ duration }) => {
+const AYAH =
+  "Thank you so much for the pointers and advice regarding my LinkedIn profile. I really appreciate your guidance and the time you took to help me.";
+const AYAH_BY = "Ayah";
+const AYAH_NOTE = "LinkedIn profile guidance";
+
+const PER_BEAT = 70;
+
+const QuoteCard: React.FC<{
+  text: string;
+  by: string;
+  note: string;
+  duration: number;
+  size?: number;
+}> = ({ text, by, note, duration, size = 66 }) => {
   const markIn = useRise(0, 15);
-  const quoteIn = useRise(8);
-  const nameIn = useRise(30);
+  const textIn = useRise(6);
+  const byIn = useRise(18);
+  const fade = useSectionFade(duration, 8);
 
   return (
-    <Section duration={duration} className="justify-center px-20">
+    <AbsoluteFill className="justify-center px-20 pb-[120px]" style={{ opacity: fade }}>
       <div
         style={{ opacity: markIn, fontFamily: serifFont, color: GOLD }}
-        className="text-[180px] leading-[0.4]"
+        className="text-[170px] leading-[0.4]"
       >
         “
       </div>
       <div
         style={{
-          transform: `translateY(${interpolate(quoteIn, [0, 1], [40, 0])}px)`,
-          opacity: quoteIn,
+          transform: `translateY(${interpolate(textIn, [0, 1], [38, 0])}px)`,
+          opacity: textIn,
           fontFamily: serifFont,
           color: INK,
+          fontSize: size,
         }}
-        className="mt-16 text-[68px] font-bold leading-[1.24] tracking-[-0.02em]"
+        className="mt-16 font-bold leading-[1.26] tracking-[-0.02em]"
       >
-        {QUOTE}
+        {text}
       </div>
 
       <div
         style={{
-          transform: `translateY(${interpolate(nameIn, [0, 1], [26, 0])}px)`,
-          opacity: nameIn,
+          transform: `translateY(${interpolate(byIn, [0, 1], [24, 0])}px)`,
+          opacity: byIn,
           borderLeft: `5px solid ${GOLD}`,
         }}
-        className="mt-16 pl-9"
+        className="mt-14 pl-9"
       >
         <div style={{ fontFamily: bodyFont, color: INK }} className="text-[38px] font-bold">
-          {CLIENT}
+          {by}
         </div>
-        <div style={{ fontFamily: monoFont, color: INK_SOFT }} className="mt-3 text-[27px]">
-          {BUSINESS}
+        <div style={{ fontFamily: monoFont, color: INK_SOFT }} className="mt-3 text-[26px]">
+          {note}
         </div>
       </div>
-    </Section>
+    </AbsoluteFill>
   );
 };
+
+const SoChic: React.FC<{ duration: number }> = ({ duration }) => (
+  <Section duration={duration} className="">
+    {SOCHIC.map((text, i) => (
+      <Sequence key={text} from={i * PER_BEAT} durationInFrames={PER_BEAT}>
+        <QuoteCard text={text} by={SOCHIC_BY} note={SOCHIC_NOTE} duration={PER_BEAT} />
+      </Sequence>
+    ))}
+  </Section>
+);
 
 export const Testimonial: React.FC = () => (
   <Film
     sections={[
       {
         key: "hook",
-        duration: 90,
+        duration: 75,
         node: (
-          <Section duration={90}>
-            <Kicker>Client feedback</Kicker>
+          <Section duration={75}>
+            <Kicker>In their words</Kicker>
             <div className="mt-10">
-              <Headline lines={["The part that", "matters is what", "happens after."]} goldIndex={[2]} />
+              <Headline lines={["What clients", "say after", "we're done."]} goldIndex={[2]} />
             </div>
             <div className="mt-10">
-              <Body delay={24}>Not the design awards. The phone ringing.</Body>
+              <Body delay={22}>Straight from the messages.</Body>
             </div>
           </Section>
         ),
       },
-      { key: "quote", duration: 190, node: <QuoteCard duration={190} /> },
+      { key: "sochic", duration: 210, node: <SoChic duration={210} /> },
       {
-        key: "result",
-        duration: 105,
+        key: "ayah",
+        duration: 100,
         node: (
-          <Section duration={105} className="items-center justify-center px-20">
-            <Kicker>The result</Kicker>
-            <div className="mt-10">
-              <Headline lines={[RESULT]} align="center" size={84} goldIndex={[0]} />
-            </div>
+          <Section duration={100} className="">
+            <QuoteCard text={AYAH} by={AYAH_BY} note={AYAH_NOTE} duration={100} size={60} />
           </Section>
         ),
       },
