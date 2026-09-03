@@ -2,6 +2,7 @@ import {
   AbsoluteFill,
   Audio,
   Sequence,
+  getInputProps,
   interpolate,
   spring,
   staticFile,
@@ -19,12 +20,18 @@ export const FILM_DURATION = 480;
 /** The six 16s beds, so no two neighbouring posts sound the same. */
 export type Track = "cinematic" | "trap" | "lofi" | "uplift" | "tense" | "minimal";
 
+/**
+ * Films render silent so a trending sound can be added in the app on upload.
+ * Pass --props='{"sound":true}' to lay the film's own bed back underneath.
+ */
+const withSound = (getInputProps() as { sound?: boolean }).sound === true;
+
 export const FilmShell: React.FC<{ track: Track; children: React.ReactNode }> = ({
   track,
   children,
 }) => (
   <AbsoluteFill style={{ background: PAGE_BG }}>
-    <Audio src={staticFile(`audio/web-${track}.wav`)} />
+    {withSound ? <Audio src={staticFile(`audio/web-${track}.wav`)} /> : null}
     {children}
   </AbsoluteFill>
 );
