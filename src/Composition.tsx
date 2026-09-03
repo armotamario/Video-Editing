@@ -16,6 +16,11 @@ import { Mistakes } from "./web/films/Mistakes";
 import { NoWebsite } from "./web/films/NoWebsite";
 import { Trust } from "./web/films/Trust";
 import { Transformations } from "./web/films/Transformations";
+import { FILM_DURATION as GR_FILM_DURATION } from "./gr/kit";
+import { Products } from "./gr/Products";
+import { Prayer } from "./gr/Prayer";
+import { BibleFilm } from "./gr/BibleFilm";
+import { MassFilm } from "./gr/MassFilm";
 
 /** The web-development content set — one 16s film per posting category. */
 const WEB_FILMS: [string, React.FC][] = [
@@ -30,6 +35,14 @@ const WEB_FILMS: [string, React.FC][] = [
   ["WebNoWebsite", NoWebsite],
   ["WebTrust", Trust],
   ["WebTransformations", Transformations],
+];
+
+/** The Godly Raiment set — hook, proof, benefits, call to action. */
+const GR_FILMS: [string, React.FC][] = [
+  ["GrProducts", Products],
+  ["GrPrayer", Prayer],
+  ["GrBible", BibleFilm],
+  ["GrMass", MassFilm],
 ];
 
 export const MyComposition = () => {
@@ -75,6 +88,18 @@ export const MyComposition = () => {
         width={1080}
         height={1920}
       />
+
+      {GR_FILMS.map(([id, component]) => (
+        <Composition
+          key={id}
+          id={id}
+          component={component}
+          durationInFrames={GR_FILM_DURATION}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+      ))}
 
       {WEB_FILMS.map(([id, component]) => (
         <Composition
