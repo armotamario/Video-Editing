@@ -15,7 +15,7 @@ const ROUTINE = [
 export const Stretch: React.FC = () => (
   <Film
     track="mobility"
-    palette="mfbaOlive"
+    palette="mfbaMidnight"
     sections={[
       {
         key: "hook",

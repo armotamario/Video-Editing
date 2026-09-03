@@ -26,6 +26,7 @@ import {
 const GOLD = PALETTE_ACCENT;
 const ON_GOLD = ON_ACCENT;
 import { MonogramMark } from "../mario/MonogramMark";
+import { PhotoBackdrop } from "../photo";
 import { CTA, CTA_SUB, HANDLE, LABEL, NAME, SITE } from "./brand";
 
 /** Every film in this set is 16s, cut to the same 16s bed. */
@@ -251,7 +252,13 @@ export const PointList: React.FC<{
   </div>
 );
 
-/** The shared closing card — same sign-off on every film in the set. */
+
+/** On the photo sign-off the palette ink can be dark, so the type is fixed. */
+const PHOTO_INK = "#f8f4ee";
+const PHOTO_INK_SOFT = "#cdc5b9";
+const PHOTO_ON_ACCENT = "#16130f";
+
+/** The shared closing card — his face, the mark, and the one action. */
 export const Outro: React.FC = () => {
   const frame = useCurrentFrame();
   const markIn = useRise(0, 14);
@@ -264,60 +271,64 @@ export const Outro: React.FC = () => {
   });
 
   return (
-    <AbsoluteFill className="items-center justify-center px-16" style={{ opacity: fadeIn }}>
-      <div style={{ transform: `scale(${markIn})`, opacity: markIn }}>
-        <MonogramMark size={190} />
-      </div>
+    <AbsoluteFill style={{ opacity: fadeIn }}>
+      <PhotoBackdrop src="portrait.jpg" scrim={0.74} focus="center 22%" />
 
-      <div
-        style={{
-          transform: `translateY(${interpolate(nameIn, [0, 1], [26, 0])}px)`,
-          opacity: nameIn,
-          fontFamily: serifFont,
-          color: INK,
-        }}
-        className="mt-12 text-[86px] font-bold tracking-[-0.01em]"
-      >
-        {NAME}
-      </div>
-      <div
-        style={{ opacity: nameIn, fontFamily: monoFont, color: GOLD }}
-        className="mt-3 text-[27px] font-bold uppercase tracking-[0.36em]"
-      >
-        {LABEL}
-      </div>
+      <AbsoluteFill className="items-center justify-end px-16 pb-[200px]">
+        <div style={{ transform: `scale(${markIn})`, opacity: markIn }}>
+          <MonogramMark size={150} />
+        </div>
 
-      <div
-        style={{
-          transform: `scale(${pulse})`,
-          opacity: ctaIn,
-          fontFamily: monoFont,
-          background: GOLD,
-          color: ON_GOLD,
-        }}
-        className="mt-14 rounded-full px-12 py-6 text-[32px] font-bold"
-      >
-        {CTA}
-      </div>
-      <div
-        style={{ opacity: ctaIn, fontFamily: bodyFont, color: INK_SOFT }}
-        className="mt-6 text-[27px] font-medium"
-      >
-        {CTA_SUB}
-      </div>
+        <div
+          style={{
+            transform: `translateY(${interpolate(nameIn, [0, 1], [26, 0])}px)`,
+            opacity: nameIn,
+            fontFamily: serifFont,
+            color: PHOTO_INK,
+          }}
+          className="mt-10 text-[80px] font-bold tracking-[-0.01em]"
+        >
+          {NAME}
+        </div>
+        <div
+          style={{ opacity: nameIn, fontFamily: monoFont, color: GOLD }}
+          className="mt-3 text-[26px] font-bold uppercase tracking-[0.36em]"
+        >
+          {LABEL}
+        </div>
 
-      <div
-        style={{ opacity: ctaIn, fontFamily: monoFont, color: INK }}
-        className="mt-12 text-[34px] font-bold"
-      >
-        {SITE}
-      </div>
-      <div
-        style={{ opacity: ctaIn, fontFamily: bodyFont, color: INK_SOFT }}
-        className="mt-3 text-[26px] font-bold"
-      >
-        {HANDLE}
-      </div>
+        <div
+          style={{
+            transform: `scale(${pulse})`,
+            opacity: ctaIn,
+            fontFamily: monoFont,
+            background: GOLD,
+            color: PHOTO_ON_ACCENT,
+          }}
+          className="mt-12 rounded-full px-12 py-6 text-[32px] font-bold"
+        >
+          {CTA}
+        </div>
+        <div
+          style={{ opacity: ctaIn, fontFamily: bodyFont, color: PHOTO_INK_SOFT }}
+          className="mt-6 text-[27px] font-medium"
+        >
+          {CTA_SUB}
+        </div>
+
+        <div
+          style={{ opacity: ctaIn, fontFamily: monoFont, color: PHOTO_INK }}
+          className="mt-10 text-[34px] font-bold"
+        >
+          {SITE}
+        </div>
+        <div
+          style={{ opacity: ctaIn, fontFamily: bodyFont, color: PHOTO_INK_SOFT }}
+          className="mt-3 text-[26px] font-bold"
+        >
+          {HANDLE}
+        </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

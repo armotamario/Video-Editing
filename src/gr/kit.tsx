@@ -14,7 +14,6 @@ import {
   ACCENT_SOFT,
   INK,
   INK_SOFT,
-  ON_ACCENT,
   PAGE_BG,
   ACCENT as PALETTE_ACCENT,
   paletteVars,
@@ -23,8 +22,8 @@ import {
 
 /** Kept under the old names so the films read the same as before. */
 const GOLD = PALETTE_ACCENT;
-const CREAM = ON_ACCENT;
 import { BRAND_NAME, BRAND_URL, TAGLINE } from "../brand";
+import { PhotoBackdrop } from "../photo";
 
 /** Every film in this set is 16s, cut to a 16s bed. */
 export const FILM_DURATION = 480;
@@ -268,6 +267,11 @@ export const Benefits: React.FC<{
   </div>
 );
 
+
+/** On the photo sign-off the palette ink can be dark, so the type is fixed. */
+const PHOTO_INK = "#f8f4ee";
+const PHOTO_ON_ACCENT = "#16130f";
+
 /** The same sign-off closes every film in the set. */
 export const Outro: React.FC<{ cta: string }> = ({ cta }) => {
   const frame = useCurrentFrame();
@@ -281,48 +285,52 @@ export const Outro: React.FC<{ cta: string }> = ({ cta }) => {
   });
 
   return (
-    <AbsoluteFill className="items-center justify-center px-16" style={{ opacity: fadeIn }}>
-      <div style={{ transform: `scale(${markIn})`, opacity: markIn }}>
-        <Cross size={130} />
-      </div>
+    <AbsoluteFill style={{ opacity: fadeIn }}>
+      <PhotoBackdrop src="portrait.jpg" scrim={0.76} focus="center 20%" />
 
-      <div
-        style={{
-          transform: `translateY(${interpolate(nameIn, [0, 1], [26, 0])}px)`,
-          opacity: nameIn,
-          fontFamily: serifFont,
-          color: INK,
-        }}
-        className="mt-14 text-[92px] font-bold tracking-[-0.01em]"
-      >
-        {BRAND_NAME}
-      </div>
-      <div
-        style={{ opacity: nameIn, fontFamily: monoFont, color: GOLD }}
-        className="mt-4 text-[27px] font-bold uppercase tracking-[0.36em]"
-      >
-        {TAGLINE}
-      </div>
+      <AbsoluteFill className="items-center justify-end px-16 pb-[200px]">
+        <div style={{ transform: `scale(${markIn})`, opacity: markIn }}>
+          <Cross size={112} />
+        </div>
 
-      <div
-        style={{
-          transform: `scale(${pulse})`,
-          opacity: ctaIn,
-          fontFamily: monoFont,
-          background: GOLD,
-          color: CREAM,
-        }}
-        className="mt-14 rounded-full px-12 py-6 text-[31px] font-bold"
-      >
-        {cta}
-      </div>
+        <div
+          style={{
+            transform: `translateY(${interpolate(nameIn, [0, 1], [26, 0])}px)`,
+            opacity: nameIn,
+            fontFamily: serifFont,
+            color: PHOTO_INK,
+          }}
+          className="mt-12 text-[86px] font-bold tracking-[-0.01em]"
+        >
+          {BRAND_NAME}
+        </div>
+        <div
+          style={{ opacity: nameIn, fontFamily: monoFont, color: GOLD }}
+          className="mt-4 text-[26px] font-bold uppercase tracking-[0.36em]"
+        >
+          {TAGLINE}
+        </div>
 
-      <div
-        style={{ opacity: ctaIn, fontFamily: monoFont, color: INK }}
-        className="mt-12 text-[33px] font-bold tracking-[0.06em]"
-      >
-        {BRAND_URL}
-      </div>
+        <div
+          style={{
+            transform: `scale(${pulse})`,
+            opacity: ctaIn,
+            fontFamily: monoFont,
+            background: GOLD,
+            color: PHOTO_ON_ACCENT,
+          }}
+          className="mt-12 rounded-full px-12 py-6 text-[31px] font-bold"
+        >
+          {cta}
+        </div>
+
+        <div
+          style={{ opacity: ctaIn, fontFamily: monoFont, color: PHOTO_INK }}
+          className="mt-10 text-[33px] font-bold tracking-[0.06em]"
+        >
+          {BRAND_URL}
+        </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

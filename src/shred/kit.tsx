@@ -15,7 +15,6 @@ import {
   INK,
   INK_SOFT,
   LINE,
-  MUTED,
   ON_ACCENT,
   PAGE_BG,
   SURFACE,
@@ -23,6 +22,7 @@ import {
   type PaletteName,
 } from "../palettes";
 import { ArrowMark } from "../mfba/ArrowMark";
+import { PhotoBackdrop } from "../photo";
 import { BRAND_SHORT, HANDLE, OFFER, OFFER_SUB } from "../mfba/brand";
 
 export const FILM_DURATION = 480;
@@ -307,6 +307,12 @@ export const ExerciseCard: React.FC<{
   );
 };
 
+
+/** On the photo sign-off the palette ink can be dark, so the type is fixed. */
+const PHOTO_INK = "#f8f4ee";
+const PHOTO_INK_SOFT = "#cdc5b9";
+const PHOTO_ON_ACCENT = "#16130f";
+
 export const Outro: React.FC<{ note?: string }> = ({ note }) => {
   const frame = useCurrentFrame();
   const markIn = useRise(0, 14);
@@ -319,56 +325,66 @@ export const Outro: React.FC<{ note?: string }> = ({ note }) => {
   });
 
   return (
-    <AbsoluteFill className="items-center justify-center px-16" style={{ opacity: fadeIn }}>
-      <div style={{ transform: `scale(${markIn})`, opacity: markIn }}>
-        <ArrowMark size={150} color={ACCENT} />
-      </div>
+    <AbsoluteFill style={{ opacity: fadeIn }}>
+      <PhotoBackdrop src="gym.jpg" scrim={0.76} focus="center 35%" />
 
-      <div
-        style={{
-          transform: `translateY(${interpolate(nameIn, [0, 1], [24, 0])}px)`,
-          opacity: nameIn,
-          fontFamily: headlineFont,
-          color: INK,
-        }}
-        className="mt-12 text-[124px] leading-none tracking-wide"
-      >
-        {BRAND_SHORT}
-      </div>
-      <div
-        style={{ opacity: nameIn, fontFamily: monoFont, color: ACCENT }}
-        className="mt-3 text-[25px] font-bold uppercase tracking-[0.3em]"
-      >
-        {SERIES}
-      </div>
-
-      <div
-        style={{
-          transform: `scale(${pulse})`,
-          opacity: ctaIn,
-          fontFamily: bodyFont,
-          background: ACCENT,
-          color: ON_ACCENT,
-        }}
-        className="mt-12 rounded-full px-11 py-5 text-[32px] font-black uppercase tracking-wide"
-      >
-        {OFFER}
-      </div>
-      <div style={{ opacity: ctaIn, fontFamily: bodyFont, color: INK_SOFT }} className="mt-5 text-[27px] font-bold">
-        {OFFER_SUB}
-      </div>
-      <div style={{ opacity: ctaIn, fontFamily: bodyFont, color: INK }} className="mt-8 text-[32px] font-bold">
-        {HANDLE}
-      </div>
-
-      {note ? (
-        <div
-          style={{ opacity: ctaIn, fontFamily: bodyFont, color: MUTED }}
-          className="mt-10 px-10 text-center text-[22px] font-medium"
-        >
-          {note}
+      <AbsoluteFill className="items-center justify-end px-16 pb-[170px]">
+        <div style={{ transform: `scale(${markIn})`, opacity: markIn }}>
+          <ArrowMark size={128} color={ACCENT} />
         </div>
-      ) : null}
+
+        <div
+          style={{
+            transform: `translateY(${interpolate(nameIn, [0, 1], [24, 0])}px)`,
+            opacity: nameIn,
+            fontFamily: headlineFont,
+            color: PHOTO_INK,
+          }}
+          className="mt-10 text-[118px] leading-none tracking-wide"
+        >
+          {BRAND_SHORT}
+        </div>
+        <div
+          style={{ opacity: nameIn, fontFamily: monoFont, color: ACCENT }}
+          className="mt-3 text-[25px] font-bold uppercase tracking-[0.3em]"
+        >
+          {SERIES}
+        </div>
+
+        <div
+          style={{
+            transform: `scale(${pulse})`,
+            opacity: ctaIn,
+            fontFamily: bodyFont,
+            background: ACCENT,
+            color: PHOTO_ON_ACCENT,
+          }}
+          className="mt-11 rounded-full px-11 py-5 text-[32px] font-black uppercase tracking-wide"
+        >
+          {OFFER}
+        </div>
+        <div
+          style={{ opacity: ctaIn, fontFamily: bodyFont, color: PHOTO_INK_SOFT }}
+          className="mt-5 text-[27px] font-bold"
+        >
+          {OFFER_SUB}
+        </div>
+        <div
+          style={{ opacity: ctaIn, fontFamily: bodyFont, color: PHOTO_INK }}
+          className="mt-7 text-[32px] font-bold"
+        >
+          {HANDLE}
+        </div>
+
+        {note ? (
+          <div
+            style={{ opacity: ctaIn, fontFamily: bodyFont, color: PHOTO_INK_SOFT }}
+            className="mt-9 px-10 text-center text-[22px] font-medium"
+          >
+            {note}
+          </div>
+        ) : null}
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

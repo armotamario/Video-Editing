@@ -1,4 +1,5 @@
 import { Sequence } from "remotion";
+import { OnPhoto } from "../photo";
 import { Body, ExerciseCard, Film, Headline, Kicker, Outro, RowList, Section, SeriesTag } from "./kit";
 
 const PER_LIFT = 52;
@@ -30,13 +31,14 @@ const Lifts: React.FC<{ duration: number }> = ({ duration }) => (
 export const WorkoutA: React.FC = () => (
   <Film
     track="drive"
-    palette="mfbaGraphite"
+    palette="mfbaOxblood"
     sections={[
       {
         key: "hook",
         duration: 78,
         node: (
-          <Section duration={78}>
+          <OnPhoto src="gym.jpg" scrim={0.78} focus="center 40%">
+            <Section duration={78}>
             <Kicker>Three nights a week · 9:00–9:50 PM</Kicker>
             <div className="mt-10">
               <Headline lines={["Train to", "failure.", "Then go home."]} accentIndex={[1]} />
@@ -45,6 +47,7 @@ export const WorkoutA: React.FC = () => (
               <Body delay={22}>Fifty minutes. Four movements. Nothing clever.</Body>
             </div>
           </Section>
+          </OnPhoto>
         ),
       },
       { key: "lifts", duration: 208, node: <Lifts duration={208} /> },

@@ -86,7 +86,7 @@ const ModeCard: React.FC<{
 export const Cardio: React.FC = () => (
   <Film
     track="pace"
-    palette="mfbaMidnight"
+    palette="mfbaBone"
     sections={[
       {
         key: "hook",

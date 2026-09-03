@@ -1,4 +1,5 @@
 import { AbsoluteFill, interpolate } from "remotion";
+import { PhotoPanel } from "../photo";
 import { bodyFont, headlineFont, monoFont } from "../fonts";
 import {
   ACCENT,
@@ -82,10 +83,13 @@ const RealDay: React.FC<{ duration: number }> = ({ duration }) => {
       >
         One actual day.
       </div>
-      <div className="mt-12 flex gap-4">
-        {DAY.map((item, i) => (
-          <Chip key={item.label} value={item.value} label={item.label} delay={12 + i * 6} />
-        ))}
+      <div className="mt-10 flex items-center gap-8">
+        <PhotoPanel src="meal.jpg" width={330} height={330} delay={8} />
+        <div className="flex flex-1 flex-wrap gap-4">
+          {DAY.map((item, i) => (
+            <Chip key={item.label} value={item.value} label={item.label} delay={12 + i * 6} />
+          ))}
+        </div>
       </div>
       <div
         style={{ opacity: useRise(40), fontFamily: bodyFont, color: INK_SOFT }}
@@ -100,7 +104,7 @@ const RealDay: React.FC<{ duration: number }> = ({ duration }) => {
 export const Diet: React.FC = () => (
   <Film
     track="drive"
-    palette="mfbaBone"
+    palette="mfbaGraphite"
     sections={[
       {
         key: "hook",

@@ -3,7 +3,7 @@ import { Benefits, Body, Film, Headline, Kicker, Outro, Proof, Section } from ".
 export const BibleFilm: React.FC = () => (
   <Film
     track="chant"
-    palette="sand"
+    palette="bone"
     sections={[
       {
         key: "hook",

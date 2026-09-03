@@ -64,7 +64,7 @@ const Colourways: React.FC<{ duration: number }> = ({ duration }) => {
 export const Products: React.FC = () => (
   <Film
     track="hymn"
-    palette="bone"
+    palette="vellum"
     sections={[
       {
         key: "hook",

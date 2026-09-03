@@ -1,4 +1,5 @@
 import { AbsoluteFill, Sequence, interpolate } from "remotion";
+import { PhotoPanel } from "../../photo";
 import {
   Body,
   Film,
@@ -100,7 +101,7 @@ const SoChic: React.FC<{ duration: number }> = ({ duration }) => (
 export const Testimonial: React.FC = () => (
   <Film
     track="cinematic"
-    palette="bone"
+    palette="oxblood"
     sections={[
       {
         key: "hook",
@@ -111,8 +112,11 @@ export const Testimonial: React.FC = () => (
             <div className="mt-10">
               <Headline lines={["What clients", "say after", "we're done."]} goldIndex={[2]} />
             </div>
-            <div className="mt-10">
-              <Body delay={22}>Straight from the messages.</Body>
+            <div className="mt-10 flex items-center gap-9">
+              <PhotoPanel src="portrait.jpg" width={270} height={330} delay={16} focus="center 18%" />
+              <div className="flex-1">
+                <Body delay={22}>Straight from the messages.</Body>
+              </div>
             </div>
           </Section>
         ),

@@ -98,7 +98,7 @@ const BothCodes: React.FC<{ duration: number }> = ({ duration }) => {
 export const MassFilm: React.FC = () => (
   <Film
     track="procession"
-    palette="graphite"
+    palette="espresso"
     sections={[
       {
         key: "hook",
