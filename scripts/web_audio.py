@@ -177,20 +177,29 @@ def compress(x: np.ndarray, thresh=0.22, ratio=4.0, attack=0.006, release=0.16) 
     return x * gain
 
 
-def finish(left: np.ndarray, right: np.ndarray, target_rms=0.23, peak=0.95) -> np.ndarray:
-    """Compress, lift to a social-media loudness, then limit — no clipping."""
-    mid = (left + right) * 0.5
-    mid_c = compress(mid)
+def phone_tilt(x: np.ndarray) -> np.ndarray:
+    """Trade sub-bass a phone speaker can't reproduce for presence it can."""
+    x = x - lowpass(x, 48)
+    return x + 0.62 * highpass(x, 1600)
+
+
+def finish(left: np.ndarray, right: np.ndarray, target_rms=0.34, peak=0.90) -> np.ndarray:
+    """Tilt for phone speakers, compress hard, then limit to a feed-level master.
+
+    The 0.90 ceiling is deliberate: AAC decoding overshoots by up to a dB, and
+    at a 0.97 ceiling that overshoot clipped on transients.
+    """
+    mid = phone_tilt((left + right) * 0.5)
     side = (left - right) * 0.5
-    left, right = mid_c + side, mid_c - side
+    mid = compress(mid, thresh=0.14, ratio=6.0, attack=0.004, release=0.12)
+    left, right = mid + side * 0.6, mid - side * 0.6
 
     stereo = np.stack([left, right], axis=1)
-    rms = np.sqrt(np.mean(stereo ** 2))
-    stereo *= target_rms / max(rms, 1e-9)
-    stereo = np.tanh(stereo * 1.05) / np.tanh(1.05)
+    stereo *= target_rms / max(np.sqrt(np.mean(stereo ** 2)), 1e-9)
+    stereo = np.tanh(stereo * 1.7) / np.tanh(1.7)
     stereo *= peak / max(1e-9, np.max(np.abs(stereo)))
 
-    fade = int(0.05 * SR)
+    fade = int(0.04 * SR)
     stereo[:fade] *= np.linspace(0, 1, fade)[:, None]
     stereo[-fade:] *= np.linspace(1, 0, fade)[:, None]
     return stereo
