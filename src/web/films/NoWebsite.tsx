@@ -104,6 +104,7 @@ const SearchMock: React.FC<{ duration: number }> = ({ duration }) => {
 export const NoWebsite: React.FC = () => (
   <Film
     track="tense"
+    palette="espresso"
     sections={[
       {
         key: "hook",

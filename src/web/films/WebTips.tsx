@@ -82,7 +82,7 @@ const Tips: React.FC<{ duration: number }> = ({ duration }) => {
           {TIPS.map((tip, i) => (
             <div
               key={tip.title}
-              style={{ background: i === active ? GOLD : "#3a342c" }}
+              style={{ background: i === active ? GOLD : "var(--line)" }}
               className={`h-1.5 rounded-full ${i === active ? "w-12" : "w-5"}`}
             />
           ))}
@@ -95,6 +95,7 @@ const Tips: React.FC<{ duration: number }> = ({ duration }) => {
 export const WebTips: React.FC = () => (
   <Film
     track="lofi"
+    palette="sand"
     sections={[
       {
         key: "hook",

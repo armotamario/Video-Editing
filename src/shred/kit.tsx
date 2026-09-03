@@ -9,7 +9,19 @@ import {
   useVideoConfig,
 } from "remotion";
 import { bodyFont, headlineFont, monoFont } from "../fonts";
-import { ACCENT, INK, INK_SOFT, PAGE_BG } from "../mfba/theme";
+import {
+  ACCENT,
+  ACCENT_SOFT,
+  INK,
+  INK_SOFT,
+  LINE,
+  MUTED,
+  ON_ACCENT,
+  PAGE_BG,
+  SURFACE,
+  paletteVars,
+  type PaletteName,
+} from "../palettes";
 import { ArrowMark } from "../mfba/ArrowMark";
 import { BRAND_SHORT, HANDLE, OFFER, OFFER_SUB } from "../mfba/brand";
 
@@ -34,11 +46,12 @@ export const useSectionFade = (durationInFrames: number, frames = 10) => {
 
 export const Film: React.FC<{
   track: Track;
+  palette: PaletteName;
   sections: { key: string; duration: number; node: React.ReactNode }[];
-}> = ({ track, sections }) => {
+}> = ({ track, palette, sections }) => {
   let at = 0;
   return (
-    <AbsoluteFill style={{ background: PAGE_BG }}>
+    <AbsoluteFill style={{ ...paletteVars(palette), background: PAGE_BG }}>
       <Audio src={staticFile(`audio/shred-${track}.wav`)} />
       {sections.map((section) => {
         const from = at;
@@ -181,7 +194,7 @@ const Row: React.FC<{
       style={{
         transform: `translateX(${interpolate(t, [0, 1], [-46, 0])}px)`,
         opacity: t,
-        borderTop: "1px solid #2b2723",
+        borderTop: `1px solid ${LINE}`,
       }}
       className={`flex items-center gap-6 ${compact ? "py-4" : "py-7"}`}
     >
@@ -209,7 +222,7 @@ const Row: React.FC<{
       </div>
       {tag ? (
         <div
-          style={{ fontFamily: monoFont, color: ACCENT, border: `1px solid ${ACCENT}66` }}
+          style={{ fontFamily: monoFont, color: ACCENT, border: `1px solid ${ACCENT_SOFT}` }}
           className="flex-none rounded-full px-5 py-2 text-[22px] font-bold"
         >
           {tag}
@@ -281,7 +294,7 @@ export const ExerciseCard: React.FC<{
         className="mt-10 flex items-center gap-5"
       >
         <div
-          style={{ fontFamily: monoFont, background: ACCENT, color: "#141210" }}
+          style={{ fontFamily: monoFont, background: ACCENT, color: ON_ACCENT }}
           className="rounded-full px-7 py-3 text-[26px] font-bold"
         >
           {sets}
@@ -308,7 +321,7 @@ export const Outro: React.FC<{ note?: string }> = ({ note }) => {
   return (
     <AbsoluteFill className="items-center justify-center px-16" style={{ opacity: fadeIn }}>
       <div style={{ transform: `scale(${markIn})`, opacity: markIn }}>
-        <ArrowMark size={150} />
+        <ArrowMark size={150} color={ACCENT} />
       </div>
 
       <div
@@ -335,7 +348,7 @@ export const Outro: React.FC<{ note?: string }> = ({ note }) => {
           opacity: ctaIn,
           fontFamily: bodyFont,
           background: ACCENT,
-          color: "#141210",
+          color: ON_ACCENT,
         }}
         className="mt-12 rounded-full px-11 py-5 text-[32px] font-black uppercase tracking-wide"
       >
@@ -350,7 +363,7 @@ export const Outro: React.FC<{ note?: string }> = ({ note }) => {
 
       {note ? (
         <div
-          style={{ opacity: ctaIn, fontFamily: bodyFont, color: "#6a635b" }}
+          style={{ opacity: ctaIn, fontFamily: bodyFont, color: MUTED }}
           className="mt-10 px-10 text-center text-[22px] font-medium"
         >
           {note}
@@ -359,3 +372,5 @@ export const Outro: React.FC<{ note?: string }> = ({ note }) => {
     </AbsoluteFill>
   );
 };
+
+export { ACCENT, INK, INK_SOFT, SURFACE };

@@ -10,7 +10,21 @@ import {
   useVideoConfig,
 } from "remotion";
 import { bodyFont, headlineFont, monoFont, serifFont } from "../fonts";
-import { GOLD, INK, INK_SOFT, ON_GOLD, PAGE_BG } from "../mario/theme";
+import {
+  ACCENT_LINE,
+  INK,
+  INK_SOFT,
+  LINE,
+  ON_ACCENT,
+  PAGE_BG,
+  ACCENT as PALETTE_ACCENT,
+  paletteVars,
+  type PaletteName,
+} from "../palettes";
+
+/** Kept under the old name so the films read the same as before. */
+const GOLD = PALETTE_ACCENT;
+const ON_GOLD = ON_ACCENT;
 import { MonogramMark } from "../mario/MonogramMark";
 import { CTA, CTA_SUB, HANDLE, LABEL, NAME, SITE } from "./brand";
 
@@ -26,11 +40,12 @@ export type Track = "cinematic" | "trap" | "lofi" | "uplift" | "tense" | "minima
  */
 const withSound = (getInputProps() as { sound?: boolean }).sound === true;
 
-export const FilmShell: React.FC<{ track: Track; children: React.ReactNode }> = ({
-  track,
-  children,
-}) => (
-  <AbsoluteFill style={{ background: PAGE_BG }}>
+export const FilmShell: React.FC<{
+  track: Track;
+  palette: PaletteName;
+  children: React.ReactNode;
+}> = ({ track, palette, children }) => (
+  <AbsoluteFill style={{ ...paletteVars(palette), background: PAGE_BG }}>
     {withSound ? <Audio src={staticFile(`audio/web-${track}.wav`)} /> : null}
     {children}
   </AbsoluteFill>
@@ -54,11 +69,12 @@ export const useRise = (delay = 0, damping = 200) => {
 
 export const Film: React.FC<{
   track: Track;
+  palette: PaletteName;
   sections: { key: string; duration: number; node: React.ReactNode }[];
-}> = ({ track, sections }) => {
+}> = ({ track, palette, sections }) => {
   let at = 0;
   return (
-    <FilmShell track={track}>
+    <FilmShell track={track} palette={palette}>
       {sections.map((section) => {
         const from = at;
         at += section.duration;
@@ -180,7 +196,7 @@ const Point: React.FC<{
       style={{
         transform: `translateX(${interpolate(t, [0, 1], [-50, 0])}px)`,
         opacity: t,
-        borderTop: "1px solid #2a2622",
+        borderTop: `1px solid ${LINE}`,
       }}
       className="flex items-start gap-8 py-8"
     >
@@ -306,5 +322,5 @@ export const Outro: React.FC = () => {
   );
 };
 
-export { GOLD, INK, INK_SOFT, ON_GOLD };
+export { GOLD, INK, INK_SOFT, ON_GOLD, LINE, ACCENT_LINE };
 export { bodyFont, headlineFont, monoFont, serifFont };

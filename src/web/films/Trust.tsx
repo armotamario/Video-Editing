@@ -71,6 +71,7 @@ const GlanceTest: React.FC<{ duration: number }> = ({ duration }) => {
 export const Trust: React.FC = () => (
   <Film
     track="cinematic"
+    palette="forest"
     sections={[
       {
         key: "hook",

@@ -30,6 +30,7 @@ const Lifts: React.FC<{ duration: number }> = ({ duration }) => (
 export const WorkoutB: React.FC = () => (
   <Film
     track="grind"
+    palette="mfbaOxblood"
     sections={[
       {
         key: "hook",

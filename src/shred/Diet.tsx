@@ -1,13 +1,15 @@
 import { AbsoluteFill, interpolate } from "remotion";
 import { bodyFont, headlineFont, monoFont } from "../fonts";
-import { ACCENT, INK, INK_SOFT } from "../mfba/theme";
 import {
+  ACCENT,
   Body,
   Film,
   Headline,
   Kicker,
   Outro,
   RowList,
+  INK,
+  INK_SOFT,
   Section,
   SeriesTag,
   useRise,
@@ -41,7 +43,7 @@ const Chip: React.FC<{ value: string; label: string; delay: number }> = ({
       style={{
         transform: `translateY(${interpolate(t, [0, 1], [36, 0])}px)`,
         opacity: t,
-        background: "#1b1815",
+        background: "var(--surface)",
       }}
       className="flex-1 rounded-[24px] px-2 py-7 text-center"
     >
@@ -98,6 +100,7 @@ const RealDay: React.FC<{ duration: number }> = ({ duration }) => {
 export const Diet: React.FC = () => (
   <Film
     track="drive"
+    palette="mfbaBone"
     sections={[
       {
         key: "hook",

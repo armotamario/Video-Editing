@@ -1,8 +1,10 @@
 import { AbsoluteFill, interpolate } from "remotion";
-import { GOLD, INK, INK_SOFT } from "../theme";
 import { bodyFont, monoFont, serifFont } from "../fonts";
 import {
   Benefits,
+  GOLD,
+  INK,
+  INK_SOFT,
   Body,
   Cross,
   Film,
@@ -96,6 +98,7 @@ const BothCodes: React.FC<{ duration: number }> = ({ duration }) => {
 export const MassFilm: React.FC = () => (
   <Film
     track="procession"
+    palette="graphite"
     sections={[
       {
         key: "hook",

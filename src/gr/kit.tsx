@@ -9,7 +9,21 @@ import {
   useVideoConfig,
 } from "remotion";
 import { bodyFont, monoFont, serifFont } from "../fonts";
-import { CREAM, GOLD, INK, INK_SOFT, PAGE_BG } from "../theme";
+import {
+  ACCENT_LINE,
+  ACCENT_SOFT,
+  INK,
+  INK_SOFT,
+  ON_ACCENT,
+  PAGE_BG,
+  ACCENT as PALETTE_ACCENT,
+  paletteVars,
+  type PaletteName,
+} from "../palettes";
+
+/** Kept under the old names so the films read the same as before. */
+const GOLD = PALETTE_ACCENT;
+const CREAM = ON_ACCENT;
 import { BRAND_NAME, BRAND_URL, TAGLINE } from "../brand";
 
 /** Every film in this set is 16s, cut to a 16s bed. */
@@ -45,11 +59,12 @@ export const useSectionFade = (durationInFrames: number, frames = 10) => {
 
 export const Film: React.FC<{
   track: Track;
+  palette: PaletteName;
   sections: { key: string; duration: number; node: React.ReactNode }[];
-}> = ({ track, sections }) => {
+}> = ({ track, palette, sections }) => {
   let at = 0;
   return (
-    <AbsoluteFill style={{ background: PAGE_BG }}>
+    <AbsoluteFill style={{ ...paletteVars(palette), background: PAGE_BG }}>
       <Audio src={staticFile(`audio/gr-${track}.wav`)} />
       {sections.map((section) => {
         const from = at;
@@ -182,7 +197,7 @@ export const Proof: React.FC<{ quote: string; cite: string; duration: number; si
       >
         {quote}
       </div>
-      <div style={{ opacity: citeIn, background: `${GOLD}66` }} className="mt-14 h-[2px] w-[90px]" />
+      <div style={{ opacity: citeIn, background: ACCENT_SOFT }} className="mt-14 h-[2px] w-[90px]" />
       <div
         style={{ opacity: citeIn, fontFamily: monoFont, color: GOLD }}
         className="mt-8 text-center text-[26px] font-bold uppercase tracking-[0.18em]"
@@ -205,7 +220,7 @@ const Point: React.FC<{ index: number; title: string; note?: string; delay: numb
       style={{
         transform: `translateX(${interpolate(t, [0, 1], [-48, 0])}px)`,
         opacity: t,
-        borderTop: `1px solid ${GOLD}44`,
+        borderTop: `1px solid ${ACCENT_LINE}`,
       }}
       className="flex items-start gap-8 py-8"
     >
@@ -311,3 +326,5 @@ export const Outro: React.FC<{ cta: string }> = ({ cta }) => {
     </AbsoluteFill>
   );
 };
+
+export { GOLD, INK, INK_SOFT };

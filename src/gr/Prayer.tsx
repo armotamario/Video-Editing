@@ -3,6 +3,7 @@ import { Benefits, Body, Film, Headline, Kicker, Outro, Proof, Section } from ".
 export const Prayer: React.FC = () => (
   <Film
     track="vigil"
+    palette="vellum"
     sections={[
       {
         key: "hook",

@@ -1,13 +1,15 @@
 import { AbsoluteFill, interpolate } from "remotion";
 import { bodyFont, headlineFont, monoFont } from "../fonts";
-import { ACCENT, INK, INK_SOFT } from "../mfba/theme";
 import {
+  ACCENT,
   Body,
   Film,
   Headline,
   Kicker,
   Outro,
   RowList,
+  INK,
+  INK_SOFT,
   Section,
   SeriesTag,
   useRise,
@@ -84,6 +86,7 @@ const ModeCard: React.FC<{
 export const Cardio: React.FC = () => (
   <Film
     track="pace"
+    palette="mfbaMidnight"
     sections={[
       {
         key: "hook",

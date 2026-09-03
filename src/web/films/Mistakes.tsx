@@ -96,7 +96,7 @@ const Cards: React.FC<{ duration: number }> = ({ duration }) => {
           {MISTAKES.map((item, i) => (
             <div
               key={item.wrong}
-              style={{ background: i === active ? GOLD : "#3a342c" }}
+              style={{ background: i === active ? GOLD : "var(--line)" }}
               className={`h-1.5 rounded-full ${i === active ? "w-12" : "w-5"}`}
             />
           ))}
@@ -109,6 +109,7 @@ const Cards: React.FC<{ duration: number }> = ({ duration }) => {
 export const Mistakes: React.FC = () => (
   <Film
     track="tense"
+    palette="oxblood"
     sections={[
       {
         key: "hook",

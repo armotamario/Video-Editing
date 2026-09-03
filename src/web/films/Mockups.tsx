@@ -5,6 +5,7 @@ import { SiteShowcase } from "./showcase";
 export const Mockups: React.FC = () => (
   <Film
     track="uplift"
+    palette="graphite"
     sections={[
       {
         key: "hook",

@@ -30,6 +30,7 @@ const Lifts: React.FC<{ duration: number }> = ({ duration }) => (
 export const WorkoutA: React.FC = () => (
   <Film
     track="drive"
+    palette="mfbaGraphite"
     sections={[
       {
         key: "hook",

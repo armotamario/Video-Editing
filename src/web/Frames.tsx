@@ -124,7 +124,7 @@ export const BeforeAfter: React.FC<{
       </div>
       {seam > 0.02 && seam < 0.98 ? (
         <div
-          style={{ left: width * seam - 2, background: "#d0a45f" }}
+          style={{ left: width * seam - 2, background: "var(--accent)" }}
           className="absolute top-0 h-full w-[4px]"
         />
       ) : null}
