@@ -28,6 +28,7 @@ import { WorkoutB } from "./shred/WorkoutB";
 import { Cardio } from "./shred/Cardio";
 import { Diet } from "./shred/Diet";
 import { Calisthenics } from "./shred/Calisthenics";
+import { Protocol, PROTOCOL_DURATION } from "./shred/Protocol";
 
 /** The web-development content set — one 16s film per posting category. */
 const WEB_FILMS: [string, React.FC][] = [
@@ -117,6 +118,15 @@ export const MyComposition = () => {
           height={1920}
         />
       ))}
+
+      <Composition
+        id="ShredProtocol"
+        component={Protocol}
+        durationInFrames={PROTOCOL_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
 
       {GR_FILMS.map(([id, component]) => (
         <Composition
