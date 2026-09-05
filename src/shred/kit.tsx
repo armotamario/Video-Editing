@@ -28,7 +28,7 @@ import { BRAND_SHORT, HANDLE, OFFER, OFFER_SUB } from "../mfba/brand";
 export const FILM_DURATION = 480;
 export const SERIES = "Shredded series";
 
-export type Track = "drive" | "grind" | "pace" | "mobility";
+export type Track = "drive" | "grind" | "pace" | "mobility" | "bodyweight";
 
 export const useRise = (delay = 0, damping = 200) => {
   const frame = useCurrentFrame();

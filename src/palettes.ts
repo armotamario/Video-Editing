@@ -222,6 +222,18 @@ export const PALETTES: Record<string, Palette> = {
     surface: "#1d2216",
     muted: "#6d7758",
   },
+  mfbaSteel: {
+    pageBg: radial("#1b2126", "#0f1418", "#070a0c"),
+    ink: "#eef3f7",
+    inkSoft: "#8b98a3",
+    accent: "#ff7b2c",
+    accentSoft: "#ff7b2c66",
+    accentLine: "#ff7b2c3d",
+    onAccent: "#070a0c",
+    line: "#28323a",
+    surface: "#1c242a",
+    muted: "#67747e",
+  },
   mfbaBone: {
     pageBg: radial("#f7f3eb", "#ece4d6", "#ddd3c0"),
     ink: "#17140f",

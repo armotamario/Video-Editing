@@ -27,6 +27,7 @@ import { WorkoutA } from "./shred/WorkoutA";
 import { WorkoutB } from "./shred/WorkoutB";
 import { Cardio } from "./shred/Cardio";
 import { Diet } from "./shred/Diet";
+import { Calisthenics } from "./shred/Calisthenics";
 
 /** The web-development content set — one 16s film per posting category. */
 const WEB_FILMS: [string, React.FC][] = [
@@ -58,6 +59,7 @@ const SHRED_FILMS: [string, React.FC][] = [
   ["ShredWorkoutB", WorkoutB],
   ["ShredCardio", Cardio],
   ["ShredDiet", Diet],
+  ["ShredCalisthenics", Calisthenics],
 ];
 
 export const MyComposition = () => {

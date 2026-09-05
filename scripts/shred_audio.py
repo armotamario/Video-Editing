@@ -156,9 +156,35 @@ def mobility() -> None:
     write("mobility", wet, np.concatenate([[0, 0, 0, 0, 0], wet[:-5]]))
 
 
+def bodyweight() -> None:
+    """Percussive and springy — no iron, just the floor."""
+    m = np.zeros(N)
+    place(m, 0.0, riser(2.6, 180, 2600), 0.24)
+    place(m, 2.6, impact(1.6), 0.45)
+    for bar in range(1, 8):
+        b = bar * 2.0
+        for p_ in (0.0, 0.5, 1.0, 1.5):
+            place(m, b + p_, kick(0.34, 124, 46), 0.46)
+        place(m, b + 1.0, clap(), 0.36)
+        place(m, b + 0.75, rim(0.08), 0.26)
+    for i in range(int(2.8 / 0.125), int(DUR / 0.125)):
+        at = i * 0.125
+        place(m, at, hat(0.04, 8600, 190), 0.24 if i % 2 else 0.15)
+    motif = [587.33, 698.46, 880.00, 698.46, 523.25, 587.33]
+    for i in range(int((DUR - 2.8) / 0.375)):
+        place(m, 2.8 + i * 0.375, pluck(motif[i % len(motif)], 0.4, (1.0, 0.55, 0.3)), 0.26)
+    for i, ch in enumerate([(130.81, 196.00), (146.83, 220.00), (110.00, 164.81)]):
+        place(m, 1.0 + i * 4.5, pad(ch, 4.4), 0.2)
+    place(m, 12.0, impact(2.2), 0.45)
+    place(m, 12.0, bell(1396.91, 2.6), 0.2)
+    wet = reverb(m, 0.2)
+    write("bodyweight", wet, np.concatenate([[0, 0, 0], wet[:-3]]))
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     drive()
     grind()
     pace()
     mobility()
+    bodyweight()
