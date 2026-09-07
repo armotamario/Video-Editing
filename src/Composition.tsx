@@ -22,6 +22,7 @@ import { Prayer } from "./gr/Prayer";
 import { BibleFilm } from "./gr/BibleFilm";
 import { MassFilm } from "./gr/MassFilm";
 import { Moments } from "./gr/Moments";
+import { Store } from "./gr/Store";
 import { FILM_DURATION as SHRED_FILM_DURATION } from "./shred/kit";
 import { Stretch } from "./shred/Stretch";
 import { WorkoutA } from "./shred/WorkoutA";
@@ -53,6 +54,7 @@ const GR_FILMS: [string, React.FC][] = [
   ["GrBible", BibleFilm],
   ["GrMass", MassFilm],
   ["GrMoments", Moments],
+  ["GrStore", Store],
 ];
 
 /** MFBA's Shredded Series — mobility, two lifting days, cardio, diet. */

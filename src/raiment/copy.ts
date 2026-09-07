@@ -13,4 +13,4 @@ export const SPECS = [
 
 export const SPECS_KICKER = "The details";
 export const FLIP_KICKER = "Seven colourways";
-export const PRICE = "$28.95";
+export const PRICE = "$28.99";

@@ -54,7 +54,7 @@ const Colourways: React.FC<{ duration: number }> = ({ duration }) => {
 
       <AbsoluteFill className="items-center justify-end pb-[240px]">
         <div style={{ fontFamily: serifFont, color: INK }} className="text-[74px] font-bold">
-          $28.95
+          $28.99
         </div>
       </AbsoluteFill>
     </Section>

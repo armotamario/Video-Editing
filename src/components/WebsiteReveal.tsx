@@ -54,7 +54,7 @@ export const WebsiteReveal: React.FC<{ durationInFrames: number }> = ({ duration
           GODLY RAIMENT HAT
         </div>
         <div style={{ fontFamily: bodyFont, color: GOLD }} className="mt-4 text-3xl font-bold">
-          $28.95
+          $28.99
         </div>
       </div>
     </AbsoluteFill>

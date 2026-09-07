@@ -127,3 +127,28 @@ Save it. Read it on the day you need it.
 GODLYRAIMENT.COM.AU
 
 #catholic #faith #christianity #catholicfaith #prayer #trustgod #godlyraiment #wearyourfaith #christianapparel #catholicapparel
+
+---
+
+## 06 · The drop (store promo)
+
+Theme: graphite + gold · caps on a paper plate · silent copy in `silent/`
+
+Sound: attach a trending sound in the app — something with a drop around 2s
+so it lands on the first cap.
+
+Built natively rather than from your screen recording, so there's no status
+bar, URL bar or carousel arrows in it. Price updated to $28.99 across the
+project to match the store.
+
+Wear your faith. Out now.
+
+GODLY RAIMENT HAT — $28.99, or 4 interest-free payments of A$7.25.
+Seven colourways: black, charcoal, navy, red, forest green, camo, tan.
+
+Unstructured 6-panel · 100% chino cotton twill · curved visor ·
+antique-buckle strap. Ships from Melbourne.
+
+Shop GODLYRAIMENT.COM.AU
+
+#catholic #catholicapparel #christianclothing #wearyourfaith #godlyraiment #catholicfashion #newdrop #christianapparel #melbourne #faithbased
