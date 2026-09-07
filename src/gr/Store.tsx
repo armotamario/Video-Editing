@@ -7,7 +7,12 @@ import { Cross, Film, GOLD, Headline, Kicker, Outro, Section, useRise } from "./
 
 const PRICE = "$28.99";
 const KLARNA = "or 4 payments of A$7.25";
-const PER_HAT = 20;
+const PER_HAT = 54;
+
+/** The three colourways on the store right now, in the order they appear. */
+const COLOURS = ["hat-black.png", "hat-charcoal.png", "hat-tan.png"].map(
+  (src) => hatColors.find((hat) => hat.src === src)!,
+);
 
 /** The product plate — the store's own white tile, so every colourway reads. */
 const PLATE = "#f3efe6";
@@ -98,7 +103,7 @@ const Product: React.FC<{ duration: number }> = ({ duration }) => {
 
 /** One colourway, held for twenty frames. */
 const Colourway: React.FC<{ index: number }> = ({ index }) => {
-  const { src, label } = hatColors[index];
+  const { src, label } = COLOURS[index];
   const pop = useRise(0, 13);
   return (
     <AbsoluteFill>
@@ -129,21 +134,21 @@ const Colourway: React.FC<{ index: number }> = ({ index }) => {
 /** All seven, cut fast, under a standing count. */
 const Colourways: React.FC<{ duration: number }> = ({ duration }) => {
   const frame = useCurrentFrame();
-  const active = Math.min(Math.floor(frame / PER_HAT), hatColors.length - 1);
+  const active = Math.min(Math.floor(frame / PER_HAT), COLOURS.length - 1);
 
   return (
     <Section duration={duration} className="">
       <AbsoluteFill style={{ background: PAGE_BG }} />
-      {hatColors.map((color, i) => (
+      {COLOURS.map((color, i) => (
         <Sequence key={color.src} from={i * PER_HAT} durationInFrames={PER_HAT}>
           <Colourway index={i} />
         </Sequence>
       ))}
 
       <AbsoluteFill className="items-center justify-start pt-[280px]">
-        <Kicker>Seven colourways</Kicker>
+        <Kicker>Three colourways</Kicker>
         <div className="mt-8 flex gap-3">
-          {hatColors.map((color, i) => (
+          {COLOURS.map((color, i) => (
             <div
               key={color.src}
               style={{ background: i === active ? GOLD : `${GOLD}44` }}
@@ -228,11 +233,11 @@ export const Store: React.FC = () => (
     track="procession"
     palette="graphite"
     sections={[
-      { key: "hook", duration: 62, node: <Hook duration={62} /> },
-      { key: "product", duration: 92, node: <Product duration={92} /> },
-      { key: "colourways", duration: 140, node: <Colourways duration={140} /> },
-      { key: "cart", duration: 78, node: <Cart duration={78} /> },
-      { key: "outro", duration: 108, node: <Outro cta={`Shop ${BRAND_URL}`} /> },
+      { key: "hook", duration: 58, node: <Hook duration={58} /> },
+      { key: "product", duration: 86, node: <Product duration={86} /> },
+      { key: "colourways", duration: 162, node: <Colourways duration={162} /> },
+      { key: "cart", duration: 74, node: <Cart duration={74} /> },
+      { key: "outro", duration: 100, node: <Outro cta={`Shop ${BRAND_URL}`} /> },
     ]}
   />
 );

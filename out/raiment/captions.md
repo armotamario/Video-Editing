@@ -133,6 +133,7 @@ GODLYRAIMENT.COM.AU
 ## 06 · The drop (store promo)
 
 Theme: graphite + gold · caps on a paper plate · silent copy in `silent/`
+Three colourways, held 1.8s each.
 
 Sound: attach a trending sound in the app — something with a drop around 2s
 so it lands on the first cap.
@@ -144,7 +145,7 @@ project to match the store.
 Wear your faith. Out now.
 
 GODLY RAIMENT HAT — $28.99, or 4 interest-free payments of A$7.25.
-Seven colourways: black, charcoal, navy, red, forest green, camo, tan.
+Three colourways: black, charcoal and tan.
 
 Unstructured 6-panel · 100% chino cotton twill · curved visor ·
 antique-buckle strap. Ships from Melbourne.
