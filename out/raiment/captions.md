@@ -145,7 +145,7 @@ project to match the store.
 Wear your faith. Out now.
 
 GODLY RAIMENT HAT — $28.99, or 4 interest-free payments of A$7.25.
-Three colourways: black, charcoal and tan.
+Three colourways: black, charcoal and stone.
 
 Unstructured 6-panel · 100% chino cotton twill · curved visor ·
 antique-buckle strap. Ships from Melbourne.

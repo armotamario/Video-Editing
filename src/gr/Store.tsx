@@ -1,5 +1,5 @@
 import { AbsoluteFill, Img, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
-import { hatColors } from "../hatColors";
+import { hatColors, type HatColor } from "../hatColors";
 import { bodyFont, monoFont, serifFont } from "../fonts";
 import { INK, INK_SOFT, LINE, ON_ACCENT, PAGE_BG, SURFACE } from "../palettes";
 import { BRAND_URL } from "../brand";
@@ -9,10 +9,15 @@ const PRICE = "$28.99";
 const KLARNA = "or 4 payments of A$7.25";
 const PER_HAT = 54;
 
-/** The three colourways on the store right now, in the order they appear. */
-const COLOURS = ["hat-black.png", "hat-charcoal.png", "hat-tan.png"].map(
-  (src) => hatColors.find((hat) => hat.src === src)!,
-);
+/**
+ * The three colourways on the store right now. Stone is cut from the product
+ * photography rather than the shared list, which still carries the older tan.
+ */
+const COLOURS: HatColor[] = [
+  hatColors.find((hat) => hat.src === "hat-black.png")!,
+  hatColors.find((hat) => hat.src === "hat-charcoal.png")!,
+  { src: "hat-stone.png", label: "Stone" },
+];
 
 /** The product plate — the store's own white tile, so every colourway reads. */
 const PLATE = "#f3efe6";
