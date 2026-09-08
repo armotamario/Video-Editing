@@ -1,5 +1,5 @@
 import { AbsoluteFill, Img, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
-import { hatColors, type HatColor } from "../hatColors";
+import { type HatColor } from "../hatColors";
 import { bodyFont, monoFont, serifFont } from "../fonts";
 import { INK, INK_SOFT, LINE, ON_ACCENT, PAGE_BG, SURFACE } from "../palettes";
 import { BRAND_URL } from "../brand";
@@ -10,13 +10,14 @@ const KLARNA = "or 4 payments of A$7.25";
 const PER_HAT = 54;
 
 /**
- * The three colourways on the store right now. Stone is cut from the product
- * photography rather than the shared list, which still carries the older tan.
+ * The three colourways on the store right now, cut from the current product
+ * photography. Kept separate from the shared list, which carries the older
+ * seven-colour range the other films use.
  */
 const COLOURS: HatColor[] = [
-  hatColors.find((hat) => hat.src === "hat-black.png")!,
-  hatColors.find((hat) => hat.src === "hat-charcoal.png")!,
-  { src: "hat-stone.png", label: "Stone" },
+  { src: "store/black.png", label: "Black" },
+  { src: "store/charcoal.png", label: "Charcoal" },
+  { src: "store/stone.png", label: "Stone" },
 ];
 
 /** The product plate — the store's own white tile, so every colourway reads. */
@@ -71,7 +72,7 @@ const Product: React.FC<{ duration: number }> = ({ duration }) => {
           }}
           className="w-[860px] rounded-[56px] p-16"
         >
-          <Img src={staticFile("images/hat-black.png")} className="w-full object-contain" />
+          <Img src={staticFile("images/store/black.png")} className="w-full object-contain" />
         </div>
       </AbsoluteFill>
 
@@ -192,7 +193,7 @@ const Cart: React.FC<{ duration: number }> = ({ duration }) => {
       >
         <div className="flex items-center gap-10">
           <div style={{ background: PLATE }} className="w-[190px] flex-none rounded-[26px] p-5">
-            <Img src={staticFile("images/hat-black.png")} className="w-full object-contain" />
+            <Img src={staticFile("images/store/black.png")} className="w-full object-contain" />
           </div>
           <div className="flex-1">
             <div
