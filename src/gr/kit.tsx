@@ -273,7 +273,7 @@ const PHOTO_INK = "#f8f4ee";
 const PHOTO_ON_ACCENT = "#16130f";
 
 /** The same sign-off closes every film in the set. */
-export const Outro: React.FC<{ cta: string }> = ({ cta }) => {
+export const Outro: React.FC<{ cta: string; scrim?: number }> = ({ cta, scrim = 0.76 }) => {
   const frame = useCurrentFrame();
   const markIn = useRise(0, 14);
   const nameIn = useRise(8);
@@ -286,7 +286,7 @@ export const Outro: React.FC<{ cta: string }> = ({ cta }) => {
 
   return (
     <AbsoluteFill style={{ opacity: fadeIn }}>
-      <PhotoBackdrop src="portrait.jpg" scrim={0.76} focus="center 20%" />
+      <PhotoBackdrop src="portrait.jpg" scrim={scrim} focus="center 20%" />
 
       <AbsoluteFill className="items-center justify-end px-16 pb-[200px]">
         <div style={{ transform: `scale(${markIn})`, opacity: markIn }}>
