@@ -133,23 +133,22 @@ GODLYRAIMENT.COM.AU
 ## 06 · The drop (store promo)
 
 Theme: graphite + gold · caps on a paper plate · silent copy in `silent/`
-Three colourways, held 1.8s each.
+Three colourways, held 1.8s each, cut from the current store photography.
 
 Sound: attach a trending sound in the app — something with a drop around 2s
 so it lands on the first cap.
 
-Built natively rather than from your screen recording, so there's no status
-bar, URL bar or carousel arrows in it. Price updated to $28.99 across the
-project to match the store.
+---
 
-Wear your faith. Out now.
+Your clothes already say something.
+
+Every morning you decide what you're telling people before you open your
+mouth. This is a way to say the right thing without saying a word.
 
 GODLY RAIMENT HAT — $28.99, or 4 interest-free payments of A$7.25.
-Three colourways: black, charcoal and stone.
+Black, charcoal and stone. Unstructured 6-panel, 100% chino cotton twill,
+curved visor, antique-buckle strap. Ships from Melbourne.
 
-Unstructured 6-panel · 100% chino cotton twill · curved visor ·
-antique-buckle strap. Ships from Melbourne.
+Out now — GODLYRAIMENT.COM.AU
 
-Shop GODLYRAIMENT.COM.AU
-
-#catholic #catholicapparel #christianclothing #wearyourfaith #godlyraiment #catholicfashion #newdrop #christianapparel #melbourne #faithbased
+#catholic #catholicapparel #christianclothing #wearyourfaith #godlyraiment #catholicfashion #newdrop #christianapparel #faithbased #melbourne
