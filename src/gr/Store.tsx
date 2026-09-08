@@ -237,7 +237,7 @@ export const Store: React.FC = () => (
       { key: "product", duration: 86, node: <Product duration={86} /> },
       { key: "colourways", duration: 162, node: <Colourways duration={162} /> },
       { key: "cart", duration: 74, node: <Cart duration={74} /> },
-      { key: "outro", duration: 100, node: <Outro cta={`Shop ${BRAND_URL}`} scrim={0.4} /> },
+      { key: "outro", duration: 100, node: <Outro cta={`Shop ${BRAND_URL}`} scrim={0.4} mark={false} /> },
     ]}
   />
 );
