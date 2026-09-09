@@ -264,3 +264,72 @@ Five minutes today.
 
 #psalm46 #bestill #scripture #catholic #prayer #bible #faith #godlyraiment #wearyourfaith
 
+---
+
+## 13 · Two thousand years  *(timeline)*
+
+Theme: midnight + gold · a scrolling century rule · silent copy in `silent/`
+
+Everything that was going to replace it is gone.
+
+Western Rome ended 476. Byzantium, 1453. The Holy Roman Empire, 1806. The
+Spanish, 1898. The British, 1997. The Soviet Union, 1991.
+
+The gold line doesn't break.
+
+Empires had a plan for the next century. She had the next one.
+
+#catholic #churchhistory #christianity #faith #history #catholicchurch #godlyraiment #wearyourfaith
+
+---
+
+## 14 · The whole hour  *(route map)*
+
+Theme: bone + gold · Mass drawn as a route with a marker travelling down it · silent copy in `silent/`
+
+If you haven't been in years, here's the whole hour, start to finish.
+
+Entrance · Readings · Gospel · Homily · The Eucharist · Communion · Sent out.
+
+Not receiving yet? Cross your arms for a blessing. Sit at the back. Come as
+you are.
+
+Nobody is watching to see if you get it right.
+
+See you Sunday.
+
+#mass #catholic #catholicchurch #sunday #eucharist #comeback #godlyraiment #wearyourfaith
+
+---
+
+## 15 · Five questions  *(typed out)*
+
+Theme: sand + gold · the examen, typed one line at a time and ticked off · silent copy in `silent/`
+
+Five questions. Five minutes. Tonight, before the phone.
+
+Where was I short with someone? What did I put ahead of Him? What am I
+actually grateful for? Who do I owe an apology to? What do I do differently
+tomorrow?
+
+Then say thank you for one of them. That's the whole thing.
+
+#examen #catholic #prayer #examinationofconscience #faith #nightprayer #godlyraiment #wearyourfaith
+
+---
+
+## 16 · Itemised  *(receipt)*
+
+Theme: vellum + gold · a day printed as a receipt · silent copy in `silent/`
+
+If your day came with a receipt.
+
+Asleep 8h. Work 9h. The phone 3h 12m. Television 1h 20m. Eating 1h 10m.
+Everything else 1h 18m. Prayer 0h 00m.
+
+Total: 24h 00m. Non-refundable.
+
+You can't get the day back. You get tomorrow.
+
+#prayer #catholic #screentime #faith #timemanagement #christianity #godlyraiment #wearyourfaith
+

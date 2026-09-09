@@ -29,6 +29,10 @@ import { Fasting } from "./gr/Fasting";
 import { CrossFilm } from "./gr/CrossFilm";
 import { DayClock } from "./gr/DayClock";
 import { WordFilm } from "./gr/Word";
+import { Timeline } from "./gr/Timeline";
+import { MassMap } from "./gr/MassMap";
+import { Examen } from "./gr/Examen";
+import { Receipt } from "./gr/Receipt";
 import { FILM_DURATION as SHRED_FILM_DURATION } from "./shred/kit";
 import { Stretch } from "./shred/Stretch";
 import { WorkoutA } from "./shred/WorkoutA";
@@ -73,6 +77,10 @@ const GR_FILMS: [string, React.FC][] = [
   ["GrCross", CrossFilm],
   ["GrDayClock", DayClock],
   ["GrWord", WordFilm],
+  ["GrTimeline", Timeline],
+  ["GrMassMap", MassMap],
+  ["GrExamen", Examen],
+  ["GrReceipt", Receipt],
 ];
 
 /** MFBA's Shredded Series — mobility, two lifting days, cardio, diet. */
