@@ -234,3 +234,33 @@ Wear what you believe — GODLYRAIMENT.COM.AU
 
 #thecross #catholic #christianity #wearyourfaith #godlyraiment #catholicapparel #christianclothing #faithbased
 
+---
+
+## 11 · Where the day goes  *(dial)*
+
+Theme: espresso + gold · a 24-hour ring, no talking head · silent copy in `silent/`
+
+You have the time. Look.
+
+Asleep, 8 hours. Work, 9. The phone, 3. Everything else, 4.
+
+Three hours on the phone. None with Him.
+
+Five minutes. That's all it takes to change the shape of the ring.
+
+#prayer #catholic #faith #dailyprayer #screentime #christianity #godlyraiment #wearyourfaith
+
+---
+
+## 12 · Be still  *(one word at a time)*
+
+Theme: vellum + gold · kinetic type, one word per beat · silent copy in `silent/`
+
+Eight words. Read them slower than you want to.
+
+"Be still, and know that I am God." — Psalm 46:10
+
+Five minutes today.
+
+#psalm46 #bestill #scripture #catholic #prayer #bible #faith #godlyraiment #wearyourfaith
+

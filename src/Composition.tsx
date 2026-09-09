@@ -27,6 +27,8 @@ import { Confession } from "./gr/Confession";
 import { Rosary } from "./gr/Rosary";
 import { Fasting } from "./gr/Fasting";
 import { CrossFilm } from "./gr/CrossFilm";
+import { DayClock } from "./gr/DayClock";
+import { WordFilm } from "./gr/Word";
 import { FILM_DURATION as SHRED_FILM_DURATION } from "./shred/kit";
 import { Stretch } from "./shred/Stretch";
 import { WorkoutA } from "./shred/WorkoutA";
@@ -39,6 +41,8 @@ import { FirstMonth } from "./shred/FirstMonth";
 import { Mistakes as ShredMistakes } from "./shred/Mistakes";
 import { Overload } from "./shred/Overload";
 import { Consistency } from "./shred/Consistency";
+import { Reality } from "./shred/Reality";
+import { Calendar } from "./shred/Calendar";
 
 /** The web-development content set — one 16s film per posting category. */
 const WEB_FILMS: [string, React.FC][] = [
@@ -67,6 +71,8 @@ const GR_FILMS: [string, React.FC][] = [
   ["GrRosary", Rosary],
   ["GrFasting", Fasting],
   ["GrCross", CrossFilm],
+  ["GrDayClock", DayClock],
+  ["GrWord", WordFilm],
 ];
 
 /** MFBA's Shredded Series — mobility, two lifting days, cardio, diet. */
@@ -81,6 +87,8 @@ const SHRED_FILMS: [string, React.FC][] = [
   ["ShredMistakes", ShredMistakes],
   ["ShredOverload", Overload],
   ["ShredConsistency", Consistency],
+  ["ShredReality", Reality],
+  ["ShredCalendar", Calendar],
 ];
 
 export const MyComposition = () => {

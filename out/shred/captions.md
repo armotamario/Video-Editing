@@ -287,3 +287,43 @@ Free 30-day trial. Link in bio.
 
 #consistency #discipline #fitnessmotivation #shreddedseries #habits #onlinecoaching #mfba #movinforwardbyarmota
 
+---
+
+## 12 · What it actually looks like  *(chart)*
+
+Theme: graphite + orange · animated line chart, no talking head · silent copy in `silent/`
+
+Sixteen weeks. Eight kilos. Not one of those weeks looked like progress.
+
+The dotted line is what everyone pictures when they start. The solid one is
+what sixteen weeks of weekly weigh-ins actually did — up, flat, up again, five
+weeks of nothing in the middle, then gone.
+
+Same finish. Uglier line.
+
+Weigh weekly, judge monthly. If you quit in the flat bit you never find out.
+
+General fitness content, not medical advice.
+
+Free 30-day trial. Link in bio.
+
+#weightloss #fatloss #plateau #fitnessjourney #shreddedseries #weighin #onlinecoaching #mfba
+
+---
+
+## 13 · A good month  *(calendar)*
+
+Theme: midnight + orange · the month fills in day by day · silent copy in `silent/`
+
+This is a good month. Not a perfect one.
+
+Twelve sessions. Four missed. The rest walked.
+
+Nobody gets a clean sheet. They just never miss twice.
+
+General fitness content, not medical advice.
+
+Free 30-day trial. Link in bio.
+
+#consistency #trainingsplit #fitnesshabits #shreddedseries #discipline #onlinecoaching #mfba #movinforwardbyarmota
+
