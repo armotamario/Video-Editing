@@ -23,6 +23,10 @@ import { BibleFilm } from "./gr/BibleFilm";
 import { MassFilm } from "./gr/MassFilm";
 import { Moments } from "./gr/Moments";
 import { Store } from "./gr/Store";
+import { Confession } from "./gr/Confession";
+import { Rosary } from "./gr/Rosary";
+import { Fasting } from "./gr/Fasting";
+import { CrossFilm } from "./gr/CrossFilm";
 import { FILM_DURATION as SHRED_FILM_DURATION } from "./shred/kit";
 import { Stretch } from "./shred/Stretch";
 import { WorkoutA } from "./shred/WorkoutA";
@@ -31,6 +35,10 @@ import { Cardio } from "./shred/Cardio";
 import { Diet } from "./shred/Diet";
 import { Calisthenics } from "./shred/Calisthenics";
 import { Protocol, PROTOCOL_DURATION } from "./shred/Protocol";
+import { FirstMonth } from "./shred/FirstMonth";
+import { Mistakes as ShredMistakes } from "./shred/Mistakes";
+import { Overload } from "./shred/Overload";
+import { Consistency } from "./shred/Consistency";
 
 /** The web-development content set — one 16s film per posting category. */
 const WEB_FILMS: [string, React.FC][] = [
@@ -55,6 +63,10 @@ const GR_FILMS: [string, React.FC][] = [
   ["GrMass", MassFilm],
   ["GrMoments", Moments],
   ["GrStore", Store],
+  ["GrConfession", Confession],
+  ["GrRosary", Rosary],
+  ["GrFasting", Fasting],
+  ["GrCross", CrossFilm],
 ];
 
 /** MFBA's Shredded Series — mobility, two lifting days, cardio, diet. */
@@ -65,6 +77,10 @@ const SHRED_FILMS: [string, React.FC][] = [
   ["ShredCardio", Cardio],
   ["ShredDiet", Diet],
   ["ShredCalisthenics", Calisthenics],
+  ["ShredFirstMonth", FirstMonth],
+  ["ShredMistakes", ShredMistakes],
+  ["ShredOverload", Overload],
+  ["ShredConsistency", Consistency],
 ];
 
 export const MyComposition = () => {

@@ -152,3 +152,85 @@ curved visor, antique-buckle strap. Ships from Melbourne.
 Out now — GODLYRAIMENT.COM.AU
 
 #catholic #catholicapparel #christianclothing #wearyourfaith #godlyraiment #catholicfashion #newdrop #christianapparel #faithbased #melbourne
+
+---
+
+## 07 · Confession
+
+Theme: plum + gold · silent copy in `silent/`
+
+It's been years. He's still waiting.
+
+The longer you leave it, the bigger it feels. It isn't.
+
+If you're going back: say how long it's been — he's heard it before. Take five
+minutes beforehand and think it through. Say the worst one first, everything
+after gets easier. Do your penance that day.
+
+"If you forgive the sins of any, they are forgiven them." — John 20:23
+
+Go this Saturday.
+
+#confession #catholic #catholicchurch #reconciliation #faith #mercy #godlyraiment #wearyourfaith
+
+---
+
+## 08 · Rosary
+
+Theme: indigo + gold · silent copy in `silent/`
+
+You don't need an hour. Start with one decade.
+
+Four minutes. You've wasted four minutes today already.
+
+One decade, not five — finish something small rather than abandon something big.
+Same time every day. Hold the beads so your hands keep count. Picture the
+mystery, or it's just words with the sound off.
+
+"Greetings, favoured one! The Lord is with you." — Luke 1:28
+
+One decade tonight.
+
+#rosary #catholic #prayer #ourlady #catholicprayer #faith #godlyraiment #wearyourfaith
+
+---
+
+## 09 · Fasting
+
+Theme: forest + gold · silent copy in `silent/`
+
+You've never gone without anything.
+
+Neither had I. That's exactly why it's worth starting.
+
+Fridays, no meat — start with what's already asked. Give up one thing you'd
+actually miss. Give away what it saved you, or it's a diet with a religious
+name. And don't announce it.
+
+"When you fast, do not look dismal." — Matthew 6:16
+
+Try it this Friday.
+
+#fasting #catholic #lent #discipline #faith #christianity #godlyraiment #wearyourfaith
+
+---
+
+## 10 · Why we wear it
+
+Theme: slate + gold · silent copy in `silent/`
+
+It's not jewellery.
+
+An instrument of execution, worn on purpose, by people who believe it ended in
+something else.
+
+It's a claim — before you say anything, it's already said something. It's a
+reminder, mostly to you. It starts conversations, some of them the ones you've
+been avoiding. And it costs you something. That's the point.
+
+"May I never boast of anything except the cross of our Lord Jesus Christ." — Galatians 6:14
+
+Wear what you believe — GODLYRAIMENT.COM.AU
+
+#thecross #catholic #christianity #wearyourfaith #godlyraiment #catholicapparel #christianclothing #faithbased
+
