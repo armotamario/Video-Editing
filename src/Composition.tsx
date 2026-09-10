@@ -1,4 +1,5 @@
 import { Composition } from "remotion";
+import { ClipEdit } from "./edit/ClipEdit";
 import { PromoVideo, TOTAL_DURATION } from "./PromoVideo";
 import { MfbaPromo, MFBA_TOTAL_DURATION } from "./mfba/MfbaPromo";
 import { MarioPromo, MARIO_TOTAL_DURATION } from "./mario/MarioPromo";
@@ -99,9 +100,30 @@ const SHRED_FILMS: [string, React.FC][] = [
   ["ShredCalendar", Calendar],
 ];
 
+/** The uploaded clips: trimmed length, native rate, and the file to read. */
+const EDITS: { id: string; src: string; fps: number; seconds: number }[] = [
+  { id: "EditA", src: "edit/pre_a.mp4", fps: 30, seconds: 24.0 },
+  { id: "EditB", src: "edit/pre_b.mp4", fps: 50, seconds: 48.9 },
+  { id: "EditC", src: "edit/pre_c.mp4", fps: 30, seconds: 74.0 },
+  { id: "EditD", src: "edit/pre_d.mp4", fps: 24, seconds: 19.0 },
+  { id: "EditE", src: "edit/pre_e.mp4", fps: 30, seconds: 35.5 },
+];
+
 export const MyComposition = () => {
   return (
     <>
+      {EDITS.map((e) => (
+        <Composition
+          key={e.id}
+          id={e.id}
+          component={ClipEdit}
+          durationInFrames={Math.round(e.seconds * e.fps)}
+          fps={e.fps}
+          width={1080}
+          height={1920}
+          defaultProps={{ src: e.src, fadeFrames: Math.round(e.fps * 0.4) }}
+        />
+      ))}
       <Composition
         id="GodlyRaimentPromo"
         component={PromoVideo}

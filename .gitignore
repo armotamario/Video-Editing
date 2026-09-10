@@ -9,3 +9,6 @@ out
 
 # Python bytecode from the audio scripts
 __pycache__
+
+# staged source clips for the edit pass — large intermediates, not source
+public/edit/
