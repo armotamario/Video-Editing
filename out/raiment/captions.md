@@ -333,3 +333,63 @@ You can't get the day back. You get tomorrow.
 
 #prayer #catholic #screentime #faith #timemanagement #christianity #godlyraiment #wearyourfaith
 
+---
+
+# Footage-led set  *(new style — captions burned over pictures)*
+
+Built in the style off your feed: a picture holds the frame, heavy type sits in
+the middle third clear of Instagram's UI, one word a line in gold. All silent —
+put a trending sound over them on upload.
+
+## 17 · Your clothes already say something
+
+Your clothes already say something. You just never chose what.
+
+So choose. A cross on the front — that's the whole pitch.
+$28.99, three colours, out now.
+
+Wear what you believe — GODLYRAIMENT.COM.AU
+
+#catholic #catholicapparel #christianclothing #wearyourfaith #godlyraiment #catholicfashion #newdrop #faithbased
+
+---
+
+## 18 · POV: you still call yourself Catholic
+
+POV: you still call yourself Catholic.
+
+Can't remember your last confession. Haven't been to Mass since Easter. Still
+pray when it goes wrong.
+
+That's not nothing. That's a start.
+
+Confession is Saturday.
+
+#catholic #confession #faith #catholicchurch #comeback #reconciliation #godlyraiment #wearyourfaith
+
+---
+
+## 19 · Three hours on your phone
+
+Three hours on your phone. Today.
+
+You're not short on time. You're short on the five minutes.
+
+Before the phone. Not after.
+
+Give Him five.
+
+#prayer #catholic #screentime #faith #dailyprayer #christianity #godlyraiment #wearyourfaith
+
+---
+
+## 20 · It's not jewellery
+
+It's not jewellery. It's an execution device.
+
+Worn on purpose. Every day. By people who believe it didn't end there.
+
+Wear what you believe — GODLYRAIMENT.COM.AU
+
+#thecross #catholic #christianity #wearyourfaith #godlyraiment #catholicapparel #christianclothing #faithbased
+

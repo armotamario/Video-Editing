@@ -1,5 +1,6 @@
 import { Composition } from "remotion";
 import { ClipEdit } from "./edit/ClipEdit";
+import { GrClothes, GrStillCatholic, GrFiveMinutes, GrNotJewellery } from "./reel/GrReels";
 import { PromoVideo, TOTAL_DURATION } from "./PromoVideo";
 import { MfbaPromo, MFBA_TOTAL_DURATION } from "./mfba/MfbaPromo";
 import { MarioPromo, MARIO_TOTAL_DURATION } from "./mario/MarioPromo";
@@ -112,6 +113,22 @@ const EDITS: { id: string; src: string; fps: number; seconds: number }[] = [
 export const MyComposition = () => {
   return (
     <>
+      {([
+        ["ReelClothes", GrClothes, 370],
+        ["ReelCatholic", GrStillCatholic, 382],
+        ["ReelFiveMin", GrFiveMinutes, 326],
+        ["ReelJewellery", GrNotJewellery, 328],
+      ] as [string, React.FC, number][]).map(([id, C, dur]) => (
+        <Composition
+          key={id}
+          id={id}
+          component={C}
+          durationInFrames={dur}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+      ))}
       {EDITS.map((e) => (
         <Composition
           key={e.id}
