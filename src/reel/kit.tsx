@@ -218,3 +218,57 @@ export const SignOff: React.FC<{ line: string; accent?: string }> = ({
     </AbsoluteFill>
   );
 };
+
+/** The proof beat: a short citation, with its source under a rule. */
+export const Quote: React.FC<{ text: string; cite: string; accent?: string }> = ({
+  text,
+  cite,
+  accent = "#e8b23c",
+}) => {
+  const frame = useCurrentFrame();
+  const inT = interpolate(frame, [0, 8], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const citeT = interpolate(frame, [12, 22], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  return (
+    <AbsoluteFill>
+      <AbsoluteFill style={{ background: "rgba(8,7,6,0.62)" }} />
+      <AbsoluteFill className="items-center justify-center px-20">
+        <div
+          style={{
+            opacity: inT,
+            transform: `translateY(${interpolate(inT, [0, 1], [22, 0])}px)`,
+            fontFamily: bodyFont,
+            fontWeight: 700,
+            fontSize: 66,
+            lineHeight: 1.2,
+            color: "#ffffff",
+            textShadow: OUTLINE("#0a0908"),
+          }}
+          className="text-center"
+        >
+          {`“${text}”`}
+        </div>
+        <div style={{ opacity: citeT, background: accent }} className="mt-12 h-[4px] w-[110px]" />
+        <div
+          style={{
+            opacity: citeT,
+            fontFamily: bodyFont,
+            fontWeight: 900,
+            fontSize: 34,
+            letterSpacing: "0.2em",
+            color: accent,
+            textShadow: OUTLINE("#0a0908"),
+          }}
+          className="mt-8 text-center uppercase"
+        >
+          {cite}
+        </div>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};

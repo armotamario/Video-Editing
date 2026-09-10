@@ -1,6 +1,8 @@
 import { Composition } from "remotion";
 import { ClipEdit } from "./edit/ClipEdit";
 import { GrClothes, GrStillCatholic, GrFiveMinutes, GrNotJewellery } from "./reel/GrReels";
+import { MONTH } from "./reel/month";
+import { MonthReel, MONTH_DURATION } from "./reel/MonthReel";
 import { PromoVideo, TOTAL_DURATION } from "./PromoVideo";
 import { MfbaPromo, MFBA_TOTAL_DURATION } from "./mfba/MfbaPromo";
 import { MarioPromo, MARIO_TOTAL_DURATION } from "./mario/MarioPromo";
@@ -113,6 +115,18 @@ const EDITS: { id: string; src: string; fps: number; seconds: number }[] = [
 export const MyComposition = () => {
   return (
     <>
+      {MONTH.map((spec) => (
+        <Composition
+          key={spec.id}
+          id={spec.id}
+          component={MonthReel}
+          durationInFrames={MONTH_DURATION}
+          fps={30}
+          width={1080}
+          height={1920}
+          defaultProps={{ spec }}
+        />
+      ))}
       {([
         ["ReelClothes", GrClothes, 370],
         ["ReelCatholic", GrStillCatholic, 382],
