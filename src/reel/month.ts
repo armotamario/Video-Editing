@@ -41,7 +41,7 @@ export const MONTH: Spec[] = [
     benefits: [["It starts", "conversations."], ["It reminds", "you first."]],
     benefitHot: ["conversations", "you"],
     cta: "Wear what\nyou believe",
-    back: [PORTRAIT, F("store/black.png"), F("store/charcoal.png"), F("store/stone.png"), PORTRAIT],
+    back: [PORTRAIT, WALK, F("store/charcoal.png"), F("store/stone.png"), PORTRAIT],
   },
   {
     id: "SepP2", slug: "p2-mustard", topic: "Products",
@@ -61,7 +61,7 @@ export const MONTH: Spec[] = [
     benefits: [["Wear one", "that means", "something."], ["Every day.", "On purpose."]],
     benefitHot: ["something", "purpose"],
     cta: "Wear what\nyou believe",
-    back: [PORTRAIT, F("store/charcoal.png"), F("store/black.png"), F("store/stone.png"), PORTRAIT],
+    back: [PORTRAIT, DESK, F("store/black.png"), F("store/stone.png"), PORTRAIT],
   },
   {
     id: "SepP4", slug: "p4-glory", topic: "Products",
@@ -71,7 +71,7 @@ export const MONTH: Spec[] = [
     benefits: [["Black,", "charcoal,", "stone."], ["$28.99.", "Ships from", "Melbourne."]],
     benefitHot: ["stone", "Melbourne"],
     cta: "Shop the drop",
-    back: [F("store/black.png"), F("store/charcoal.png"), F("store/stone.png"), PORTRAIT, PORTRAIT],
+    back: [F("store/black.png"), WALK, F("store/charcoal.png"), F("store/stone.png"), PORTRAIT],
   },
 
   // ------------------------------------------------------------------ prayer
