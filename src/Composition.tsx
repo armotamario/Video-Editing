@@ -4,6 +4,7 @@ import { GrClothes, GrStillCatholic, GrFiveMinutes, GrNotJewellery } from "./ree
 import { MONTH } from "./reel/month";
 import { MFBA_MONTH } from "./reel/mfbaMonth";
 import { MonthReel, MONTH_DURATION } from "./reel/MonthReel";
+import { MfbaReel } from "./reel/MfbaReel";
 import { PromoVideo, TOTAL_DURATION } from "./PromoVideo";
 import { MfbaPromo, MFBA_TOTAL_DURATION } from "./mfba/MfbaPromo";
 import { MarioPromo, MARIO_TOTAL_DURATION } from "./mario/MarioPromo";
@@ -120,7 +121,7 @@ export const MyComposition = () => {
         <Composition
           key={spec.id}
           id={spec.id}
-          component={MonthReel}
+          component={spec.id.startsWith("Mfb") ? MfbaReel : MonthReel}
           durationInFrames={MONTH_DURATION}
           fps={30}
           width={1080}
