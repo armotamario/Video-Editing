@@ -1,6 +1,7 @@
 import {
   AbsoluteFill,
   Img,
+  OffthreadVideo,
   Sequence,
   interpolate,
   staticFile,
@@ -175,9 +176,10 @@ export const Reel: React.FC<{
 };
 
 /** The sign-off every reel lands on. */
-export const SignOff: React.FC<{ line: string; accent?: string }> = ({
+export const SignOff: React.FC<{ line: string; accent?: string; sub?: string }> = ({
   line,
   accent = "#e8b23c",
+  sub = "Godlyraiment.com.au",
 }) => {
   const frame = useCurrentFrame();
   const t = interpolate(frame, [0, 8], [0, 1], {
@@ -213,7 +215,7 @@ export const SignOff: React.FC<{ line: string; accent?: string }> = ({
         }}
         className="mt-10 text-center uppercase"
       >
-        Godlyraiment.com.au
+        {sub}
       </div>
     </AbsoluteFill>
   );
@@ -272,3 +274,15 @@ export const Quote: React.FC<{ text: string; cite: string; accent?: string }> = 
     </AbsoluteFill>
   );
 };
+
+/** A moving backdrop: a slice of one of his own clips, dimmed for type. */
+export const Clip: React.FC<{ src: string; startFrom?: number; dim?: number }> = ({
+  src,
+  startFrom = 0,
+  dim = 0.46,
+}) => (
+  <AbsoluteFill>
+    <OffthreadVideo src={staticFile(src)} startFrom={startFrom} muted />
+    <AbsoluteFill style={{ background: `rgba(8,7,6,${dim})` }} />
+  </AbsoluteFill>
+);

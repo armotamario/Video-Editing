@@ -17,7 +17,16 @@ export type Spec = {
   benefits: [string[], string[]];
   benefitHot: [string, string];
   cta: string;
-  back: { kind: "plate" | "float"; src: string; focus?: string; dim?: number }[];
+  /** Godly Raiment's gold unless a brand overrides it. */
+  accent?: string;
+  sub?: string;
+  back: {
+    kind: "plate" | "float" | "clip";
+    src: string;
+    focus?: string;
+    dim?: number;
+    startFrom?: number;
+  }[];
 };
 
 const P = (src: string, focus = "center 32%", dim = 0.5) =>
