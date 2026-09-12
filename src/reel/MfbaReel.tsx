@@ -18,8 +18,18 @@ const TOPIC: Record<string, string> = {
   Fellowship: "Start here",
 };
 
+/** MFBA's beds. The topic keys are the buckets the schedule reuses. */
+const MFBA_TRACK: Record<string, string> = {
+  Products: "mfba-lifting",
+  Prayer: "mfba-diet",
+  Bible: "mfba-cardio",
+  Mass: "mfba-lifestyle",
+  Fellowship: "mfba-transformation",
+};
+
 export const MfbaReel: React.FC<{ spec: Spec }> = ({ spec }) => (
   <Reel
+    track={spec.track ?? MFBA_TRACK[spec.topic]}
     beats={[
       {
         key: "hook",

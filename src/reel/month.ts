@@ -19,6 +19,8 @@ export type Spec = {
   cta: string;
   /** Godly Raiment's gold unless a brand overrides it. */
   accent?: string;
+  /** Bed in public/audio; falls back to the topic default. */
+  track?: string;
   sub?: string;
   back: {
     kind: "plate" | "float" | "clip";

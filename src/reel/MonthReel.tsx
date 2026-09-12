@@ -11,10 +11,20 @@ const back = (b: Spec["back"][number]) => {
   return <Plate src={b.src} focus={b.focus} dim={b.dim} />;
 };
 
+/** Godly Raiment's beds, by topic. */
+const GR_TRACK: Record<string, string> = {
+  Products: "gr-promo",
+  Prayer: "gr-prayer",
+  Bible: "gr-bible",
+  Mass: "gr-mass",
+  Fellowship: "gr-bible",
+};
+
 export const MonthReel: React.FC<{ spec: Spec }> = ({ spec }) => {
   const accent = spec.accent ?? "#e8b23c";
   return (
     <Reel
+      track={spec.track ?? GR_TRACK[spec.topic]}
       beats={[
       {
         key: "hook",

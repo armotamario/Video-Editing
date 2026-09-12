@@ -1,5 +1,6 @@
 import {
   AbsoluteFill,
+  Audio,
   Img,
   OffthreadVideo,
   Sequence,
@@ -157,10 +158,13 @@ export const Beat: React.FC<{
 /** A reel is a stack of beats, each with its own backdrop. */
 export const Reel: React.FC<{
   beats: { key: string; duration: number; back: React.ReactNode; node: React.ReactNode }[];
-}> = ({ beats }) => {
+  /** One of the beds in public/audio, without the reel- prefix or extension. */
+  track?: string;
+}> = ({ beats, track }) => {
   let at = 0;
   return (
     <AbsoluteFill style={{ background: "#0b0a09" }}>
+      {track ? <Audio src={staticFile(`audio/reel-${track}.wav`)} /> : null}
       {beats.map((b) => {
         const from = at;
         at += b.duration;
