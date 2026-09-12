@@ -62,7 +62,15 @@ export const Float: React.FC<{ src: string; drift?: number }> = ({ src, drift = 
   const t = frame / Math.max(durationInFrames, 1);
   return (
     <AbsoluteFill style={{ background: "#0b0a09" }}>
-      <AbsoluteFill className="items-center" style={{ justifyContent: "flex-end", paddingBottom: 240 }}>
+      {/* a soft pool of light so the cut-out is not floating on flat black */}
+      <AbsoluteFill
+        style={{
+          background:
+            "radial-gradient(58% 34% at 50% 64%, rgba(232,178,60,0.20) 0%," +
+            " rgba(232,178,60,0.07) 45%, rgba(11,10,9,0) 100%)",
+        }}
+      />
+      <AbsoluteFill className="items-center" style={{ justifyContent: "flex-end", paddingBottom: 236 }}>
         <div
           style={{
             transform: `translateY(${interpolate(t, [0, 1], [drift, -drift])}px) scale(${interpolate(
@@ -71,7 +79,7 @@ export const Float: React.FC<{ src: string; drift?: number }> = ({ src, drift = 
               [1.0, 1.06],
             )})`,
           }}
-          className="w-[820px]"
+          className="w-[884px]"
         >
           <Img src={staticFile(`images/${src}`)} className="w-full object-contain" />
         </div>
@@ -122,21 +130,30 @@ const Line: React.FC<{
 };
 
 /** One beat: a caption block held over whatever is behind it. */
+/**
+ * The scrim behind a caption. "band" sits across the middle third, for
+ * footage; "top" stops above the product on a cut-out beat, so the cap keeps
+ * its own contrast and the embroidery stays legible.
+ */
+const SCRIM = {
+  band:
+    "linear-gradient(to bottom, rgba(8,7,6,0) 22%, rgba(8,7,6,0.62) 34%," +
+    " rgba(8,7,6,0.62) 62%, rgba(8,7,6,0) 74%)",
+  top:
+    "linear-gradient(to bottom, rgba(8,7,6,0) 20%, rgba(8,7,6,0.68) 29%," +
+    " rgba(8,7,6,0.68) 42%, rgba(8,7,6,0) 48%)",
+};
+
 export const Beat: React.FC<{
   lines: string[];
   hot?: string;
   size?: number;
   accent?: string;
-}> = ({ lines, hot, size = 96, accent = "#e8b23c" }) => (
+  scrim?: keyof typeof SCRIM;
+}> = ({ lines, hot, size = 96, accent = "#e8b23c", scrim = "band" }) => (
   <AbsoluteFill>
     {/* a band behind the words — bright footage eats an outline on its own */}
-    <AbsoluteFill
-      style={{
-        background:
-          "linear-gradient(to bottom, rgba(8,7,6,0) 22%, rgba(8,7,6,0.62) 34%," +
-          " rgba(8,7,6,0.62) 62%, rgba(8,7,6,0) 74%)",
-      }}
-    />
+    <AbsoluteFill style={{ background: SCRIM[scrim] }} />
     <AbsoluteFill
       className="items-center"
       style={{

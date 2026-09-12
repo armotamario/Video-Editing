@@ -1,13 +1,46 @@
 """Cut the Godly Raiment product shots out of the store screenshots.
 
-Keys the white page away, repairs the carousel arrows drawn over the cap, and
-drops the header bar and the slide counter.
+Keys the white page away, repairs the carousel arrows drawn over the cap,
+drops the header bar and the slide counter, clears the mockup's ground
+shadow, and lands all three colourways on one shared canvas so they sit at
+the same size and position in a reel.
 """
 from PIL import Image, ImageDraw, ImageFilter
 import numpy as np
 
 BASE = '/root/.claude/uploads/fa6a7e27-2c32-5e4e-84fa-9d142fd7cfcb/'
-SHOTS = {'black': '2ce2dda5', 'charcoal': 'e6140471', 'stone': '4359afe6'}
+SHOTS = {'black': 'f70e5199', 'charcoal': '01c678ac', 'stone': 'e20e330f'}
+
+
+def border_connected(bg):
+    """Keep only background that reaches the frame edge.
+
+    The page is white and neutral, but so is the embroidery on the crown, and
+    a plain colour test punches holes through the lettering. Flooding in from
+    the border keeps the page and leaves anything enclosed by the cap opaque.
+    """
+    h, w = bg.shape
+    flat = np.where(bg, 255, 0).astype(np.uint8)
+    m = Image.fromarray(np.dstack([flat] * 3), 'RGB')
+    seeds = ([(x, 0) for x in range(w)] + [(x, h - 1) for x in range(w)]
+             + [(0, y) for y in range(h)] + [(w - 1, y) for y in range(h)])
+    for xy in seeds:
+        if m.getpixel(xy) == (255, 255, 255):
+            ImageDraw.floodfill(m, xy, (255, 0, 255))
+    r = np.array(m)
+    return (r[..., 0] == 255) & (r[..., 1] == 0) & (r[..., 2] == 255)
+
+
+def main_component(mask, seed):
+    """Keep only the blob the cap sits in, dropping stray page furniture."""
+    h, w = mask.shape
+    flat = np.where(mask, 255, 0).astype(np.uint8)
+    m = Image.fromarray(np.dstack([flat] * 3), 'RGB')
+    if m.getpixel(seed) != (255, 255, 255):
+        return mask
+    ImageDraw.floodfill(m, seed, (0, 255, 0))
+    r = np.array(m)
+    return (r[..., 0] == 0) & (r[..., 1] == 255) & (r[..., 2] == 0)
 
 
 def cap_bbox(a):
@@ -105,49 +138,83 @@ def cut(name, stem):
     bg = (fa[..., 0] == 255) & (fa[..., 1] == 0) & (fa[..., 2] == 255)
     neutral = (repaired.min(2) > 226) & ((repaired.max(2) - repaired.min(2)) < 14)
     bg |= neutral
+    bg = border_connected(bg)
 
     alpha = np.where(bg, 0, 255).astype(np.uint8)
     # the slide counter sits above the cap in every shot
     alpha[:int(h * 0.16)] = 0
 
-    # the mockup's ground reflection under the brim: neutral, and lighter than
-    # this cap's own crown. Cleared low in the frame only, so the white
-    # embroidery higher up survives on the dark colourways.
-    crown = repaired[int(h * 0.34):int(h * 0.46), int(w * 0.36):int(w * 0.64)]
-    crown_lum = float(crown.reshape(-1, 3).mean(1).mean())
-    low = slice(int(h * 0.70), h)
-    band = repaired[low].astype(int)
+    # The mockup's ground shadow under the brim. Fabric always carries a
+    # little colour (stone ~25, charcoal ~5) or, on the black cap, sits far
+    # below the shadow's luminance ramp; the shadow itself is a dead-neutral
+    # grey. Tested only low in the frame, so the white crown embroidery is
+    # never a candidate.
+    low0 = int(h * 0.68)
+    band = repaired[low0:].astype(int)
     lum = band.mean(2)
     sat = band.max(2) - band.min(2)
-    glare = (lum > crown_lum + 28) & (sat < 15)
-    a_low = alpha[low]
-    a_low[glare] = 0
-    alpha[low] = a_low
-    print(f'    crown lum {crown_lum:5.1f}  glare px {int(glare.sum())}')
+    shadow = (sat <= 2) & (lum > 100)
+    a_low = alpha[low0:]
+    a_low[shadow] = 0
+    alpha[low0:] = a_low
+    # the pale rim where the brim meets the crown reads as neutral too, so
+    # restore anything the shadow test punched out inside the silhouette.
+    alpha = np.where(border_connected(alpha == 0), 0, 255).astype(np.uint8)
 
-    # walk up each column from the bottom of the silhouette, clearing the
-    # light neutral reflection until real fabric is reached
-    rep = repaired.astype(int)
-    lum_all = rep.mean(2)
-    sat_all = rep.max(2) - rep.min(2)
-    reflect = (lum_all > crown_lum + 20) & (sat_all < 26)
+    # the brim's underside is a smooth arc, so median-smooth the bottom
+    # boundary across columns: that trims the teeth the per-pixel test leaves
+    # in the weave and fills the notches it punches.
+    bottom = np.full(w, -1)
     for c in range(w):
         rows = np.nonzero(alpha[:, c] > 0)[0]
-        if not len(rows):
-            continue
-        r = rows[-1]
-        while r >= 0 and alpha[r, c] > 0 and reflect[r, c]:
-            alpha[r, c] = 0
-            r -= 1
+        if len(rows):
+            bottom[c] = rows[-1]
+    cols = np.nonzero(bottom >= 0)[0]
+    R = 26
+    sm = bottom.copy()
+    for c in cols:
+        win = bottom[max(0, c - R):c + R + 1]
+        win = win[win >= 0]
+        if len(win):
+            sm[c] = int(np.median(win))
+    for c in cols:
+        b, t = bottom[c], sm[c]
+        if t > b:
+            # only close a short notch, and only over pixels that are not the
+            # page itself: at the brim's outer tips the median sits far below
+            # the silhouette and would paint a white strip down the side.
+            if t - b > 14:
+                continue
+            seg = repaired[b + 1:t + 1, c].astype(int)
+            keep = ~((seg.min(1) > 214) & ((seg.max(1) - seg.min(1)) < 16))
+            alpha[np.arange(b + 1, t + 1)[keep], c] = 255
+        elif t < b:
+            alpha[t + 1:b + 1, c] = 0
+
+    alpha = np.where(main_component(alpha > 0, (w // 2, int(h * 0.40))),
+                     255, 0).astype(np.uint8)
 
     im = Image.fromarray(np.dstack([repaired, alpha]), 'RGBA')
-    # close the single-pixel notches the erosion leaves along the brim
+    # close single-pixel notches, then pull the edge in a touch: the page is
+    # lighter than these caps, so the anti-aliased rim leaves a pale halo
     al = im.split()[3].filter(ImageFilter.MaxFilter(3)).filter(ImageFilter.MinFilter(3))
-    im.putalpha(al.filter(ImageFilter.GaussianBlur(1.0)))
-    im.save(f'cut-{name}.png')
+    im.putalpha(al.filter(ImageFilter.GaussianBlur(0.9)))
+
     print(f'{name:9s} crop {src.size}  arrow px {int(am.sum()):6d}  transparent {100*bg.mean():4.1f}%')
     return im
 
 
-for n, s in SHOTS.items():
-    cut(n, s)
+OUT = '/home/user/Video-Editing/public/images/store/'
+
+caps = {n: cut(n, s) for n, s in SHOTS.items()}
+caps = {n: im.crop(im.split()[3].getbbox()) for n, im in caps.items()}
+
+# one canvas for every colourway: the shots differ slightly in resolution, and
+# a cap that jumps size between cuts reads as a mistake.
+W = max(c.width for c in caps.values())
+H = max(c.height for c in caps.values())
+for n, c in caps.items():
+    out = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    out.paste(c, ((W - c.width) // 2, 0), c)
+    out.save(OUT + n + '.png')
+    print(f'{n:9s} -> {OUT}{n}.png  {out.size}')

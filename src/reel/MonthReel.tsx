@@ -22,6 +22,9 @@ const GR_TRACK: Record<string, string> = {
 
 export const MonthReel: React.FC<{ spec: Spec }> = ({ spec }) => {
   const accent = spec.accent ?? "#e8b23c";
+  /** A cut-out beat carries the product, so the caption scrim keeps off it. */
+  const scrim = (i: number): "top" | "band" =>
+    spec.back[i].kind === "float" ? "top" : "band";
   return (
     <Reel
       track={spec.track ?? GR_TRACK[spec.topic]}
@@ -30,7 +33,9 @@ export const MonthReel: React.FC<{ spec: Spec }> = ({ spec }) => {
         key: "hook",
         duration: BEATS[0],
         back: back(spec.back[0]),
-        node: <Beat lines={spec.hook} hot={spec.hookHot} size={96} accent={accent} />,
+        node: (
+          <Beat lines={spec.hook} hot={spec.hookHot} size={96} accent={accent} scrim={scrim(0)} />
+        ),
       },
       {
         key: "proof",
@@ -42,13 +47,29 @@ export const MonthReel: React.FC<{ spec: Spec }> = ({ spec }) => {
         key: "benefit-1",
         duration: BEATS[2],
         back: back(spec.back[2]),
-        node: <Beat lines={spec.benefits[0]} hot={spec.benefitHot[0]} size={94} accent={accent} />,
+        node: (
+          <Beat
+            lines={spec.benefits[0]}
+            hot={spec.benefitHot[0]}
+            size={94}
+            accent={accent}
+            scrim={scrim(2)}
+          />
+        ),
       },
       {
         key: "benefit-2",
         duration: BEATS[3],
         back: back(spec.back[3]),
-        node: <Beat lines={spec.benefits[1]} hot={spec.benefitHot[1]} size={94} accent={accent} />,
+        node: (
+          <Beat
+            lines={spec.benefits[1]}
+            hot={spec.benefitHot[1]}
+            size={94}
+            accent={accent}
+            scrim={scrim(3)}
+          />
+        ),
       },
       {
         key: "cta",
