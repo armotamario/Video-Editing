@@ -1,5 +1,6 @@
 import { Composition } from "remotion";
 import { ClipEdit } from "./edit/ClipEdit";
+import { FultonSheenEdit, FULTON_SHEEN_DURATION, CLIP_FPS as FULTON_SHEEN_FPS } from "./edit/FultonSheenEdit";
 import { GrClothes, GrStillCatholic, GrFiveMinutes, GrNotJewellery } from "./reel/GrReels";
 import { MONTH } from "./reel/month";
 import { MFBA_MONTH } from "./reel/mfbaMonth";
@@ -157,6 +158,14 @@ export const MyComposition = () => {
           defaultProps={{ src: e.src, fadeFrames: Math.round(e.fps * 0.4) }}
         />
       ))}
+      <Composition
+        id="EditFultonSheen"
+        component={FultonSheenEdit}
+        durationInFrames={FULTON_SHEEN_DURATION}
+        fps={FULTON_SHEEN_FPS}
+        width={1080}
+        height={1920}
+      />
       <Composition
         id="GodlyRaimentPromo"
         component={PromoVideo}
