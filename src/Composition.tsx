@@ -3,6 +3,8 @@ import { ClipEdit } from "./edit/ClipEdit";
 import { GrClothes, GrStillCatholic, GrFiveMinutes, GrNotJewellery } from "./reel/GrReels";
 import { MONTH } from "./reel/month";
 import { MFBA_MONTH } from "./reel/mfbaMonth";
+import { OCTOBER } from "./reel/october";
+import { MFBA_OCTOBER } from "./reel/mfbaOctober";
 import { MonthReel, MONTH_DURATION } from "./reel/MonthReel";
 import { MfbaReel } from "./reel/MfbaReel";
 import { PromoVideo, TOTAL_DURATION } from "./PromoVideo";
@@ -117,7 +119,7 @@ const EDITS: { id: string; src: string; fps: number; seconds: number }[] = [
 export const MyComposition = () => {
   return (
     <>
-      {[...MONTH, ...MFBA_MONTH].map((spec) => (
+      {[...MONTH, ...MFBA_MONTH, ...OCTOBER, ...MFBA_OCTOBER].map((spec) => (
         <Composition
           key={spec.id}
           id={spec.id}

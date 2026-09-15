@@ -5,6 +5,8 @@ drops the header bar and the slide counter, clears the mockup's ground
 shadow, and lands all three colourways on one shared canvas so they sit at
 the same size and position in a reel.
 """
+from pathlib import Path
+
 from PIL import Image, ImageDraw, ImageFilter
 import numpy as np
 
@@ -204,17 +206,23 @@ def cut(name, stem):
     return im
 
 
-OUT = '/home/user/Video-Editing/public/images/store/'
+OUT = str(Path(__file__).resolve().parent.parent / 'public' / 'images' / 'store') + '/'
 
-caps = {n: cut(n, s) for n, s in SHOTS.items()}
-caps = {n: im.crop(im.split()[3].getbbox()) for n, im in caps.items()}
 
-# one canvas for every colourway: the shots differ slightly in resolution, and
-# a cap that jumps size between cuts reads as a mistake.
-W = max(c.width for c in caps.values())
-H = max(c.height for c in caps.values())
-for n, c in caps.items():
-    out = Image.new('RGBA', (W, H), (0, 0, 0, 0))
-    out.paste(c, ((W - c.width) // 2, 0), c)
-    out.save(OUT + n + '.png')
-    print(f'{n:9s} -> {OUT}{n}.png  {out.size}')
+def main():
+    caps = {n: cut(n, s) for n, s in SHOTS.items()}
+    caps = {n: im.crop(im.split()[3].getbbox()) for n, im in caps.items()}
+
+    # one canvas for every colourway: the shots differ slightly in resolution,
+    # and a cap that jumps size between cuts reads as a mistake.
+    W = max(c.width for c in caps.values())
+    H = max(c.height for c in caps.values())
+    for n, c in caps.items():
+        out = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+        out.paste(c, ((W - c.width) // 2, 0), c)
+        out.save(OUT + n + '.png')
+        print(f'{n:9s} -> {OUT}{n}.png  {out.size}')
+
+
+if __name__ == '__main__':
+    main()

@@ -88,13 +88,49 @@ export const Float: React.FC<{ src: string; drift?: number }> = ({ src, drift = 
   );
 };
 
+/**
+ * A product shot kept on paper rather than floated on black.
+ *
+ * The plate is roughly square and the frame is 9:16, so filling it would crop
+ * the cap to a band of crown; this contains the whole shot low in the frame on
+ * one shared paper ground and leaves the top third clear for the caption.
+ */
+export const Shot: React.FC<{ src: string; drift?: number }> = ({ src, drift = 16 }) => {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const t = frame / Math.max(durationInFrames, 1);
+  return (
+    <AbsoluteFill style={{ background: PAPER }}>
+      <AbsoluteFill
+        className="items-center"
+        style={{ justifyContent: "flex-end", paddingBottom: 170 }}
+      >
+        <div
+          style={{
+            transform: `translateY(${interpolate(t, [0, 1], [drift, -drift])}px) scale(${interpolate(
+              t,
+              [0, 1],
+              [1.0, 1.05],
+            )})`,
+            mixBlendMode: "multiply",
+          }}
+          className="w-[980px]"
+        >
+          <Img src={staticFile(`images/${src}`)} className="w-full object-contain" />
+        </div>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
 const Line: React.FC<{
   text: string;
   hot?: string;
   size: number;
   accent: string;
   delay: number;
-}> = ({ text, hot, size, accent, delay }) => {
+  ink?: "light" | "dark";
+}> = ({ text, hot, size, accent, delay, ink = "light" }) => {
   const frame = useCurrentFrame();
   const t = interpolate(frame, [delay, delay + 6], [0, 1], {
     extrapolateLeft: "clamp",
@@ -111,7 +147,7 @@ const Line: React.FC<{
         fontSize: size,
         lineHeight: 1.02,
         letterSpacing: "-0.02em",
-        textShadow: OUTLINE("#0a0908"),
+        textShadow: OUTLINE(HALO[ink]),
       }}
       className="text-center uppercase"
     >
@@ -119,7 +155,7 @@ const Line: React.FC<{
         const bare = w.replace(/[^A-Za-z']/g, "").toLowerCase();
         const isHot = hot ? bare === hot.toLowerCase() : false;
         return (
-          <span key={`${w}-${i}`} style={{ color: isHot ? accent : "#ffffff" }}>
+          <span key={`${w}-${i}`} style={{ color: isHot ? accent : INK[ink] }}>
             {w}
             {i < words.length - 1 ? " " : ""}
           </span>
@@ -136,6 +172,12 @@ const Line: React.FC<{
  * its own contrast and the embroidery stays legible.
  */
 const SCRIM = {
+  /** A paper ground needs nothing behind the words. */
+  none: "transparent",
+  /** Over a pale product plate: a white wash, so dark ink reads. */
+  wash:
+    "linear-gradient(to bottom, rgba(250,249,246,0.86) 12%," +
+    " rgba(250,249,246,0.86) 40%, rgba(250,249,246,0) 54%)",
   band:
     "linear-gradient(to bottom, rgba(8,7,6,0) 22%, rgba(8,7,6,0.62) 34%," +
     " rgba(8,7,6,0.62) 62%, rgba(8,7,6,0) 74%)",
@@ -144,20 +186,38 @@ const SCRIM = {
     " rgba(8,7,6,0.68) 42%, rgba(8,7,6,0) 48%)",
 };
 
+/** Near-black type with a pale halo, for captions over a light backdrop. */
+export const PAPER = "#f7f6f3";
+/** The gold reads thin on paper; this is the same hue carrying more ink. */
+export const PAPER_ACCENT = "#a8761a";
+export const INK = { light: "#ffffff", dark: "#14120f" };
+const HALO = { light: "#0a0908", dark: "#faf9f6" };
+
 export const Beat: React.FC<{
   lines: string[];
   hot?: string;
   size?: number;
   accent?: string;
   scrim?: keyof typeof SCRIM;
-}> = ({ lines, hot, size = 96, accent = "#e8b23c", scrim = "band" }) => (
+  ink?: keyof typeof INK;
+  /** Where the block starts, in pixels of the 1920 frame. */
+  top?: number;
+}> = ({
+  lines,
+  hot,
+  size = 96,
+  accent = "#e8b23c",
+  scrim = "band",
+  ink = "light",
+  top = SAFE_TOP,
+}) => (
   <AbsoluteFill>
     {/* a band behind the words — bright footage eats an outline on its own */}
     <AbsoluteFill style={{ background: SCRIM[scrim] }} />
     <AbsoluteFill
       className="items-center"
       style={{
-        paddingTop: SAFE_TOP,
+        paddingTop: top,
         paddingLeft: 72,
         paddingRight: 72,
         justifyContent: "flex-start",
@@ -165,7 +225,7 @@ export const Beat: React.FC<{
     >
       <div className="flex flex-col gap-2">
         {lines.map((l, i) => (
-          <Line key={l} text={l} hot={hot} size={size} accent={accent} delay={i * 4} />
+          <Line key={l} text={l} hot={hot} size={size} accent={accent} delay={i * 4} ink={ink} />
         ))}
       </div>
     </AbsoluteFill>
@@ -197,11 +257,12 @@ export const Reel: React.FC<{
 };
 
 /** The sign-off every reel lands on. */
-export const SignOff: React.FC<{ line: string; accent?: string; sub?: string }> = ({
-  line,
-  accent = "#e8b23c",
-  sub = "Godlyraiment.com.au",
-}) => {
+export const SignOff: React.FC<{
+  line: string;
+  accent?: string;
+  sub?: string;
+  ink?: keyof typeof INK;
+}> = ({ line, accent = "#e8b23c", sub = "Godlyraiment.com.au", ink = "light" }) => {
   const frame = useCurrentFrame();
   const t = interpolate(frame, [0, 8], [0, 1], {
     extrapolateLeft: "clamp",
@@ -216,8 +277,8 @@ export const SignOff: React.FC<{ line: string; accent?: string; sub?: string }> 
           fontWeight: 900,
           fontSize: 86,
           letterSpacing: "-0.02em",
-          color: "#ffffff",
-          textShadow: OUTLINE("#0a0908"),
+          color: INK[ink],
+          textShadow: OUTLINE(HALO[ink]),
           whiteSpace: "pre-line",
         }}
         className="text-center uppercase leading-none"
@@ -232,7 +293,7 @@ export const SignOff: React.FC<{ line: string; accent?: string; sub?: string }> 
           fontSize: 34,
           letterSpacing: "0.22em",
           color: accent,
-          textShadow: OUTLINE("#0a0908"),
+          textShadow: OUTLINE(HALO[ink]),
         }}
         className="mt-10 text-center uppercase"
       >
@@ -243,11 +304,14 @@ export const SignOff: React.FC<{ line: string; accent?: string; sub?: string }> 
 };
 
 /** The proof beat: a short citation, with its source under a rule. */
-export const Quote: React.FC<{ text: string; cite: string; accent?: string }> = ({
-  text,
-  cite,
-  accent = "#e8b23c",
-}) => {
+export const Quote: React.FC<{
+  text: string;
+  cite: string;
+  accent?: string;
+  ink?: keyof typeof INK;
+  /** Where the block starts, in pixels of the 1920 frame. */
+  top?: number;
+}> = ({ text, cite, accent = "#e8b23c", ink = "light", top }) => {
   const frame = useCurrentFrame();
   const inT = interpolate(frame, [0, 8], [0, 1], {
     extrapolateLeft: "clamp",
@@ -259,8 +323,14 @@ export const Quote: React.FC<{ text: string; cite: string; accent?: string }> = 
   });
   return (
     <AbsoluteFill>
-      <AbsoluteFill style={{ background: "rgba(8,7,6,0.62)" }} />
-      <AbsoluteFill className="items-center justify-center px-20">
+      {ink === "dark" ? null : <AbsoluteFill style={{ background: "rgba(8,7,6,0.62)" }} />}
+      <AbsoluteFill
+        className="items-center px-20"
+        style={{
+          justifyContent: top === undefined ? "center" : "flex-start",
+          paddingTop: top,
+        }}
+      >
         <div
           style={{
             opacity: inT,
@@ -269,8 +339,8 @@ export const Quote: React.FC<{ text: string; cite: string; accent?: string }> = 
             fontWeight: 700,
             fontSize: 66,
             lineHeight: 1.2,
-            color: "#ffffff",
-            textShadow: OUTLINE("#0a0908"),
+            color: INK[ink],
+            textShadow: OUTLINE(HALO[ink]),
           }}
           className="text-center"
         >
@@ -285,7 +355,7 @@ export const Quote: React.FC<{ text: string; cite: string; accent?: string }> = 
             fontSize: 34,
             letterSpacing: "0.2em",
             color: accent,
-            textShadow: OUTLINE("#0a0908"),
+            textShadow: OUTLINE(HALO[ink]),
           }}
           className="mt-8 text-center uppercase"
         >

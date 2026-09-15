@@ -23,11 +23,13 @@ export type Spec = {
   track?: string;
   sub?: string;
   back: {
-    kind: "plate" | "float" | "clip";
+    kind: "plate" | "float" | "clip" | "shot";
     src: string;
     focus?: string;
     dim?: number;
     startFrom?: number;
+    /** A pale backdrop — the caption inverts to dark ink over it. */
+    light?: boolean;
   }[];
 };
 
