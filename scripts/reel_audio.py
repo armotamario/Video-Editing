@@ -31,12 +31,72 @@ OUT = Path(__file__).resolve().parent.parent / "public" / "audio"
 # where the reel cuts land
 HOOK, PROOF, BEN1, BEN2, CTA = 0.0, 2.6, 6.0, 8.2, 10.4
 
+# The grid these beds sit on. It matches the balance of the reference he sent:
+# a slow ~99bpm walk, the weight all in the 60-250Hz octave, the 500-2000Hz
+# mids left mostly empty so a caption reads over it, and the air back on top as
+# sixteenth hats. Everything below is written here, not sampled.
+BPM = 99.0
+BEAT = 60.0 / BPM
+BAR = BEAT * 4
+SIX = BEAT / 4
+
 rng = np.random.default_rng(11)
+
+
+def glide(f0, f1, dur, bend=0.22):
+    """A sliding 808: the bass note smears from one pitch to the next.
+
+    The reference's low end sits between C2 and C#2 rather than on a single
+    partial, which is what a pitched glide looks like on a spectrum.
+    """
+    n = int(SR * dur)
+    k = np.clip(t(n) / max(bend * dur, 1e-6), 0, 1) ** 0.7
+    f = f0 * (f1 / f0) ** k
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    body = np.sin(ph) + 0.12 * np.sin(2 * ph)
+    return np.tanh(body * 1.25) * env(n, 0.004, 0.25, 1, max(dur * 0.55, 0.2), sus=0.72)
+
+
+def air(m, at, dur, gain=0.05, cut=9000):
+    """A breath of filtered noise — the top octave the reference keeps lit."""
+    n = int(SR * dur)
+    place(m, at, highpass(noise(n), cut) * env(n, 0.35, 0.5, 1, dur * 0.6, sus=0.7), gain)
+
+
+def hats(m, start, stop, step=SIX, gain=0.20, bright=9600, decay=180, rolls=()):
+    """Sixteenth hats with optional double-time rolls on the given step index."""
+    i = 0
+    at = start
+    while at < stop:
+        roll = (i % 16) in rolls
+        if roll:
+            for j in range(2):
+                place(m, at + j * step / 2, hat(0.03, bright, decay + 60), gain * 0.7)
+        else:
+            place(m, at, hat(0.045, bright, decay), gain if i % 2 else gain * 1.35)
+        at += step
+        i += 1
+
+
+def tilt(x, low_gain=1.5, low_cut=380.0, high_gain=0.55, high_cut=6500.0, presence=0.9):
+    """Weight the bed the way the reference is weighted.
+
+    Synthesised hats and noise put far too much energy above 8kHz and leave the
+    bottom thin; a low shelf up and a high shelf down lands the octave balance
+    where his reference sits, which is what makes it sound like a track off a
+    phone rather than a sound-design exercise.
+    """
+    shaped = x + low_gain * lowpass(x, low_cut) - high_gain * highpass(x, high_cut)
+    # these beds are deliberately mid-scooped, which leaves a hole where the
+    # reference still has body; put a little of the 2-4kHz band back
+    shaped = shaped + presence * (lowpass(x, 4000.0) - lowpass(x, 1800.0))
+    # nothing under ~32Hz survives a phone speaker; it only eats headroom
+    return highpass(shaped, 32.0)
 
 
 def master(mono, target=0.17, peak=0.86, stereo_ms=0.011):
     """Gentle master: sits under burned-in captions without disappearing."""
-    wet = reverb(mono, 0.2)
+    wet = reverb(tilt(mono), 0.2)
     d = int(SR * stereo_ms)
     right = np.concatenate([np.zeros(d), wet[:-d]])
     left = wet
@@ -74,197 +134,206 @@ def keys(m, notes, at, step, dur=1.2, gain=0.22, harm=(1.0, 0.45, 0.2)):
 
 
 # ------------------------------------------------------------------ Godly Raiment
+#
+# All four sit on the same low-and-airy floor so the set reads as one brand,
+# and separate on what is above it: prayer is almost all pad, bible adds a
+# figure, mass adds the organ stack, promo is the only one that really drives.
+
+CM = dict(c=65.41, g=48.99, af=51.91, bf=58.27, ef=77.78)  # the low register
+
+
+def _floor(m, root=("c", "af", "bf", "g"), gain=0.46, drive=1.0, per=2):
+    """The shared bottom: one sliding 808 every `per` bars, kick on the one."""
+    for bar in range(6):
+        b = bar * BAR
+        if bar % per == 0:
+            a, z = root[(bar // per) % len(root)], root[((bar // per) + 1) % len(root)]
+            note = glide(CM[a], CM[z], BAR * per * 0.92)
+            place(m, b, np.tanh(note * drive), gain)
+        place(m, b, kick(0.40, 118, 44), 0.42 * drive)
+
 
 def prayer():
-    """Soft piano over an ambient wash, no drums."""
+    """Almost no percussion — a low pulse, a wash, and one figure on top."""
     m = np.zeros(N)
-    chords = [(220.00, 261.63, 329.63), (174.61, 220.00, 261.63),
-              (196.00, 246.94, 293.66), (220.00, 261.63, 329.63)]
-    for i, ch in enumerate(chords):
-        place(m, i * 3.3, pad(ch, 3.7), 0.30)
-        place(m, i * 3.3, pad(tuple(f * 2 for f in ch), 3.4), 0.10)
-    keys(m, [659.25, 523.25, 587.33, 440.00, 523.25, 659.25], 1.0, 1.9, 1.6, 0.16)
-    place(m, CTA, bell(880.00, 2.6), 0.14)
+    for i, ch in enumerate([(130.81, 155.56, 196.00), (116.54, 155.56, 185.00),
+                            (123.47, 146.83, 196.00), (130.81, 155.56, 196.00)]):
+        place(m, i * 3.3, lowpass(pad(ch, 3.8, detune=0.003), 620), 0.34)
+    for bar in range(6):
+        place(m, bar * BAR, glide(CM["c"], CM["c"], BAR * 0.9), 0.34)
+    hats(m, PROOF, DUR - 0.7, step=SIX * 2, gain=0.09, bright=10400, decay=210)
+    keys(m, [523.25, 622.25, 523.25, 466.16], 1.1, 2.6, 1.7, 0.10,
+         harm=(1.0, 0.22, 0.06))
+    place(m, CTA, bell(784.00, 2.6), 0.10)
+    air(m, 0.0, DUR, 0.045)
     return m
 
 
 def bible():
-    """Reflective piano with light strings under it."""
+    """The pulse walks — a two-note bass figure under a still pad."""
     m = np.zeros(N)
-    for i, ch in enumerate([(146.83, 220.00, 293.66), (130.81, 196.00, 261.63),
-                            (164.81, 246.94, 329.63), (146.83, 220.00, 293.66)]):
-        place(m, i * 3.3, pad(ch, 3.6), 0.26)
-    keys(m, [587.33, 493.88, 440.00, 493.88, 587.33, 659.25, 587.33], 0.8, 1.6, 1.3, 0.18)
-    for i in range(5):
-        place(m, PROOF + i * 1.4, sub808(73.42, 1.1), 0.16)
-    place(m, BEN1, pad((293.66, 440.00, 587.33), 4.2), 0.14)
+    for i, ch in enumerate([(116.54, 155.56, 185.00), (130.81, 155.56, 196.00)]):
+        place(m, i * 6.5, lowpass(pad(ch, 6.8, detune=0.003), 560), 0.30)
+    _floor(m, root=("c", "af", "bf", "af"), gain=0.42, drive=0.9)
+    hats(m, 0.6, DUR - 0.7, gain=0.13, bright=9800, decay=190, rolls=(14, 15))
+    keys(m, [622.25, 523.25, 466.16, 523.25, 622.25], 0.9, 2.3, 1.4, 0.11,
+         harm=(1.0, 0.24, 0.08))
+    place(m, BEN1, bell(932.33, 2.2), 0.08)
+    air(m, 0.0, DUR, 0.05)
     return m
 
 
 def mass():
-    """Organ and a choir-like stack, generous tail."""
+    """The organ stack over the same floor, with the long tail it needs."""
     m = np.zeros(N)
-    for i, ch in enumerate([(130.81, 196.00, 261.63), (146.83, 220.00, 293.66),
-                            (110.00, 164.81, 220.00), (130.81, 196.00, 261.63)]):
+    for i, ch in enumerate([(98.00, 130.81, 155.56), (103.83, 130.81, 155.56),
+                            (87.31, 116.54, 146.83), (98.00, 130.81, 155.56)]):
         at = i * 3.3
-        place(m, at, pad(ch, 3.8, detune=0.002), 0.30)
-        # organ: stacked fifths and octaves
+        place(m, at, lowpass(pad(ch, 3.8, detune=0.002), 520), 0.30)
         n = int(3.6 * SR)
-        organ = sum(np.sin(2 * np.pi * f * mlt * t(n)) / mlt
-                    for f in ch for mlt in (1, 2, 3)) / (len(ch) * 3)
-        place(m, at, organ * env(n, 0.5, 0.4, 1, 1.0, sus=0.8), 0.20)
-    place(m, 0.0, bell(523.25, 3.2), 0.12)
-    place(m, CTA, bell(392.00, 3.0), 0.14)
+        organ = sum(np.sin(2 * np.pi * f * mlt * t(n)) / (mlt ** 1.6)
+                    for f in ch for mlt in (1, 2, 3, 4)) / (len(ch) * 4)
+        place(m, at, lowpass(organ, 1500) * env(n, 0.55, 0.4, 1, 1.1, sus=0.8), 0.24)
+    for bar in range(6):
+        place(m, bar * BAR, glide(CM["c"], CM["g"], BAR * 0.95), 0.40)
+    hats(m, PROOF, DUR - 0.8, step=SIX * 2, gain=0.10, bright=10200, decay=200)
+    place(m, 0.0, bell(1046.50, 3.2), 0.08)
+    place(m, CTA, bell(783.99, 3.0), 0.10)
+    air(m, 0.0, DUR, 0.05)
     return m
 
 
 def promo():
-    """Clean luxury beat — soft kit, muted chords, round sub."""
+    """The product bed — this is the one that actually drives."""
     m = np.zeros(N)
-    for bar in range(7):
-        b = bar * 1.85
-        place(m, b, kick(0.4, 110, 45), 0.55)
-        place(m, b + 0.93, rim(0.1), 0.30)
-        place(m, b + 1.39, kick(0.34, 100, 44), 0.30)
-        if bar >= 1:
-            place(m, b, sub808(55.00, 1.5), 0.38)
-    for i in range(int(DUR / 0.2313)):
-        at = 0.4 + i * 0.2313
-        if at > DUR - 0.6:
-            break
-        place(m, at, hat(0.05, 8200, 120), 0.16 if i % 2 else 0.24)
-    keys(m, [440.00, 523.25, 659.25, 523.25, 440.00, 392.00, 440.00],
-         0.5, 1.85, 0.8, 0.17, harm=(1.0, 0.3, 0.12))
-    place(m, CTA, pad((220.00, 277.18, 329.63), 2.6), 0.16)
+    _floor(m, root=("c", "bf", "af", "g"), gain=0.52, drive=1.15, per=1)
+    for bar in range(6):
+        b = bar * BAR
+        place(m, b + BEAT * 2, rim(0.09), 0.30)
+        place(m, b + BEAT * 3 + SIX * 2, kick(0.32, 104, 43), 0.26)
+    hats(m, 0.3, DUR - 0.5, gain=0.21, bright=10600, decay=175, rolls=(7, 14, 15))
+    keys(m, [622.25, 523.25, 622.25, 698.46, 622.25, 523.25],
+         0.7, 2.0, 0.7, 0.13, harm=(1.0, 0.26, 0.09))
+    place(m, CTA, lowpass(pad((155.56, 196.00, 233.08), 2.6), 900), 0.16)
+    air(m, 0.0, DUR, 0.055)
     return m
 
 
 # --------------------------------------------------------------------- MFBA
+#
+# Same floor, more drive on it: the kick is saturated, the 808 is pushed, and
+# the hats run faster. The pads stay under 700Hz so the orange captions read.
+
 
 def mobility():
-    """Calm motivational — light phonk pulse, airy top."""
+    """The calm one — the floor at half weight, nothing sharp on top."""
     m = np.zeros(N)
-    for bar in range(7):
-        b = bar * 1.85
-        place(m, b, kick(0.44, 95, 42), 0.44)
-        place(m, b + 0.93, snare(0.24, 180), 0.20)
-        if bar >= 1:
-            place(m, b, sub808(49.00, 1.4), 0.30)
-    for i in range(int(DUR / 0.2313)):
-        at = 0.5 + i * 0.2313
-        if at > DUR - 0.6:
-            break
-        place(m, at, hat(0.045, 7600, 140), 0.14 if i % 2 else 0.20)
-    for i, ch in enumerate([(196.00, 246.94, 293.66), (174.61, 220.00, 261.63)]):
-        place(m, i * 6.5, pad(ch, 6.8), 0.22)
-    keys(m, [493.88, 587.33, 493.88, 440.00], 1.2, 3.0, 1.0, 0.13)
+    for i, ch in enumerate([(116.54, 155.56, 185.00), (98.00, 146.83, 174.61)]):
+        place(m, i * 6.5, lowpass(pad(ch, 6.8), 620), 0.26)
+    _floor(m, root=("g", "bf", "af", "c"), gain=0.38, drive=0.85, per=2)
+    hats(m, 0.5, DUR - 0.7, gain=0.13, bright=9400, decay=200)
+    keys(m, [466.16, 523.25, 466.16, 415.30], 1.2, 3.0, 1.2, 0.10,
+         harm=(1.0, 0.24, 0.08))
+    air(m, 0.0, DUR, 0.05)
     return m
 
 
 def lifting():
-    """Hard phonk — distorted kick, heavy 808, fast hats."""
+    """The heavy one — saturated kick, a hard glide, rolling hats."""
     m = np.zeros(N)
-    for bar in range(7):
-        b = bar * 1.85
-        k = kick(0.42, 145, 46, click=0.8)
-        place(m, b, np.tanh(k * 2.4), 0.62)
-        place(m, b + 0.93, snare(0.26, 210), 0.44)
-        place(m, b + 1.39, np.tanh(kick(0.3, 130, 44) * 2.0), 0.34)
-        root = 41.20 if bar % 2 == 0 else 49.00
-        place(m, b, np.tanh(sub808(root, 1.7) * 1.6), 0.52)
-    step = 0.1157
-    for i in range(int(DUR / step)):
-        at = 0.3 + i * step
-        if at > DUR - 0.5:
-            break
-        roll = (i % 16) in (13, 14, 15)
-        place(m, at, hat(0.04, 8600, 170), 0.22 if not roll else 0.16)
-    n = int(2.2 * SR)
-    lead = lowpass(saw(164.81, n) + saw(164.81 * 1.005, n), 900) * env(n, 0.02, 0.4, 1, 0.6, 0.5)
+    for bar in range(6):
+        b = bar * BAR
+        place(m, b, np.tanh(kick(0.42, 150, 45, click=0.85) * 2.6), 0.66)
+        place(m, b + BEAT * 2, snare(0.24, 205), 0.44)
+        place(m, b + BEAT * 3 + SIX, np.tanh(kick(0.30, 132, 44) * 2.1), 0.32)
+        a, z = ("c", "g") if bar % 2 == 0 else ("bf", "af")
+        place(m, b, np.tanh(glide(CM[a], CM[z], BAR * 0.95) * 1.7), 0.58)
+    hats(m, 0.3, DUR - 0.5, step=SIX, gain=0.22, bright=11000, decay=160,
+         rolls=(6, 7, 13, 14, 15))
+    n = int(2.0 * SR)
+    lead = lowpass(saw(155.56, n) + saw(155.56 * 1.006, n), 820) * env(n, 0.02, 0.4, 1, 0.6, 0.5)
     for at in (PROOF, BEN2):
-        place(m, at, lead, 0.16)
-    place(m, CTA, impact(2.0), 0.42)
+        place(m, at, lead, 0.15)
+    place(m, CTA, impact(2.0), 0.40)
+    air(m, 0.0, DUR, 0.06)
     return m
 
 
 def cardio():
-    """Upbeat house — four on the floor, offbeat bass, bright top."""
+    """Same floor at double-time on top — busier, not faster underneath."""
     m = np.zeros(N)
-    beat = 0.4615  # 130 bpm
-    for i in range(int(DUR / beat)):
-        at = i * beat
-        if at > DUR - 0.5:
-            break
-        place(m, at, kick(0.34, 120, 48), 0.56)
-        place(m, at + beat / 2, hat(0.05, 9000, 150), 0.22)
-        if i % 4 == 2:
-            place(m, at, snare(0.2, 200), 0.26)
-        place(m, at + beat / 2, sub808(65.41 if (i // 4) % 2 == 0 else 73.42, 0.4), 0.34)
-    keys(m, [659.25, 784.00, 659.25, 587.33, 523.25, 587.33, 659.25, 784.00],
-         1.0, 1.4, 0.5, 0.16, harm=(1.0, 0.35, 0.15))
-    for i, ch in enumerate([(261.63, 329.63, 392.00), (293.66, 349.23, 440.00)]):
-        place(m, i * 6.5, pad(ch, 6.6), 0.18)
+    _floor(m, root=("c", "af", "bf", "g"), gain=0.48, drive=1.1, per=1)
+    for bar in range(6):
+        b = bar * BAR
+        place(m, b + BEAT * 2, snare(0.20, 215), 0.30)
+        place(m, b + BEAT, kick(0.30, 112, 44), 0.24)
+    hats(m, 0.25, DUR - 0.5, step=SIX / 2, gain=0.15, bright=11200, decay=140,
+         rolls=(15,))
+    keys(m, [622.25, 698.46, 622.25, 523.25, 622.25, 783.99],
+         0.8, 1.9, 0.6, 0.13, harm=(1.0, 0.3, 0.1))
+    for i, ch in enumerate([(130.81, 155.56, 196.00), (146.83, 174.61, 220.00)]):
+        place(m, i * 6.5, lowpass(pad(ch, 6.6), 680), 0.20)
+    air(m, 0.0, DUR, 0.06)
     return m
 
 
 def diet():
-    """Clean lifestyle — light hip-hop, warm keys."""
+    """Warm and unhurried — rim instead of a snare, the glide rounded off."""
     m = np.zeros(N)
-    for bar in range(7):
-        b = bar * 1.85
-        place(m, b, kick(0.38, 105, 44), 0.48)
-        place(m, b + 0.93, rim(0.09), 0.26)
-        if bar >= 1:
-            place(m, b, sub808(58.27, 1.3), 0.30)
-    for i in range(int(DUR / 0.2313)):
-        at = 0.45 + i * 0.2313
-        if at > DUR - 0.6:
-            break
-        place(m, at, hat(0.05, 7800, 130), 0.15 if i % 2 else 0.21)
-    keys(m, [523.25, 587.33, 698.46, 587.33, 523.25, 466.16],
-         0.6, 2.1, 0.9, 0.18, harm=(1.0, 0.32, 0.14))
-    for i, ch in enumerate([(233.08, 293.66, 349.23), (207.65, 261.63, 311.13)]):
-        place(m, i * 6.5, pad(ch, 6.6), 0.18)
+    for bar in range(6):
+        b = bar * BAR
+        place(m, b, kick(0.38, 108, 43), 0.46)
+        place(m, b + BEAT * 2, rim(0.09), 0.26)
+        if bar % 2 == 0:
+            a, z = ("bf", "c") if bar % 4 == 0 else ("af", "g")
+            place(m, b, glide(CM[a], CM[z], BAR * 1.9, bend=0.3), 0.40)
+    hats(m, 0.45, DUR - 0.6, gain=0.15, bright=9600, decay=180, rolls=(15,))
+    keys(m, [523.25, 622.25, 698.46, 622.25, 523.25, 466.16],
+         0.6, 2.1, 0.9, 0.14, harm=(1.0, 0.28, 0.1))
+    for i, ch in enumerate([(116.54, 155.56, 185.00), (103.83, 130.81, 155.56)]):
+        place(m, i * 6.5, lowpass(pad(ch, 6.6), 640), 0.20)
+    air(m, 0.0, DUR, 0.05)
     return m
 
 
 def lifestyle():
-    """Motivational cinematic — builds, stays smooth."""
+    """Holds back, then lands the floor on the benefits."""
     m = np.zeros(N)
-    for i, ch in enumerate([(174.61, 261.63, 349.23), (196.00, 293.66, 392.00),
-                            (146.83, 220.00, 293.66), (174.61, 261.63, 349.23)]):
-        place(m, i * 3.3, pad(ch, 3.6), 0.26)
-    keys(m, [523.25, 587.33, 698.46, 587.33, 523.25, 440.00, 523.25], 0.9, 1.7, 1.1, 0.16)
-    for bar in range(3, 7):
-        b = bar * 1.85
-        place(m, b, kick(0.4, 100, 44), 0.40)
-        place(m, b + 0.93, snare(0.22, 190), 0.20)
-    place(m, BEN1 - 1.4, riser(1.5, 200, 1400), 0.16)
-    place(m, BEN1, impact(1.8), 0.28)
-    place(m, CTA, bell(784.00, 2.4), 0.12)
+    for i, ch in enumerate([(116.54, 174.61, 233.08), (130.81, 196.00, 261.63),
+                            (98.00, 146.83, 196.00), (116.54, 174.61, 233.08)]):
+        place(m, i * 3.3, lowpass(pad(ch, 3.6, detune=0.003), 700), 0.28)
+    keys(m, [622.25, 698.46, 783.99, 698.46, 622.25, 523.25], 0.9, 1.8, 1.1, 0.12,
+         harm=(1.0, 0.26, 0.09))
+    for bar in range(2, 6):
+        b = bar * BAR
+        place(m, b, kick(0.40, 112, 44), 0.44)
+        place(m, b + BEAT * 2, snare(0.22, 195), 0.22)
+        place(m, b, glide(CM["c"], CM["af"], BAR * 0.95), 0.42)
+    hats(m, BEN1 - 1.0, DUR - 0.6, gain=0.15, bright=10200, decay=180, rolls=(15,))
+    place(m, BEN1 - 1.4, riser(1.5, 200, 1400), 0.15)
+    place(m, BEN1, impact(1.8), 0.26)
+    place(m, CTA, bell(932.33, 2.4), 0.09)
+    air(m, 0.0, DUR, 0.055)
     return m
 
 
 def transformation():
-    """Emotional build with a real drop where the reveal lands."""
+    """Empty until the reveal, then the whole floor arrives at once."""
     m = np.zeros(N)
-    for i, ch in enumerate([(146.83, 220.00, 293.66), (164.81, 246.94, 329.63),
-                            (110.00, 164.81, 220.00), (146.83, 220.00, 293.66)]):
-        place(m, i * 3.3, pad(ch, 3.6), 0.28)
-    keys(m, [587.33, 493.88, 440.00, 493.88], 0.8, 1.6, 1.3, 0.15)
-    place(m, BEN2 - 2.0, riser(2.0, 160, 2200), 0.24)
-    place(m, BEN2, impact(2.4), 0.48)
-    for bar in range(4, 7):
-        b = bar * 1.85
-        place(m, b, kick(0.44, 130, 46), 0.54)
-        place(m, b + 0.93, snare(0.28, 200), 0.34)
-        place(m, b, sub808(49.00, 1.6), 0.42)
-    step = 0.2313
-    for i in range(int((DUR - BEN2) / step)):
-        at = BEN2 + i * step
-        if at > DUR - 0.5:
-            break
-        place(m, at, hat(0.05, 8400, 150), 0.18)
+    for i, ch in enumerate([(116.54, 155.56, 185.00), (130.81, 164.81, 196.00),
+                            (87.31, 116.54, 146.83), (116.54, 155.56, 185.00)]):
+        place(m, i * 3.3, lowpass(pad(ch, 3.6, detune=0.003), 640), 0.30)
+    keys(m, [622.25, 523.25, 466.16, 523.25], 0.8, 1.7, 1.4, 0.11,
+         harm=(1.0, 0.24, 0.08))
+    place(m, BEN2 - 2.0, riser(2.0, 160, 2200), 0.22)
+    place(m, BEN2, impact(2.4), 0.46)
+    for bar in range(3, 6):
+        b = bar * BAR
+        place(m, b, np.tanh(kick(0.44, 138, 45) * 2.2), 0.56)
+        place(m, b + BEAT * 2, snare(0.26, 200), 0.32)
+        place(m, b, np.tanh(glide(CM["c"], CM["g"], BAR * 0.95) * 1.5), 0.50)
+    hats(m, BEN2, DUR - 0.5, gain=0.18, bright=10600, decay=165, rolls=(14, 15))
+    air(m, BEN2 - 1.0, DUR - BEN2 + 1.0, 0.06)
     return m
 
 
