@@ -60,12 +60,17 @@ def cap_bbox(a):
     return ck.min(), ck.max(), rk.min(), rk.max()
 
 
-def arrow_mask(a):
-    """The chevrons: short, thin dark runs near the sides, at mid height."""
+def arrow_mask(a, band=(0.30, 0.72)):
+    """The chevrons: short, thin dark runs near the sides, at mid height.
+
+    `band` is how far down the frame to look. The caps sit low enough that the
+    default holds; on a shot where the product is higher the chevrons ride up
+    with it, so the caller widens it.
+    """
     lum = a.mean(2)
     h, w = lum.shape
     mask = np.zeros((h, w), bool)
-    top, bot = int(h * 0.30), int(h * 0.72)
+    top, bot = int(h * band[0]), int(h * band[1])
     for c0, c1 in ((0, int(w * 0.18)), (int(w * 0.82), w)):
         strip = lum[:, c0:c1]
         pad = np.pad(strip, ((0, 0), (34, 34)), mode='edge')
