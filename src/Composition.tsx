@@ -12,6 +12,7 @@ import { MfbaPromo, MFBA_TOTAL_DURATION } from "./mfba/MfbaPromo";
 import { MarioPromo, MARIO_TOTAL_DURATION } from "./mario/MarioPromo";
 import { RaimentFilm, RAIMENT_TOTAL_DURATION } from "./raiment/RaimentFilm";
 import { ShortsPromo, SHORTS_PROMO_DURATION } from "./raiment/ShortsPromo";
+import { JoggersPromo, JOGGERS_PROMO_DURATION } from "./raiment/JoggersPromo";
 import { DietFilm, DIET_TOTAL_DURATION } from "./diet/DietFilm";
 import { FILM_DURATION } from "./web/kit";
 import { Mockups } from "./web/films/Mockups";
@@ -120,6 +121,14 @@ const EDITS: { id: string; src: string; fps: number; seconds: number }[] = [
 export const MyComposition = () => {
   return (
     <>
+      <Composition
+        id="JoggersPromo"
+        component={JoggersPromo}
+        durationInFrames={JOGGERS_PROMO_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
       <Composition
         id="ShortsPromo"
         component={ShortsPromo}
