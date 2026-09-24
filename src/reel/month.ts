@@ -23,7 +23,8 @@ export type Spec = {
   track?: string;
   sub?: string;
   back: {
-    kind: "plate" | "float" | "clip" | "shot";
+    kind: "plate" | "float" | "clip" | "shot" | "adoration";
+    /** Ignored by "adoration", which draws its own scene. */
     src: string;
     focus?: string;
     dim?: number;

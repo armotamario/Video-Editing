@@ -1,4 +1,4 @@
-import { Beat, Clip, Float, PAPER_ACCENT, Plate, Quote, Reel, Shot, SignOff } from "./kit";
+import { Adoration, Beat, Clip, Float, PAPER_ACCENT, Plate, Quote, Reel, Shot, SignOff } from "./kit";
 import type { Spec } from "./month";
 
 /** Hook, proof, two benefit beats, call to action — 13s at 30fps. */
@@ -6,6 +6,7 @@ export const BEATS = [78, 102, 66, 66, 78];
 export const MONTH_DURATION = BEATS.reduce((a, b) => a + b, 0);
 
 const back = (b: Spec["back"][number]) => {
+  if (b.kind === "adoration") return <Adoration />;
   if (b.kind === "shot") return <Shot src={b.src} />;
   if (b.kind === "float") return <Float src={b.src} />;
   if (b.kind === "clip") return <Clip src={b.src} startFrom={b.startFrom} dim={b.dim} />;

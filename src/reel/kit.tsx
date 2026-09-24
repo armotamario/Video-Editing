@@ -123,6 +123,79 @@ export const Shot: React.FC<{ src: string; drift?: number }> = ({ src, drift = 1
   );
 };
 
+/**
+ * A drawn scene rather than a photo — for a moment there's no real footage
+ * of: a monstrance on an altar, candlelight, drifting incense. Nothing here
+ * claims to be a real photograph.
+ */
+export const Adoration: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const t = frame / Math.max(durationInFrames, 1);
+  const flicker = 1 + 0.05 * Math.sin(frame * 0.7) + 0.02 * Math.sin(frame * 2.3);
+  return (
+    <AbsoluteFill style={{ background: "#0b0a09" }}>
+      <AbsoluteFill
+        style={{
+          background:
+            "radial-gradient(50% 42% at 50% 50%, rgba(232,178,60,0.34) 0%," +
+            " rgba(232,178,60,0.12) 45%, rgba(11,10,9,0) 100%)",
+          transform: `scale(${flicker})`,
+        }}
+      />
+      <AbsoluteFill className="items-center justify-center">
+        <svg
+          width={560}
+          height={720}
+          viewBox="0 0 280 360"
+          style={{
+            filter: `drop-shadow(0 0 ${26 + 8 * Math.sin(frame * 0.5)}px rgba(232,178,60,0.55))`,
+            transform: `translateY(${interpolate(t, [0, 1], [8, -8])}px)`,
+          }}
+        >
+          {/* rays */}
+          <g stroke="#e8b23c" strokeWidth={4} strokeLinecap="round" opacity={0.9}>
+            {Array.from({ length: 16 }).map((_, i) => {
+              const a = (i / 16) * Math.PI * 2;
+              const r0 = 62, r1 = 100 + (i % 2 === 0 ? 22 : 0);
+              const cx = 140, cy = 128;
+              return (
+                <line
+                  key={i}
+                  x1={cx + Math.cos(a) * r0}
+                  y1={cy + Math.sin(a) * r0}
+                  x2={cx + Math.cos(a) * r1}
+                  y2={cy + Math.sin(a) * r1}
+                />
+              );
+            })}
+          </g>
+          {/* the lunette, holding the host, at the centre */}
+          <circle cx={140} cy={128} r={38} fill="none" stroke="#e8b23c" strokeWidth={4} />
+          <circle cx={140} cy={128} r={26} fill="#faf3df" />
+          <path d="M140 111v34M123 128h34" stroke="#c79a2e" strokeWidth={2} opacity={0.6} />
+          {/* the stem and the flared foot */}
+          <path
+            d="M140 166 L140 278 M140 210 L116 210 M140 210 L164 210"
+            stroke="#e8b23c"
+            strokeWidth={5}
+            fill="none"
+            strokeLinecap="round"
+          />
+          <circle cx={140} cy={210} r={9} fill="#e8b23c" opacity={0.9} />
+          <path
+            d="M88 296 Q140 274 192 296 L206 328 Q140 350 74 328 Z"
+            fill="none"
+            stroke="#e8b23c"
+            strokeWidth={5}
+            strokeLinejoin="round"
+          />
+        </svg>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
 const Line: React.FC<{
   text: string;
   hot?: string;
