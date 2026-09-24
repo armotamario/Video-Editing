@@ -135,18 +135,22 @@ export const Adoration: React.FC = () => {
   const flicker = 1 + 0.05 * Math.sin(frame * 0.7) + 0.02 * Math.sin(frame * 2.3);
   return (
     <AbsoluteFill style={{ background: "#0b0a09" }}>
+      {/* the glow sits low, well clear of the caption band above SAFE_TOP */}
       <AbsoluteFill
         style={{
           background:
-            "radial-gradient(50% 42% at 50% 50%, rgba(232,178,60,0.34) 0%," +
+            "radial-gradient(46% 34% at 50% 66%, rgba(232,178,60,0.34) 0%," +
             " rgba(232,178,60,0.12) 45%, rgba(11,10,9,0) 100%)",
           transform: `scale(${flicker})`,
         }}
       />
-      <AbsoluteFill className="items-center justify-center">
+      <AbsoluteFill
+        className="items-center"
+        style={{ justifyContent: "flex-end", paddingBottom: 260 }}
+      >
         <svg
-          width={560}
-          height={720}
+          width={480}
+          height={620}
           viewBox="0 0 280 360"
           style={{
             filter: `drop-shadow(0 0 ${26 + 8 * Math.sin(frame * 0.5)}px rgba(232,178,60,0.55))`,
