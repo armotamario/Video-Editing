@@ -4,6 +4,7 @@ import { GrClothes, GrStillCatholic, GrFiveMinutes, GrNotJewellery } from "./ree
 import { MONTH } from "./reel/month";
 import { MFBA_MONTH } from "./reel/mfbaMonth";
 import { OCTOBER } from "./reel/october";
+import { ADORATION } from "./reel/adoration";
 import { MFBA_OCTOBER } from "./reel/mfbaOctober";
 import { MonthReel, MONTH_DURATION } from "./reel/MonthReel";
 import { MfbaReel } from "./reel/MfbaReel";
@@ -137,7 +138,7 @@ export const MyComposition = () => {
         width={1080}
         height={1920}
       />
-      {[...MONTH, ...MFBA_MONTH, ...OCTOBER, ...MFBA_OCTOBER].map((spec) => (
+      {[...MONTH, ...MFBA_MONTH, ...OCTOBER, ...MFBA_OCTOBER, ...ADORATION].map((spec) => (
         <Composition
           key={spec.id}
           id={spec.id}
