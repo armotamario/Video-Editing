@@ -63,11 +63,13 @@ export const MfbaDietReel: React.FC = () => (
       {
         key: "prep",
         duration: DIET_BEATS[1],
-        back: <Plate src="mfba/cardio-walk.jpg" focus="center 60%" from={1.14} dim={0.56} />,
+        back: <Plate src="mfba/meal-chicken.jpg" focus="center 68%" dim={0.4} />,
         node: (
-          <AthleticQuote
-            text="Six kilos of chicken breast. Four kilos of jasmine rice. Prepped, not guessed."
-            cite="The weekly prep"
+          <AthleticBeat
+            label="One meal"
+            lines={["500g chicken.", "2 cups rice.", "939 calories."]}
+            hot="939"
+            size={100}
           />
         ),
       },
