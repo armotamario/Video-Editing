@@ -9,6 +9,7 @@ import { MfbaReel } from "./reel/MfbaReel";
 import { PromoVideo, TOTAL_DURATION } from "./PromoVideo";
 import { MfbaPromo, MFBA_TOTAL_DURATION } from "./mfba/MfbaPromo";
 import { MfbaTrainingReel, TRAINING_DURATION, MfbaDietReel, DIET_DURATION } from "./mfba/BrollReels";
+import { ProtocolFilm, PROTOCOL_DURATION as MFBA_PROTOCOL_DURATION } from "./mfba/ProtocolFilm";
 import { MarioPromo, MARIO_TOTAL_DURATION } from "./mario/MarioPromo";
 import { RaimentFilm, RAIMENT_TOTAL_DURATION } from "./raiment/RaimentFilm";
 import { DietFilm, DIET_TOTAL_DURATION } from "./diet/DietFilm";
@@ -195,6 +196,14 @@ export const MyComposition = () => {
         id="MfbaBrollDiet"
         component={MfbaDietReel}
         durationInFrames={DIET_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MfbaProtocol"
+        component={ProtocolFilm}
+        durationInFrames={MFBA_PROTOCOL_DURATION}
         fps={30}
         width={1080}
         height={1920}
