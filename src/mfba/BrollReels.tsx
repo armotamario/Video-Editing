@@ -63,7 +63,7 @@ export const MfbaDietReel: React.FC = () => (
       {
         key: "prep",
         duration: DIET_BEATS[1],
-        back: <Plate src="mfba/meal-chicken.jpg" focus="center 68%" dim={0.4} />,
+        back: <Plate src="mfba/meal-chicken.jpg" focus="center 40%" dim={0.4} />,
         node: (
           <AthleticBeat
             label="One meal"
