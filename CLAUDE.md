@@ -16,3 +16,11 @@ See README.md for the standard Remotion commands.
   asked for one each time. The caption must be about the video's actual
   topic, not a generic faith caption — confirm the specific subject (from
   the transcript, or by asking if it isn't available) before writing it.
+- Before using any photo from `public/images/photos/raw/` in a composition,
+  actually open it (Read tool) to confirm what's in it — don't rely on a
+  batch's stash-commit description from memory. Those descriptions have been
+  wrong before and caused the wrong photo to end up in the wrong video.
+- Mario's own training/nutrition protocol for MFBA content lives in
+  `src/mfba/plan.ts` (typed constants: workout, everyday minimums, diet
+  macros/recipes, supplements, lifestyle rules). Pull numbers from there
+  for any new MFBA script rather than re-asking him.

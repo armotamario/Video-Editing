@@ -8,6 +8,7 @@ import { MonthReel, MONTH_DURATION } from "./reel/MonthReel";
 import { MfbaReel } from "./reel/MfbaReel";
 import { PromoVideo, TOTAL_DURATION } from "./PromoVideo";
 import { MfbaPromo, MFBA_TOTAL_DURATION } from "./mfba/MfbaPromo";
+import { MfbaTrainingReel, TRAINING_DURATION, MfbaDietReel, DIET_DURATION } from "./mfba/BrollReels";
 import { MarioPromo, MARIO_TOTAL_DURATION } from "./mario/MarioPromo";
 import { RaimentFilm, RAIMENT_TOTAL_DURATION } from "./raiment/RaimentFilm";
 import { DietFilm, DIET_TOTAL_DURATION } from "./diet/DietFilm";
@@ -178,6 +179,22 @@ export const MyComposition = () => {
         id="GodlyRaimentCraft"
         component={RaimentFilm}
         durationInFrames={RAIMENT_TOTAL_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MfbaBrollTraining"
+        component={MfbaTrainingReel}
+        durationInFrames={TRAINING_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MfbaBrollDiet"
+        component={MfbaDietReel}
+        durationInFrames={DIET_DURATION}
         fps={30}
         width={1080}
         height={1920}
