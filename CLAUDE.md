@@ -24,3 +24,10 @@ See README.md for the standard Remotion commands.
   `src/mfba/plan.ts` (typed constants: workout, everyday minimums, diet
   macros/recipes, supplements, lifestyle rules). Pull numbers from there
   for any new MFBA script rather than re-asking him.
+- Default MFBA style is the typographic "Protocol" card look
+  (`src/mfba/ProtocolFilm.tsx`): dark graphite gradient background, orange
+  accent, headline-font stat cards, no b-roll photos. He called this
+  cleaner than the b-roll reels (`src/mfba/BrollReels.tsx`). Reach for that
+  style — title card, one stat/list per card, MFBA sign-off — by default;
+  only use b-roll photos when specifically asked for, or when they'd
+  genuinely add something a text card can't.
