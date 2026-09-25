@@ -57,13 +57,13 @@ export const MfbaDietReel: React.FC = () => (
       {
         key: "hook",
         duration: DIET_BEATS[0],
-        back: <Plate src="mfba/mirror-night.jpg" focus="center 40%" dim={0.5} />,
+        back: <Plate src="mfba/outdoor-cap.jpg" focus="center 30%" dim={0.46} />,
         node: <AthleticBeat label="Nutrition" lines={["1,534 calories.", "170g protein.", "Every day."]} hot="170g" />,
       },
       {
         key: "prep",
         duration: DIET_BEATS[1],
-        back: <Plate src="mfba/gym-selfie.jpg" focus="center 45%" from={1.14} dim={0.56} />,
+        back: <Plate src="mfba/cardio-walk.jpg" focus="center 60%" from={1.14} dim={0.56} />,
         node: (
           <AthleticQuote
             text="Six kilos of chicken breast. Four kilos of jasmine rice. Prepped, not guessed."
@@ -80,7 +80,7 @@ export const MfbaDietReel: React.FC = () => (
       {
         key: "off",
         duration: DIET_BEATS[3],
-        back: <Plate src="mfba/cardio-walk.jpg" focus="center 55%" dim={0.5} />,
+        back: <Plate src="mfba/mirror-night.jpg" focus="center 45%" dim={0.5} />,
         node: <AthleticSignOff line={"Eat with people\nyou love."} sub={SUB} />,
       },
     ]}
