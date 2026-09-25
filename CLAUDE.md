@@ -13,4 +13,6 @@ See README.md for the standard Remotion commands.
   (gitignored — large intermediates, not source).
 - After finishing an edited video, always include a TikTok-ready post caption
   (short hook line + relevant hashtags) in the same reply, without being
-  asked for one each time.
+  asked for one each time. The caption must be about the video's actual
+  topic, not a generic faith caption — confirm the specific subject (from
+  the transcript, or by asking if it isn't available) before writing it.
