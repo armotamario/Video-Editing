@@ -1,6 +1,7 @@
 import { Composition } from "remotion";
 import { ClipEdit } from "./edit/ClipEdit";
 import { FultonSheenEdit, FULTON_SHEEN_DURATION, CLIP_FPS as FULTON_SHEEN_FPS } from "./edit/FultonSheenEdit";
+import { MultiAngleEdit, MULTI_ANGLE_DURATION, type MultiAngleVariant } from "./edit/MultiAngleEdit";
 import { GrClothes, GrStillCatholic, GrFiveMinutes, GrNotJewellery } from "./reel/GrReels";
 import { MONTH } from "./reel/month";
 import { MFBA_MONTH } from "./reel/mfbaMonth";
@@ -172,6 +173,22 @@ export const MyComposition = () => {
         width={1080}
         height={1920}
       />
+      {([
+        ["EditHotMulticam", "multicam"],
+        ["EditHotBroll", "broll"],
+        ["EditHotSplit", "split"],
+      ] as [string, MultiAngleVariant][]).map(([id, variant]) => (
+        <Composition
+          key={id}
+          id={id}
+          component={MultiAngleEdit}
+          durationInFrames={MULTI_ANGLE_DURATION}
+          fps={30}
+          width={1080}
+          height={1920}
+          defaultProps={{ variant }}
+        />
+      ))}
       <Composition
         id="GodlyRaimentPromo"
         component={PromoVideo}
