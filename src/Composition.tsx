@@ -32,6 +32,7 @@ import { BibleFilm } from "./gr/BibleFilm";
 import { MassFilm } from "./gr/MassFilm";
 import { Moments } from "./gr/Moments";
 import { Store } from "./gr/Store";
+import { TeeStore } from "./gr/TeeStore";
 import { Confession } from "./gr/Confession";
 import { Rosary } from "./gr/Rosary";
 import { Fasting } from "./gr/Fasting";
@@ -80,6 +81,7 @@ const GR_FILMS: [string, React.FC][] = [
   ["GrMass", MassFilm],
   ["GrMoments", Moments],
   ["GrStore", Store],
+  ["GrTeeStore", TeeStore],
   ["GrConfession", Confession],
   ["GrRosary", Rosary],
   ["GrFasting", Fasting],
