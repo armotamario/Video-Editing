@@ -1,16 +1,26 @@
-import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
-import { bodyFont, monoFont, serifFont } from "../fonts";
-import { INK, INK_SOFT, LINE, ON_ACCENT, PAGE_BG, SURFACE } from "../palettes";
+import { AbsoluteFill, Img, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
+import { monoFont, serifFont } from "../fonts";
+import { INK, LINE, ON_ACCENT, PAGE_BG, SURFACE, paletteVars } from "../palettes";
 import { BRAND_URL } from "../brand";
-import { Cross, Film, GOLD, Headline, Kicker, Outro, Section, useRise } from "./kit";
-import { TEE_COLORS, Tee } from "./Tee";
+import { Cross, GOLD, Headline, Kicker, Outro, Section, useRise } from "./kit";
 
-const PRICE = "$32.99";
-const KLARNA = "or 4 payments of A$8.25";
+/**
+ * Same shape as the hat's Store.tsx — hook, product, colourway carousel,
+ * cart, sign-off — but for the tee, with the real product photos (cropped
+ * from his site screenshots) instead of the drawn placeholder. No prices,
+ * no colour names on screen, and no audio bed per his notes.
+ */
+
+const TEE_COLOURS = [
+  { src: "store/tee-black.png", label: "Black" },
+  { src: "store/tee-white.png", label: "White" },
+  { src: "store/tee-desert-dust.png", label: "Desert Dust" },
+];
+
 const PER_TEE = 54;
-
-/** The product plate — same white tile the hat drop uses. */
-const PLATE = "#f3efe6";
+/** Pure white — the crops carry their own white background, so the plate
+ * has to match it exactly or the card shows a seam around the photo. */
+const PLATE = "#ffffff";
 
 const Hook: React.FC<{ duration: number }> = ({ duration }) => {
   const markIn = useRise(0, 14);
@@ -38,15 +48,14 @@ const Hook: React.FC<{ duration: number }> = ({ duration }) => {
   );
 };
 
+/** The product, floated on the ground — no price line this time. */
 const Product: React.FC<{ duration: number }> = ({ duration }) => {
   const teeIn = useRise(0, 15);
   const nameIn = useRise(10, 16);
-  const priceIn = useRise(18, 16);
-  const specIn = useRise(28, 18);
 
   return (
     <Section duration={duration} className="">
-      <AbsoluteFill className="items-center justify-center pb-[560px]">
+      <AbsoluteFill className="items-center justify-center pb-[420px]">
         <div
           style={{
             transform: `scale(${interpolate(teeIn, [0, 1], [0.86, 1])}) translateY(${interpolate(
@@ -57,13 +66,13 @@ const Product: React.FC<{ duration: number }> = ({ duration }) => {
             opacity: teeIn,
             background: PLATE,
           }}
-          className="w-[620px] rounded-[56px] p-20"
+          className="w-[860px] rounded-[56px] p-16"
         >
-          <Tee width={420} color={TEE_COLORS[0].color} ink={TEE_COLORS[0].ink} />
+          <Img src={staticFile(`images/${TEE_COLOURS[0].src}`)} className="w-full object-contain" />
         </div>
       </AbsoluteFill>
 
-      <AbsoluteFill className="items-center justify-end px-20 pb-[300px] text-center">
+      <AbsoluteFill className="items-center justify-end px-20 pb-[220px] text-center">
         <div
           style={{
             opacity: nameIn,
@@ -75,62 +84,39 @@ const Product: React.FC<{ duration: number }> = ({ duration }) => {
         >
           Godly Raiment Tee
         </div>
-
-        <div
-          style={{ opacity: priceIn, fontFamily: monoFont, color: GOLD }}
-          className="mt-10 text-[76px] font-bold tracking-[-0.01em]"
-        >
-          {PRICE}
-        </div>
-
-        <div
-          style={{ opacity: specIn, fontFamily: bodyFont, color: INK_SOFT }}
-          className="mt-6 text-[30px] font-medium"
-        >
-          {KLARNA}
-        </div>
       </AbsoluteFill>
     </Section>
   );
 };
 
+/** One colourway, held for twenty frames — no label underneath. */
 const Colourway: React.FC<{ index: number }> = ({ index }) => {
-  const { color, ink, label } = TEE_COLORS[index];
+  const { src } = TEE_COLOURS[index];
   const pop = useRise(0, 13);
   return (
-    <AbsoluteFill>
-      <AbsoluteFill className="items-center justify-center pb-[240px]">
-        <div
-          style={{
-            transform: `scale(${interpolate(pop, [0, 1], [0.92, 1])})`,
-            opacity: pop,
-            background: PLATE,
-          }}
-          className="w-[620px] rounded-[56px] p-20"
-        >
-          <Tee width={420} color={color} ink={ink} />
-        </div>
-      </AbsoluteFill>
-      <AbsoluteFill className="items-center justify-end pb-[430px]">
-        <div
-          style={{ opacity: pop, fontFamily: monoFont, color: INK }}
-          className="text-[40px] font-bold uppercase tracking-[0.24em]"
-        >
-          {label}
-        </div>
-      </AbsoluteFill>
+    <AbsoluteFill className="items-center justify-center pb-[240px]">
+      <div
+        style={{
+          transform: `scale(${interpolate(pop, [0, 1], [0.92, 1])})`,
+          opacity: pop,
+          background: PLATE,
+        }}
+        className="w-[860px] rounded-[56px] p-16"
+      >
+        <Img src={staticFile(`images/${src}`)} className="w-full object-contain" />
+      </div>
     </AbsoluteFill>
   );
 };
 
 const Colourways: React.FC<{ duration: number }> = ({ duration }) => {
   const frame = useCurrentFrame();
-  const active = Math.min(Math.floor(frame / PER_TEE), TEE_COLORS.length - 1);
+  const active = Math.min(Math.floor(frame / PER_TEE), TEE_COLOURS.length - 1);
 
   return (
     <Section duration={duration} className="">
       <AbsoluteFill style={{ background: PAGE_BG }} />
-      {TEE_COLORS.map((c, i) => (
+      {TEE_COLOURS.map((c, i) => (
         <Sequence key={c.label} from={i * PER_TEE} durationInFrames={PER_TEE}>
           <Colourway index={i} />
         </Sequence>
@@ -139,7 +125,7 @@ const Colourways: React.FC<{ duration: number }> = ({ duration }) => {
       <AbsoluteFill className="items-center justify-start pt-[280px]">
         <Kicker>Three colourways</Kicker>
         <div className="mt-8 flex gap-3">
-          {TEE_COLORS.map((c, i) => (
+          {TEE_COLOURS.map((c, i) => (
             <div
               key={c.label}
               style={{ background: i === active ? GOLD : `${GOLD}44` }}
@@ -152,6 +138,7 @@ const Colourways: React.FC<{ duration: number }> = ({ duration }) => {
   );
 };
 
+/** The cart line — no price, no colour name, just the item and the button. */
 const Cart: React.FC<{ duration: number }> = ({ duration }) => {
   const frame = useCurrentFrame();
   const rowIn = useRise(0, 16);
@@ -177,7 +164,7 @@ const Cart: React.FC<{ duration: number }> = ({ duration }) => {
       >
         <div className="flex items-center gap-10">
           <div style={{ background: PLATE }} className="w-[190px] flex-none rounded-[26px] p-5">
-            <Tee width={140} color={TEE_COLORS[0].color} ink={TEE_COLORS[0].ink} />
+            <Img src={staticFile(`images/${TEE_COLOURS[0].src}`)} className="w-full object-contain" />
           </div>
           <div className="flex-1">
             <div
@@ -186,15 +173,6 @@ const Cart: React.FC<{ duration: number }> = ({ duration }) => {
             >
               Godly Raiment Tee
             </div>
-            <div
-              style={{ fontFamily: monoFont, color: INK_SOFT }}
-              className="mt-3 text-[28px] uppercase tracking-[0.2em]"
-            >
-              Black
-            </div>
-          </div>
-          <div style={{ fontFamily: monoFont, color: INK }} className="text-[48px] font-bold">
-            {PRICE}
           </div>
         </div>
 
@@ -218,16 +196,27 @@ const Cart: React.FC<{ duration: number }> = ({ duration }) => {
   );
 };
 
-export const TeeStore: React.FC = () => (
-  <Film
-    track="procession"
-    palette="graphite"
-    sections={[
-      { key: "hook", duration: 58, node: <Hook duration={58} /> },
-      { key: "product", duration: 86, node: <Product duration={86} /> },
-      { key: "colourways", duration: 162, node: <Colourways duration={162} /> },
-      { key: "cart", duration: 74, node: <Cart duration={74} /> },
-      { key: "outro", duration: 100, node: <Outro cta={`Shop ${BRAND_URL}`} scrim={0.4} mark={false} /> },
-    ]}
-  />
-);
+const SECTIONS = [
+  { key: "hook", duration: 58, node: <Hook duration={58} /> },
+  { key: "product", duration: 86, node: <Product duration={86} /> },
+  { key: "colourways", duration: 162, node: <Colourways duration={162} /> },
+  { key: "cart", duration: 74, node: <Cart duration={74} /> },
+  { key: "outro", duration: 100, node: <Outro cta={`Shop ${BRAND_URL}`} scrim={0.4} mark={false} /> },
+];
+
+export const TeeStore: React.FC = () => {
+  let at = 0;
+  return (
+    <AbsoluteFill style={{ ...paletteVars("graphite"), background: PAGE_BG }}>
+      {SECTIONS.map((section) => {
+        const from = at;
+        at += section.duration;
+        return (
+          <Sequence key={section.key} from={from} durationInFrames={section.duration}>
+            {section.node}
+          </Sequence>
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
