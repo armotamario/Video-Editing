@@ -33,6 +33,8 @@ import { MassFilm } from "./gr/MassFilm";
 import { Moments } from "./gr/Moments";
 import { Store } from "./gr/Store";
 import { TeeStore } from "./gr/TeeStore";
+import { ShortsStore, SHORTS_STORE_DURATION } from "./gr/ShortsStore";
+import { JoggersStore, JOGGERS_STORE_DURATION } from "./gr/JoggersStore";
 import { Confession } from "./gr/Confession";
 import { Rosary } from "./gr/Rosary";
 import { Fasting } from "./gr/Fasting";
@@ -206,6 +208,22 @@ export const MyComposition = () => {
         id="MfbaProtocol"
         component={ProtocolFilm}
         durationInFrames={MFBA_PROTOCOL_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="GrShortsStore"
+        component={ShortsStore}
+        durationInFrames={SHORTS_STORE_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="GrJoggersStore"
+        component={JoggersStore}
+        durationInFrames={JOGGERS_STORE_DURATION}
         fps={30}
         width={1080}
         height={1920}
