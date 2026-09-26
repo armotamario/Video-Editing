@@ -94,14 +94,14 @@ const Colourway: React.FC<{ index: number }> = ({ index }) => {
   const { src } = TEE_COLOURS[index];
   const pop = useRise(0, 13);
   return (
-    <AbsoluteFill className="items-center justify-center pb-[240px]">
+    <AbsoluteFill className="items-center justify-center pt-[120px]">
       <div
         style={{
           transform: `scale(${interpolate(pop, [0, 1], [0.92, 1])})`,
           opacity: pop,
           background: PLATE,
         }}
-        className="w-[860px] rounded-[56px] p-16"
+        className="w-[680px] rounded-[56px] p-14"
       >
         <Img src={staticFile(`images/${src}`)} className="w-full object-contain" />
       </div>
