@@ -36,6 +36,7 @@ import { Store } from "./gr/Store";
 import { TeeStore } from "./gr/TeeStore";
 import { ShortsStore, SHORTS_STORE_DURATION } from "./gr/ShortsStore";
 import { JoggersStore, JOGGERS_STORE_DURATION } from "./gr/JoggersStore";
+import { VerseCard, VERSE_CARD_DURATION } from "./gr/VerseCard";
 import { Confession } from "./gr/Confession";
 import { Rosary } from "./gr/Rosary";
 import { Fasting } from "./gr/Fasting";
@@ -233,6 +234,14 @@ export const MyComposition = () => {
         id="GrShortsStore"
         component={ShortsStore}
         durationInFrames={SHORTS_STORE_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="GrVerseCard"
+        component={VerseCard}
+        durationInFrames={VERSE_CARD_DURATION}
         fps={30}
         width={1080}
         height={1920}
