@@ -23,7 +23,12 @@ See README.md for the standard Remotion commands.
 - Mario's own training/nutrition protocol for MFBA content lives in
   `src/mfba/plan.ts` (typed constants: workout, everyday minimums, diet
   macros/recipes, supplements, lifestyle rules). Pull numbers from there
-  for any new MFBA script rather than re-asking him.
+  for any new MFBA script rather than re-asking him. `DAILY_TARGETS` holds his
+  latest numbers (160–200g protein, 160–200g carbs, daily deficit, heavy lifting
+  once a day 4–5 days/week, 45-minute walk) and wins over the older figures.
+- Don't put his casual phone photos full-screen (wide-angle selfies, dinner
+  table, laptop look cheap blown up). Use only the strong shots, framed as
+  inset cards with one consistent grade, and let clean type carry the rest.
 - No fixed default MFBA style — the typographic "Protocol" card look
   (`src/mfba/ProtocolFilm.tsx`: dark graphite gradient, orange accent,
   headline-font stat cards, no b-roll) and the b-roll reels

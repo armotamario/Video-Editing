@@ -71,3 +71,13 @@ export const SUPPLEMENTS = [
 ] as const;
 
 export const LIFESTYLE = ["No alcohol", "No smoking", "No drugs", "No partying"] as const;
+
+/**
+ * Current daily targets (his latest update — supersedes the fixed calorie
+ * figure and the 1-hour cardio above for new content).
+ */
+export const DAILY_TARGETS = {
+  diet: { deficit: "Daily calorie deficit", protein: "160–200g", carbs: "160–200g" },
+  lifting: { session: "Train heavy once per day", frequency: "4–5 days per week" },
+  cardio: { walk: "45-minute walk" },
+} as const;
