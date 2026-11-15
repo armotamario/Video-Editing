@@ -1,0 +1,133 @@
+<title>Wardrobe Upgrade List</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+/* Layout: one narrow column; each outfit is a section of item rows with a clear blue "Buy" link per row. */
+:root {
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --fg: #1d1c1a;
+  --muted: #6b6862;
+  --line: #e3e0da;
+  --link: #0b5bd3;
+  --link-hover: #0846a6;
+  --save: #1e7a46;
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161615; --surface: #201f1d; --fg: #f1efea; --muted: #a8a49c; --line: #34322e;
+    --link: #6aa6ff; --link-hover: #9cc3ff; --save: #5fc58a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161615; --surface: #201f1d; --fg: #f1efea; --muted: #a8a49c; --line: #34322e;
+  --link: #6aa6ff; --link-hover: #9cc3ff; --save: #5fc58a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 48px;
+}
+.wrap { max-width: 680px; margin: 0 auto; display: grid; gap: 28px; }
+h1, h2 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.25rem; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
+a:hover { color: var(--link-hover); }
+a:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; border-radius: 3px; }
+.num { font-variant-numeric: tabular-nums; }
+
+.summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.stat .label { font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.stat .value { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; }
+
+section { display: grid; gap: 10px; }
+.head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.head .sub { font-family: var(--font-display); font-weight: 600; }
+.items { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.items li { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 12px 14px; border-top: 1px solid var(--line); }
+.items li:first-child { border-top: 0; }
+.name { min-width: 0; }
+.meta { font-size: .875rem; color: var(--muted); }
+.price { text-align: right; font-weight: 600; }
+.was { display: block; font-size: .8rem; font-weight: 400; color: var(--muted); text-decoration: line-through; }
+.owned .name, .owned .price { color: var(--muted); font-style: italic; font-weight: 400; }
+
+ul.plain { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+.note { font-size: .875rem; color: var(--muted); }
+@media (max-width: 420px) { .summary { grid-template-columns: 1fr; } }
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:8px">
+    <h1>Wardrobe upgrade</h1>
+    <p class="muted">Faith, fitness, and friends &amp; family. Men's, all in black, white, beige or grey. Prices checked 15 Nov 2026.</p>
+  </header>
+
+  <div class="summary">
+    <div class="stat"><div class="label">Budget</div><div class="value num">$650.00</div></div>
+    <div class="stat"><div class="label">Total</div><div class="value num">$629.99</div></div>
+    <div class="stat"><div class="label">Left over</div><div class="value num">$20.01</div></div>
+  </div>
+
+  <section>
+    <div class="head"><h2>1. Faith</h2><span class="sub num">$259.70</span></div>
+    <ul class="items">
+      <li><div class="name"><a href="https://www.uniqlo.com/au/en/products/E456630-000/00?colorDisplayCode=01" target="_blank" rel="noopener">Oxford Slim Fit Shirt</a><div class="meta">Off white · Uniqlo</div></div><div class="price num">$49.90</div></li>
+      <li><div class="name"><a href="https://www.uniqlo.com/au/en/products/E487209-000/00?colorDisplayCode=32" target="_blank" rel="noopener">Slim Chino Pants</a><div class="meta">Beige · Uniqlo</div></div><div class="price num">$59.90</div></li>
+      <li><div class="name"><a href="https://www.uniqlo.com/au/en/products/E484096-000/00?colorDisplayCode=07" target="_blank" rel="noopener">Merino Crew Neck Sweater</a><div class="meta">Grey · Uniqlo</div></div><div class="price num">$59.90</div></li>
+      <li><div class="name"><a href="https://assemblylabel.com/products/rian-leather-loafer-black" target="_blank" rel="noopener">Rian Leather Loafer</a><div class="meta">Black · Assembly Label</div></div><div class="price num">$90.00<span class="was">$150.00</span></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="head"><h2>2. Fitness</h2><span class="sub num">$105.60</span></div>
+    <ul class="items">
+      <li><div class="name"><a href="https://www.uniqlo.com/au/en/products/E489013-000/00?colorDisplayCode=03" target="_blank" rel="noopener">DRY-EX T-Shirt</a><div class="meta">Grey · Uniqlo</div></div><div class="price num">$19.90<span class="was">$29.90</span></div></li>
+      <li><div class="name"><a href="https://www.uniqlo.com/au/en/products/E477753-000/00?colorDisplayCode=09" target="_blank" rel="noopener">Ultra Stretch Active Shorts</a><div class="meta">Black · Uniqlo</div></div><div class="price num">$29.90</div></li>
+      <li><div class="name"><a href="https://www.uniqlo.com/au/en/products/E465203-000/00?colorDisplayCode=09" target="_blank" rel="noopener">DRY-EX Full-Zip Hoodie</a><div class="meta">Black · Uniqlo</div></div><div class="price num">$49.90</div></li>
+      <li><div class="name"><a href="https://www.uniqlo.com/au/en/products/E471958-000/00?colorDisplayCode=00" target="_blank" rel="noopener">Sports Short Socks</a><div class="meta">White · Uniqlo</div></div><div class="price num">$5.90</div></li>
+      <li class="owned"><div class="name">White HOKA runners<div class="meta">Already owned</div></div><div class="price num">$0.00</div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="head"><h2>3. Friends &amp; family</h2><span class="sub num">$264.69</span></div>
+    <ul class="items">
+      <li><div class="name"><a href="https://www.uniqlo.com/au/en/products/E457428-000/00?colorDisplayCode=30" target="_blank" rel="noopener">Premium Linen Shirt</a><div class="meta">Natural beige · Uniqlo</div></div><div class="price num">$59.90</div></li>
+      <li><div class="name"><a href="https://www.uniqlo.com/au/en/products/E455365-000/00?colorDisplayCode=00" target="_blank" rel="noopener">SUPIMA Cotton T-Shirt</a><div class="meta">White · Uniqlo</div></div><div class="price num">$24.90</div></li>
+      <li><div class="name"><a href="https://www.uniqlo.com/au/en/products/E482858-000/00?colorDisplayCode=09" target="_blank" rel="noopener">Slim Straight Selvedge Jeans</a><div class="meta">Black · Uniqlo</div></div><div class="price num">$59.90</div></li>
+      <li><div class="name"><a href="https://www.rebelsport.com.au/p/nike-court-vision-low-next-nature-mens-casual-shoes-M61279901.html?dwvar_M61279901_color=White" target="_blank" rel="noopener">Nike Court Vision Low</a><div class="meta">White · Rebel Sport</div></div><div class="price num">$119.99</div></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Delivery</h2>
+    <ul class="plain">
+      <li><strong>Uniqlo</strong> (10 items, $420.00): free delivery.</li>
+      <li><strong>Assembly Label</strong> ($90.00): small delivery fee, free from $100.</li>
+      <li><strong>Rebel Sport</strong> ($119.99): delivery fee, or free click &amp; collect.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Mix and match</h2>
+    <ul class="plain">
+      <li><strong>Dinner out:</strong> oxford + black jeans + white sneakers</li>
+      <li><strong>Summer Mass:</strong> linen shirt + beige chinos + loafers</li>
+      <li><strong>Cool mornings:</strong> merino over white tee + black jeans</li>
+      <li><strong>Errands:</strong> hoodie over white tee + chinos + HOKAs</li>
+    </ul>
+  </section>
+
+  <p class="note">Sale prices can end anytime. Check the price at checkout.</p>
+</div>
