@@ -1,15 +1,15 @@
 # Wardrobe upgrade: faith, fitness, friends & family
 
-**Budget:** $1,000.00 AUD · **Total:** $995.87 · **Left over:** $4.13
+**Budget:** $1,000.00 AUD · **Total:** $965.93 · **Left over:** $34.07
 
-Men's Country Road and Nike, all black, white, beige or grey. Prices and stock checked live on 15 Nov 2026. Both orders get free delivery.
+Men's Hugo Boss, Country Road and Nike, all black, white, beige or grey. Prices checked live on 15 Nov 2026.
 
-## 1. Faith ($477.00)
+## 1. Faith ($577.00)
 
 | Item | Colour | Store | Price |
 |---|---|---|---:|
 | [Slim Fit Oxford Shirt](https://www.countryroad.com.au/products/slim-fit-oxford-shirt-60163397-100) | White | Country Road | $129.00 |
-| [Linen Cotton Pant](https://www.countryroad.com.au/products/linen-cotton-pant-60318889-182) | Oat | Country Road | $149.00 |
+| [BOSS Slim-Fit Chinos](https://www.hugoboss.com/au/slim-fit-chinos/hbeu50510933_271.html) | Light beige | Hugo Boss | $249.00 |
 | [Ilya Leather Loafer](https://www.countryroad.com.au/products/ilya-loafer-60321864-9521) | Mushroom | Country Road | $199.00 |
 
 ## 2. Fitness ($129.98)
@@ -20,13 +20,18 @@ Men's Country Road and Nike, all black, white, beige or grey. Prices and stock c
 | [Nike Miler Dri-FIT 7" Shorts](https://www.rebelsport.com.au/p/nike-mens-miler-dri-fit-7-inch-brief-lined-running-shorts-M73952201.html?dwvar_M73952201_color=Black) | Black | Rebel Sport | $59.99 |
 | *White HOKA runners + beige cap* | | *Already owned* | *$0.00* |
 
-## 3. Friends & family ($388.89)
+## 3. Friends & family ($258.95)
 
 | Item | Colour | Store | Price |
 |---|---|---|---:|
-| [Regular Fit Linen Shirt](https://www.countryroad.com.au/products/long-sleeve-reg-linen-shirt-60318482-100) | White | Country Road | $149.00 |
-| [Pima Cotton Crew T-Shirt](https://www.countryroad.com.au/products/pima-cotton-crew-t-shirt-60251659-1) | Black | Country Road | $59.95 |
+| [BOSS Slim-Fit Polo Shirt](https://www.hugoboss.com/au/slim-fit-polo-shirt-with-contrast-stripe-details/hbeu50506193_001.html) | Black | Hugo Boss | $199.00 |
 | [Slim Fit Denim Jean](https://www.countryroad.com.au/products/slim-fit-denim-jean-60286477-1) | Black | Country Road | $59.95 ~~$159.00~~ |
-| [Nike Court Vision Low](https://www.rebelsport.com.au/p/nike-court-vision-low-next-nature-mens-casual-shoes-M61279901.html?dwvar_M61279901_color=White) | White | Rebel Sport | $119.99 |
+| *Ilya Loafers (from Faith)* | *Mushroom* | *Already on list* | *$0.00* |
+
+## Delivery
+
+- Hugo Boss (2 items, $448.00): free shipping
+- Country Road (3 items, $387.95): free delivery
+- Rebel Sport (2 items, $129.98): small fee, or free click & collect
 
 The jeans are on sale with limited sizes (28–38). Check prices at checkout.
