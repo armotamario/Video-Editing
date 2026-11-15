@@ -1,0 +1,6 @@
+# This repository is public. Personal photos (me.png and the generated outfit
+# photos) stay out of git unless the owner explicitly asks for them to be published.
+*.png
+*.jpg
+*.jpeg
+.raw/
